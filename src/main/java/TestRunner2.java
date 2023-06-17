@@ -9,6 +9,12 @@ import java.util.List;
 import java.util.Scanner;
 
 
+public class TestRunner2 {
+    public static void main(String[] args) throws IOException {
+    }
+}
+
+
 //public class TestRunner2 {
 //    public static void main(String[] args) throws IOException {
 //        String file = "./Inputs/Files";

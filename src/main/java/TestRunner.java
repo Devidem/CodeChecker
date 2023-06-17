@@ -1,5 +1,3 @@
-package org.example;
-
 import Converts.Array;
 import Selectors.Browsers;
 import Selectors.InputType;

@@ -49,12 +49,11 @@ public class Files {
             int num = in.nextInt();
             fileAbs = "./Inputs/Files/" + arrFiles[num-1];
 
-            in.close();
             return fileAbs;
 
         }
 
-        fileAbs = arrFiles [0];
+        fileAbs = "./Inputs/Files/" + arrFiles [0];
         return fileAbs;
 
     }

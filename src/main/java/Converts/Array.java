@@ -134,7 +134,7 @@ public class Array {
         String ANSI_RESET = "\u001B[0m";
 
         if (array.length>1) {
-            System.out.println(ANSI_RED + "Найдено несколько объектов:" + ANSI_RESET);
+            System.out.println(ANSI_RED + "Найдено несколько вариантов:" + ANSI_RESET);
 
             int fNum = 1;
             for (int i = 0; i < array.length; i++) {
@@ -145,14 +145,15 @@ public class Array {
             Scanner in = new Scanner(System.in);
             System.out.print("Введите номер (1,2,etc.): ");
             int num = in.nextInt();
+
             result = array[num-1];
 
-            in.close();
             return result;
 
         }
 
         result = array [0];
+        System.out.println(array[0] + " наш единственный вариант!");
         return result;
 
     }

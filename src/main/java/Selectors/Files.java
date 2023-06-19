@@ -1,34 +1,29 @@
 package Selectors;
 
-import Converts.ConvertCheckList;
 import Converts.Xls;
+import Interfaces.Arrayer;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class Files {
-    public static String[][] selector () throws IOException {
+public class Files extends Selectors implements Arrayer {
+    String input = "./Inputs/Files"; //Определил конкретное значение, поскольку в проекте предусмотрена папка для входных файлов
 
-        String filePath = Files.picker();
+    public String [][] toFinalArray() throws IOException {
 
-        if (filePath.endsWith(".xls")){
-            ConvertCheckList excel = new Xls();
-            String inp_array [][] = excel.toFinalArray(filePath);
-            return inp_array;
+        if (result.endsWith(".xls")){
+            Xls excel = new Xls();
+            return excel.toFinalArray(result);
 
-        }
-        else {
+        } else {
             System.out.println("Wrong Input Format");
             return null;
         }
 
     }
-
-    public static String picker () throws IOException {
-        String file = "./Inputs/Files";
-        String fileAbs;
-        File dir = new File(file);
+    public void selector() {
+        File dir = new File(this.input);
         String[] arrFiles = dir.list();
 
         String ANSI_RED = "\u001B[31m";
@@ -47,14 +42,11 @@ public class Files {
             Scanner in = new Scanner(System.in);
             System.out.print("Введите номер файла(1,2,etc.): ");
             int num = in.nextInt();
-            fileAbs = "./Inputs/Files/" + arrFiles[num-1];
+            result = input + "/" + arrFiles[num-1];
 
-            return fileAbs;
-
+        } else {
+            result = input + "/" + arrFiles [0];
         }
-
-        fileAbs = "./Inputs/Files/" + arrFiles [0];
-        return fileAbs;
-
     }
+
 }

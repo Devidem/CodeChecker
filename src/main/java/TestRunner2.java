@@ -1,12 +1,4 @@
-import Converts.Array;
-import Selectors.InputType;
-import Selen.Page;
-
-import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Scanner;
 
 
 public class TestRunner2 {

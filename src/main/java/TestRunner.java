@@ -1,15 +1,4 @@
-import Converts.Array;
-import Selectors.Browsers;
-import Selectors.InputType;
-import Selectors.Sites;
-import Selen.Page;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.io.IOException;
-import java.time.Duration;
-import java.util.Arrays;
-import java.util.concurrent.TimeUnit;
 
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -18,103 +7,108 @@ import java.util.concurrent.TimeUnit;
 
 public class TestRunner {
     public static void main(String[] args) throws IOException {
-        String browser_name = "chrome";
-        String site_name = "citilink";
-        String input_type = "file";
-
-        String [][] Codes = InputType.selector(input_type);
-        site_name = Sites.selector(site_name);
-        WebDriver driver = Browsers.selector(browser_name);
-
-        driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-
-        driver.get(site_name);
-
-        WebDriverWait wait;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(1));
-
-
-        int startrow = 2;
-        int startcell = 1;
-        int arrow = 0;
-        int arcel = 0;
-        String[][] Result = Codes;
-        for (int i =0; i< Codes.length-startrow; i++) {
-            arrow = i+startrow;
-
-            String prodcod = Codes [arrow][0];
-
-            Page page = new Page();
-            page.toProdPage(driver, wait, prodcod);
-//
-//            WebElement Search = driver.findElement(By.xpath("//input[@type=\"search\"]"));
-//            Search.sendKeys(prodcod);
-//
-//            wait.until(ExpectedConditions.invisibilityOfElementLocated
-//                    (By.xpath("//*[contains(text(),'просмотренные')]")));
-//
-//            WebElement prodlink = driver.findElement(By.xpath("//*[contains(@href,'" + prodcod + "')]//*[@data-meta-name=\"InstantSearchMainResult\"]"));
-//            prodlink.click();
-
-//            String [] codeProms = Result [arrow];
-//            System.out.println("1");
-            String [][] codeProms = new String[2][Codes[0].length-startcell];
-//            System.out.println("2");
-            System.arraycopy(Result [0], 1, codeProms[0], 0, codeProms[0].length);
-//            System.out.println("3");
-            System.arraycopy(Result [arrow], 1, codeProms[1], 0, codeProms[0].length);
-//            System.out.println("4");
-
-            System.arraycopy(page.checkProms(driver, codeProms), 0, Result[arrow], 1, codeProms[0].length);
-//            System.out.println("5");
-
-            //        System.arraycopy(S[0][0],0, R[0][0], 0, 2);
-//        System.out.println(Arrays.deepToString(R));
-////        public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
-
-
-//            for (int o =0; o< Codes[0].length-startcell; o++) {
-//                arcel = o + startcell;
-//
-//                String Star = Codes [arrow][arcel];
-//                String PriceName = Codes[0][arcel];
-//                String Xpath = "//*[@data-meta-name=\"ProductHeaderContentLayout\"]//*[contains(text(),'" + PriceName + "')]";
-//
-//                if (Objects.equals(Star, "*")) {
-//                    try {
-//                        WebElement promFinder = driver.findElement(By.xpath(Xpath));
-//                        Result [arrow][arcel] = "Passed";
-//                    } catch (Exception e) {
-//                        Result [arrow][arcel] = "Failed";
-//                    }
-//
-//                } else {
-//                    try {
-//                        WebElement promFinder = driver.findElement(By.xpath(Xpath));
-//                        Result [arrow][arcel] = "Failed";
-//                    } catch (Exception e) {
-//                        Result [arrow][arcel] = "Passed";
-//                    }
-//                }
-//            }
-
-        }
-        System.out.println(Arrays.deepToString(Result));
-        driver.close();
-
-//        LocalDate currentDate = LocalDate.now();
-//        Date dateNow = new Date();
-//        SimpleDateFormat Sdate = new SimpleDateFormat("(hh_mm_ss a)");
-//        String outDir = "./Outputs/Excel/CodesToCheck_Result_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
-////        FileOutputStream out = new FileOutputStream(outDir);
-        Array.toExcelTest(Result);
-
-
-
-
     }
 }
+
+//public class TestRunner {
+//    public static void main(String[] args) throws IOException {
+//        String browser_name = "chrome";
+//        String site_name = "citilink";
+//        String input_type = "file";
+//
+//        String [][] Codes = InputType.selector(input_type);
+//        site_name = Sites.selector(site_name);
+//        WebDriver driver = Browsers.selector(browser_name);
+//
+//        driver.manage().window().maximize();
+//        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+//
+//        driver.get(site_name);
+//
+//        WebDriverWait wait;
+//        wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+//
+//
+//        int startrow = 2;
+//        int startcell = 1;
+//        int arrow = 0;
+//        int arcel = 0;
+//        String[][] Result = Codes;
+//        for (int i =0; i< Codes.length-startrow; i++) {
+//            arrow = i+startrow;
+//
+//            String prodcod = Codes [arrow][0];
+//
+//            Page page = new Page();
+//            page.toProdPage(driver, wait, prodcod);
+////
+////            WebElement Search = driver.findElement(By.xpath("//input[@type=\"search\"]"));
+////            Search.sendKeys(prodcod);
+////
+////            wait.until(ExpectedConditions.invisibilityOfElementLocated
+////                    (By.xpath("//*[contains(text(),'просмотренные')]")));
+////
+////            WebElement prodlink = driver.findElement(By.xpath("//*[contains(@href,'" + prodcod + "')]//*[@data-meta-name=\"InstantSearchMainResult\"]"));
+////            prodlink.click();
+//
+////            String [] codeProms = Result [arrow];
+////            System.out.println("1");
+//            String [][] codeProms = new String[2][Codes[0].length-startcell];
+////            System.out.println("2");
+//            System.arraycopy(Result [0], 1, codeProms[0], 0, codeProms[0].length);
+////            System.out.println("3");
+//            System.arraycopy(Result [arrow], 1, codeProms[1], 0, codeProms[0].length);
+////            System.out.println("4");
+//
+//            System.arraycopy(page.checkProms(driver, codeProms), 0, Result[arrow], 1, codeProms[0].length);
+////            System.out.println("5");
+//
+//            //        System.arraycopy(S[0][0],0, R[0][0], 0, 2);
+////        System.out.println(Arrays.deepToString(R));
+//////        public static void arraycopy(Object src, int srcPos, Object dest, int destPos, int length)
+//
+//
+////            for (int o =0; o< Codes[0].length-startcell; o++) {
+////                arcel = o + startcell;
+////
+////                String Star = Codes [arrow][arcel];
+////                String PriceName = Codes[0][arcel];
+////                String Xpath = "//*[@data-meta-name=\"ProductHeaderContentLayout\"]//*[contains(text(),'" + PriceName + "')]";
+////
+////                if (Objects.equals(Star, "*")) {
+////                    try {
+////                        WebElement promFinder = driver.findElement(By.xpath(Xpath));
+////                        Result [arrow][arcel] = "Passed";
+////                    } catch (Exception e) {
+////                        Result [arrow][arcel] = "Failed";
+////                    }
+////
+////                } else {
+////                    try {
+////                        WebElement promFinder = driver.findElement(By.xpath(Xpath));
+////                        Result [arrow][arcel] = "Failed";
+////                    } catch (Exception e) {
+////                        Result [arrow][arcel] = "Passed";
+////                    }
+////                }
+////            }
+//
+//        }
+//        System.out.println(Arrays.deepToString(Result));
+//        driver.close();
+//
+////        LocalDate currentDate = LocalDate.now();
+////        Date dateNow = new Date();
+////        SimpleDateFormat Sdate = new SimpleDateFormat("(hh_mm_ss a)");
+////        String outDir = "./Outputs/Excel/CodesToCheck_Result_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
+//////        FileOutputStream out = new FileOutputStream(outDir);
+//        Array.toExcelTest(Result);
+//
+//
+//
+//
+//    }
+//}
 
 
 

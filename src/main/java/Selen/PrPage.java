@@ -1,29 +1,30 @@
 package Selen;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
 import java.util.Objects;
 
-public class Page {
-    public void toProdPage(WebDriver driver, WebDriverWait wait, String prodcod) throws IOException {
+public class PrPage extends Pages{
+
+    String prodCod;
+
+    public void toProdPage() {
+
         WebElement Search = driver.findElement(By.xpath("//input[@type=\"search\"]"));
-        Search.sendKeys(prodcod);
+        Search.sendKeys(prodCod);
 
         wait.until(ExpectedConditions.invisibilityOfElementLocated
                 (By.xpath("//*[contains(text(),'просмотренные')]")));
 
-        WebElement prodlink = driver.findElement(By.xpath("//*[contains(@href,'" + prodcod + "')]//*[@data-meta-name=\"InstantSearchMainResult\"]"));
+        WebElement prodlink = driver.findElement(By.xpath("//*[contains(@href,'" + prodCod + "')]//*[@data-meta-name=\"InstantSearchMainResult\"]"));
         prodlink.click();
 
-
-
     }
-    public String [] checkProms (WebDriver driver, String [][] codeProms) throws IOException {
+
+    public String [] checkProms(String [][] codeProms) {
         String Result [] = new String[codeProms.length];
 
         for (int o =0; o< codeProms.length; o++) {
@@ -53,5 +54,19 @@ public class Page {
         return Result;
     }
 
+
+
+    //Геттеры и сеттеры
+    public String getProdCod() {
+        return prodCod;
+    }
+
+    public void setProdCod(String prodCod) {
+        this.prodCod = prodCod;
+    }
+
 }
+
+
+
 

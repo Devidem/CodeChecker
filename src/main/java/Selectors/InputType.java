@@ -1,16 +1,27 @@
 package Selectors;
 
+import Interfaces.Arrayer;
+
 import java.io.IOException;
 import java.util.Objects;
 
-public class InputType {
-    public static String[][] selector (String Type) throws IOException {
+public class InputType extends Selectors implements Arrayer {
 
-        Type = Type.toLowerCase();
+    public String [][] toFinalArray() throws IOException {
+        Files files = new Files();
+        files.selector();
+        return files.toFinalArray();
+    }
+
+    public void selector () {
+
+        String Type = input.toLowerCase();
 
         if (Type.contains("file")) {
 
-            return Files.selector();
+            Files files = new Files();
+            files.selector();
+            result = files.getResult();
 
         } else if (Type.contains("sql")) {
 
@@ -18,6 +29,5 @@ public class InputType {
         }
 
         System.out.println("Неверный тип входных данных!");
-        return null;
     }
 }

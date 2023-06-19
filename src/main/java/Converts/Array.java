@@ -1,12 +1,12 @@
 package Converts;
 
+import Selectors.Selector1D;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
-import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -15,7 +15,12 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Array {
+public class Array implements Selector1D {
+    String [] input1D;
+    String result1D;
+    String [][] input2D;
+    String [] result2D;
+
     public static void toExcel (String [][] Array, String filename, String path) throws IOException {
 
         Workbook outEx = new HSSFWorkbook();
@@ -125,20 +130,18 @@ public class Array {
 
     }
 
-    public static String picker (String [] array ) throws IOException {
-
-        String result;
+    public void selector1D() {
 
         String ANSI_RED = "\u001B[31m";
         String ANSI_GREEN = "\u001B[32m";
         String ANSI_RESET = "\u001B[0m";
 
-        if (array.length>1) {
+        if (input1D.length>1) {
             System.out.println(ANSI_RED + "Найдено несколько вариантов:" + ANSI_RESET);
 
             int fNum = 1;
-            for (int i = 0; i < array.length; i++) {
-                System.out.println(ANSI_GREEN + fNum + "_" + array[i] + ANSI_RESET);
+            for (int i = 0; i < input1D.length; i++) {
+                System.out.println(ANSI_GREEN + fNum + "_" + input1D[i] + ANSI_RESET);
                 fNum++;
             }
 
@@ -146,16 +149,49 @@ public class Array {
             System.out.print("Введите номер (1,2,etc.): ");
             int num = in.nextInt();
 
-            result = array[num-1];
+            result1D = input1D[num-1];
 
-            return result;
-
+        } else {
+            result1D = input1D [0];
+            System.out.println(input1D[0] + " наш единственный вариант!");
         }
 
-        result = array [0];
-        System.out.println(array[0] + " наш единственный вариант!");
-        return result;
-
     }
+
+
+
+
+    public String[] getInput1D() {
+        return input1D;
+    }
+
+    public void setInput1D(String[] input1D) {
+        this.input1D = input1D;
+    }
+
+    public String getResult1D() {
+        return result1D;
+    }
+
+    public void setResult1D(String result1D) {
+        this.result1D = result1D;
+    }
+
+    public String[][] getInput2D() {
+        return input2D;
+    }
+
+    public void setInput2D(String[][] input2D) {
+        this.input2D = input2D;
+    }
+
+    public String[] getResult2D() {
+        return result2D;
+    }
+
+    public void setResult2D(String[] result2D) {
+        this.result2D = result2D;
+    }
+
 
 }

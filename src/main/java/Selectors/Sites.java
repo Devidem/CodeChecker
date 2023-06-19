@@ -4,20 +4,24 @@ import Converts.Array;
 
 import java.io.IOException;
 
-public class Sites {
-    public static String selector(String site) throws IOException {
+public class Sites extends Selectors{
+    public void selector() {
 
-        if((site.toLowerCase()).contains("citilink")) {
-            site = "https://www.citilink.ru/";
-            return site;
+        if((input.toLowerCase()).contains("citilink")) {
+            result = "https://www.citilink.ru/";
+        } else {
+            System.out.println("Такого сайта пока нет!");
+            String [] siteList = {"https://www.citilink.ru/"};
+
+
+                Array array = new Array();
+                array.setInput1D(siteList);
+                array.selector1D();
+                result = array.getResult1D();
+
+
         }
 
-        System.out.println("Такого сайта пока нет!");
-
-        String [] siteList = {"https://www.citilink.ru/"};
-
-        site = Array.picker(siteList);
-        return site;
     }
 
 }

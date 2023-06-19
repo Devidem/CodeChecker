@@ -2,7 +2,7 @@ import Selen.Test;
 
 import java.io.IOException;
 
-public class Main {
+public class NewMain {
     public static void main(String[] args) throws IOException {
 
         String input = "file";          //file, sql(не реализовано)

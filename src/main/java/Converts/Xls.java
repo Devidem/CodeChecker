@@ -1,8 +1,6 @@
 package Converts;
 
 import Experiments.ObjectsEx;
-
-import Inp_Out.Interfaces.FileArrayer;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -10,7 +8,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Objects;
 
-public class Xls extends ConvertCheckList implements FileArrayer {
+public class Xls {
     public  String[][] toFinalArray(String filePath) throws IOException {
 
         String [][] Codes = fileToArray(filePath, 0);

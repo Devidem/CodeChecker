@@ -15,7 +15,10 @@ public class Browsers {
         if(browser.contains("chrome")) {
             browser = "chrome";
         } else {
-            browser = Array.picker(broList);
+            Array array = new Array();
+            array.setInput1D(broList);
+            array.selector1D();
+            browser = array.getResult1D();
         }
 
         if(browser.contains("chrome")) {

@@ -21,7 +21,7 @@ public class Array implements Selector1D {
     String [][] input2D;
     String [] result2D;
 
-    public static void toExcel (String [][] Array, String filename, String path) throws IOException {
+    public static void toExcel (String [][] Array, String outName, String outPath) throws IOException {
 
         Workbook outEx = new HSSFWorkbook();
         Sheet sheet = outEx.createSheet("Test result");
@@ -39,13 +39,13 @@ public class Array implements Selector1D {
         LocalDate currentDate = LocalDate.now();
         Date dateNow = new Date();
         SimpleDateFormat Sdate = new SimpleDateFormat("(hh_mm_ss a)");
-        String outDir = path + "/" + filename + "_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
+        String outDir = outPath + "/" + outName + "_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
 
         FileOutputStream TestRes = new FileOutputStream(outDir);
         outEx.write(TestRes);
     }
 
-    public static void toExcel (int [][] Array, String filename, String path) throws IOException {
+    public static void toExcel (int [][] Array, String outName, String outPath) throws IOException {
 
         Workbook outEx = new HSSFWorkbook();
         Sheet sheet = outEx.createSheet("Test result");
@@ -63,7 +63,31 @@ public class Array implements Selector1D {
         LocalDate currentDate = LocalDate.now();
         Date dateNow = new Date();
         SimpleDateFormat Sdate = new SimpleDateFormat("(hh_mm_ss a)");
-        String outDir = path + "/" + filename + "_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
+        String outDir = outPath + "/" + outName + "_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
+
+        FileOutputStream TestRes = new FileOutputStream(outDir);
+        outEx.write(TestRes);
+    }
+
+    public void toExcel (String outName, String outPath) throws IOException {
+
+        Workbook outEx = new HSSFWorkbook();
+        Sheet sheet = outEx.createSheet("Test result");
+
+        for (int i = 0; i< input2D.length; i++) {
+            Row row = sheet.createRow(i);
+
+            for (int o = 0; o< input2D[0].length; o++) {
+                Cell cell = row.createCell(o);
+                cell.setCellValue(input2D[i][o]);
+
+            }
+        }
+
+        LocalDate currentDate = LocalDate.now();
+        Date dateNow = new Date();
+        SimpleDateFormat Sdate = new SimpleDateFormat("(hh_mm_ss a)");
+        String outDir = outPath + "/" + outName + "_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
 
         FileOutputStream TestRes = new FileOutputStream(outDir);
         outEx.write(TestRes);
@@ -86,13 +110,11 @@ public class Array implements Selector1D {
                     testResult = "FAILED";
                     resChecker = 1;
 
-
                 }
 
             }
+
         }
-
-
 
         LocalDate currentDate = LocalDate.now();
         Date dateNow = new Date();
@@ -101,9 +123,10 @@ public class Array implements Selector1D {
 
         FileOutputStream TestRes = new FileOutputStream(outDir);
         outEx.write(TestRes);
+
     }
 
-    public static String [][] clone2d(String [][] array) throws IOException {
+    public static String [][] clone2d(String [][] array) {
         String [][] updated = new String[array.length][array[0].length];
 
         for (int i = 0; i < array.length; i++) {
@@ -116,7 +139,8 @@ public class Array implements Selector1D {
         return updated;
 
     }
-    public static int [][] clone2d(int [][] array) throws IOException {
+
+    public static int [][] clone2d(int [][] array) {
         int [][] updated = new int[array.length][array[0].length];
 
         for (int i = 0; i < array.length; i++) {
@@ -137,7 +161,7 @@ public class Array implements Selector1D {
         String ANSI_RESET = "\u001B[0m";
 
         if (input1D.length>1) {
-            System.out.println(ANSI_RED + "Найдено несколько вариантов:" + ANSI_RESET);
+            System.out.println(ANSI_RED + "Выберите из:" + ANSI_RESET);
 
             int fNum = 1;
             for (int i = 0; i < input1D.length; i++) {
@@ -153,7 +177,6 @@ public class Array implements Selector1D {
 
         } else {
             result1D = input1D [0];
-            System.out.println(input1D[0] + " наш единственный вариант!");
         }
 
     }

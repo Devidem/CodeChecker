@@ -7,7 +7,7 @@ public class NewMain {
 
         String input = "file";          //file, sql(не реализовано)
         String browser = "chrome";      //chrome, firefox(не реализовано)
-        String site = "CitiLink";       //citilink, dns(не реализовано)
+        String site = "CitiLin";       //citilink, dns(не реализовано)
 
 
         Test test = new Test();

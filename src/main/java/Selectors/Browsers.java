@@ -4,29 +4,41 @@ import Converts.Array;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.io.IOException;
+public class Browsers extends Selectors {
 
-public class Browsers {
-    public static WebDriver selector(String browser) throws IOException {
-        browser = browser.toLowerCase();
+    public WebDriver start() {
 
-        String [] broList = {"chrome", "firefox(для примера)"};
-
-        if(browser.contains("chrome")) {
-            browser = "chrome";
-        } else {
-            Array array = new Array();
-            array.setInput1D(broList);
-            array.selector1D();
-            browser = array.getResult1D();
-        }
-
-        if(browser.contains("chrome")) {
+        if(result.contains("chrome")) {
             System.setProperty("webdriver.chrome.driver", "./SelenDrivers/chromedriver.exe");
             return new ChromeDriver();
         }
 
-        System.out.println("Unknown Browser");
+        System.out.println("Wrong Browser!"); //Скорее всего забыли про selector()!
         return null;
     }
+
+
+    public void selector() {
+        input = input.toLowerCase();
+
+        String[] broList = {"chrome", "firefox(для примера)"};
+
+        if (input.contains("chrome")) {
+            result = "chrome";
+
+        } else if (input.contains("firefox")) {
+            result = "firefox";
+
+        } else {
+            System.out.println("Unknown Browser");
+
+            Array array = new Array();
+            array.setInput1D(broList);
+            array.selector1D();
+            result = array.getResult1D();
+
+        }
+
+    }
+
 }

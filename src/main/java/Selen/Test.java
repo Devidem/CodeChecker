@@ -1,7 +1,6 @@
 package Selen;
 
 import Converts.Array;
-import Converts.Xls;
 import Selectors.Browsers;
 import Selectors.InputType;
 import Selectors.Sites;
@@ -18,15 +17,19 @@ public class Test {
 
         InputType inputType = new InputType();
         inputType.setInput(input_type);
+        inputType.selector();
         String[][] Codes = inputType.toFinalArray();
-
 
         Sites sites = new Sites();
         sites.setInput(site_name);
         sites.selector();
         site_name = sites.getResult();
 
-        WebDriver driver = Browsers.selector(browser_name);
+        Browsers browsers = new Browsers();
+        browsers.setInput(browser_name);
+        browsers.selector();
+        WebDriver driver = browsers.start();
+
 
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
@@ -56,13 +59,13 @@ public class Test {
             prPage.toProdPage();
 
             String[][] codeProms = new String[2][Codes[0].length - startcell];
-
             System.arraycopy(Result[0], 1, codeProms[0], 0, codeProms[0].length);
             System.arraycopy(Result[arrow], 1, codeProms[1], 0, codeProms[0].length);
+
             System.arraycopy(prPage.checkProms(codeProms), 0, Result[arrow], 1, codeProms[0].length);
 
-
         }
+
         System.out.println(Arrays.deepToString(Codes));
         System.out.println(Arrays.deepToString(Result));
 

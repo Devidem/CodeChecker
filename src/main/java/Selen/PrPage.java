@@ -5,8 +5,10 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.Objects;
 
 public class PrPage extends Pages{
@@ -35,6 +37,8 @@ public class PrPage extends Pages{
     public String [] checkProms(String [][] codeProms) {
         String Result [] = new String[codeProms.length];
 
+
+
         for (int o =0; o< codeProms.length; o++) {
             o = o;
 
@@ -42,20 +46,53 @@ public class PrPage extends Pages{
             String PriceName = codeProms[0][o];
             String Xpath = "//*[@data-meta-name=\"ProductHeaderContentLayout\"]//*[contains(text(),'" + PriceName + "')]";
 
-            if (Objects.equals(Star, "*")) {
-                try {
-                    WebElement promFinder = driver.findElement(By.xpath(Xpath));
-                    Result [o] = "Passed";
-                } catch (NoSuchElementException e) {
-                    Result [o] = "FAILED";
-                }
 
-            } else {
-                try {
-                    WebElement promFinder = driver.findElement(By.xpath(Xpath));
-                    Result [o] = "FAILED";
-                } catch (NoSuchElementException e) {
-                    Result [o] = "Passed";
+            String checkXpath = "//*[@class = \"app-catalog-qpfekx e1kfx4t80\"]";
+            boolean checkLoad = true;
+            int cycleNum = 0;
+            while (checkLoad & o==0 & cycleNum<10) {
+                cycleNum++;
+
+                if (Objects.equals(Star, "*")) {
+                    try {
+                        WebElement promFinder = driver.findElement(By.xpath(Xpath));
+                        Result [o] = "Passed";
+
+                        checkLoad = false;
+
+                    } catch (NoSuchElementException e) {
+                        Result [o] = "FAILED";
+
+                        try {
+                            WebElement checkElement  = driver.findElement(By.xpath(checkXpath));
+                            checkLoad = false;
+
+                        } catch (NoSuchElementException e1) {
+                            checkLoad = true;
+
+                        }
+
+                    }
+
+                } else {
+                    try {
+                        WebElement promFinder = driver.findElement(By.xpath(Xpath));
+                        Result [o] = "FAILED";
+
+                        checkLoad = false;
+
+                    } catch (NoSuchElementException e) {
+                        Result [o] = "Passed";
+
+                        try {
+                            WebElement checkElement  = driver.findElement(By.xpath(checkXpath));
+                            checkLoad = false;
+
+                        } catch (NoSuchElementException e2) {
+                            checkLoad = true;
+
+                        }
+                    }
                 }
             }
         }

@@ -1,3 +1,9 @@
+import Selen.SelEx;
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
+
 import java.io.IOException;
 
 
@@ -7,6 +13,24 @@ import java.io.IOException;
 
 public class TestRunner {
     public static void main(String[] args) throws IOException {
+        System.setProperty("webdriver.chrome.driver", "./SelenDrivers/chromedriver.exe");
+        WebDriver driver = new ChromeDriver();
+        driver.get("https://www.citilink.ru/");
+
+
+        String xpath = "//*[@class=\"edhylph0 app-catalog-1ljlt6q e3tyxgd0\"]";
+        String propertyName = "innerText";
+        String propertyValue ="Садовая техника";
+
+        SelEx selEx = new SelEx();
+        selEx.setDriver(driver);
+        xpath = selEx.xpathSelectByProperty(xpath, propertyName, propertyValue);
+
+
+        WebElement Search = driver.findElement(By.xpath(xpath));
+        Search.click();
+        driver.close();
+
     }
 }
 

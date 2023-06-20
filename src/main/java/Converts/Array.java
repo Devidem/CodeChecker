@@ -170,9 +170,18 @@ public class Array implements Selector1D {
             }
 
             Scanner in = new Scanner(System.in);
-            System.out.print("Введите номер (1,2,etc.): ");
-            int num = in.nextInt();
 
+            int num = 0;
+            for (int i = 0; i >= 0; i++) {
+                System.out.print("Введите номер (1,2,etc.): ");
+                num = in.nextInt();
+                if (num <= input1D.length & num >= 1) {
+                    break;
+                }
+            }
+//            System.out.print("Введите номер (1,2,etc.): ");
+//            int num = in.nextInt();
+//
             result1D = input1D[num-1];
 
         } else {

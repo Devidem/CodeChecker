@@ -30,25 +30,29 @@ public class Test {
         browsers.selector();
         WebDriver driver = browsers.start();
 
-
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
 
-        driver.get(site_name);
+        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(2, TimeUnit.SECONDS);
 
         WebDriverWait wait;
         wait = new WebDriverWait(driver, Duration.ofSeconds(1));
 
 
-        int startrow = 2;
-        int startcell = 1;
-        int arrow = 0;
+        SelEx selEx = new SelEx();
+        selEx.setDriver(driver);
 
-        String[][] Result = Array.clone2d(Codes);
+        selEx.get(site_name);
 
         PrPage prPage = new PrPage();
         prPage.setDriver(driver);
         prPage.setWait(wait);
+
+
+        String[][] Result = Array.clone2d(Codes);
+        int startrow = 2;
+        int startcell = 1;
+        int arrow = 0;
 
         for (int i = 0; i < Result.length - startrow; i++) {
             arrow = i + startrow;
@@ -65,12 +69,12 @@ public class Test {
             System.arraycopy(prPage.checkProms(codeProms), 0, Result[arrow], 1, codeProms[0].length);
 
         }
+        driver.close();
+
+        Array.toExcelTest(Result);
 
         System.out.println(Arrays.deepToString(Codes));
         System.out.println(Arrays.deepToString(Result));
 
-        driver.close();
-
-        Array.toExcelTest(Result);
     }
 }

@@ -1,6 +1,8 @@
 package Selen;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
@@ -11,6 +13,12 @@ public class PrPage extends Pages{
 
     String prodCod;
 
+    public void click (WebElement element) {
+        try {
+            element.click();
+        } catch (TimeoutException ignored) {
+        }
+    }
     public void toProdPage() {
 
         WebElement Search = driver.findElement(By.xpath("//input[@type=\"search\"]"));
@@ -20,7 +28,7 @@ public class PrPage extends Pages{
                 (By.xpath("//*[contains(text(),'просмотренные')]")));
 
         WebElement prodlink = driver.findElement(By.xpath("//*[contains(@href,'" + prodCod + "')]//*[@data-meta-name=\"InstantSearchMainResult\"]"));
-        prodlink.click();
+        SelEx.click(prodlink);
 
     }
 
@@ -38,7 +46,7 @@ public class PrPage extends Pages{
                 try {
                     WebElement promFinder = driver.findElement(By.xpath(Xpath));
                     Result [o] = "Passed";
-                } catch (Exception e) {
+                } catch (NoSuchElementException e) {
                     Result [o] = "FAILED";
                 }
 
@@ -46,13 +54,14 @@ public class PrPage extends Pages{
                 try {
                     WebElement promFinder = driver.findElement(By.xpath(Xpath));
                     Result [o] = "FAILED";
-                } catch (Exception e) {
+                } catch (NoSuchElementException e) {
                     Result [o] = "Passed";
                 }
             }
         }
         return Result;
     }
+
 
 
 

@@ -1,6 +1,7 @@
 package Selen;
 
 import Converts.Array;
+import Pages.ProdPage;
 import Selectors.Browsers;
 import Selectors.InputType;
 import Selectors.Sites;
@@ -10,6 +11,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
 public class Test {
@@ -32,11 +34,11 @@ public class Test {
 
         driver.manage().window().maximize();
 
-        driver.manage().timeouts().implicitlyWait(2, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(2, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
 
         WebDriverWait wait;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(1));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
 
         SelEx selEx = new SelEx();
@@ -44,9 +46,13 @@ public class Test {
 
         selEx.get(site_name);
 
-        PrPage prPage = new PrPage();
-        prPage.setDriver(driver);
-        prPage.setWait(wait);
+        Scanner in = new Scanner(System.in);
+        System.out.print("////Старт////");
+        String num = in.nextLine();
+
+        ProdPage prodPage = new ProdPage();
+        prodPage.setDriver(driver);
+        prodPage.setWait(wait);
 
 
         String[][] Result = Array.clone2d(Codes);
@@ -59,14 +65,14 @@ public class Test {
 
             String prodcod = Codes[arrow][0];
 
-            prPage.setProdCod(prodcod);
-            prPage.toProdPage();
+            prodPage.setProdCod(prodcod);
+            prodPage.toProdPage();
 
             String[][] codeProms = new String[2][Codes[0].length - startcell];
             System.arraycopy(Result[0], 1, codeProms[0], 0, codeProms[0].length);
             System.arraycopy(Result[arrow], 1, codeProms[1], 0, codeProms[0].length);
 
-            System.arraycopy(prPage.checkProms(codeProms), 0, Result[arrow], 1, codeProms[0].length);
+            System.arraycopy(prodPage.checkProms(codeProms), 0, Result[arrow], 1, codeProms[0].length);
 
         }
         driver.close();

@@ -106,7 +106,7 @@ public class Array implements Selector1D {
             for (int o = 0; o<Array[0].length; o++) {
                 Cell cell = row.createCell(o);
                 cell.setCellValue(Array[i][o]);
-                if (resChecker == 0 && Objects.equals(Array[i][o] , "FAILED")) {
+                if (resChecker == 0 && (Objects.equals(Array[i][o] , "FAILED") | Objects.toString(Array[i][o] ).equals("404")))  {
                     testResult = "FAILED";
                     resChecker = 1;
 

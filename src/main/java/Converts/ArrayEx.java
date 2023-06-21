@@ -15,7 +15,7 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
-public class Array implements Selector1D {
+public class ArrayEx implements Selector1D {
     String [] input1D;
     String result1D;
     String [][] input2D;

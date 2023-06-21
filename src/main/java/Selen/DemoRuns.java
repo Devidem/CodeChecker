@@ -5,7 +5,6 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 
-import java.io.IOException;
 import java.util.Scanner;
 
 // Представленные пробеги предназначены для демонстрации работы некоторых методов.

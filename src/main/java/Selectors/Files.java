@@ -1,6 +1,6 @@
 package Selectors;
 
-import Converts.Array;
+import Converts.ArrayEx;
 import Converts.Xls;
 import Interfaces.Arrayer;
 
@@ -26,10 +26,10 @@ public class Files extends Selectors implements Arrayer {
         File dir = new File(input);
         String[] arrFiles = dir.list();
 
-        Array array = new Array();
-        array.setInput1D(arrFiles);
-        array.selector1D();
-        result = input + "/" + array.getResult1D();
+        ArrayEx arrayEx = new ArrayEx();
+        arrayEx.setInput1D(arrFiles);
+        arrayEx.selector1D();
+        result = input + "/" + arrayEx.getResult1D();
 
     }
 

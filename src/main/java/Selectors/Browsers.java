@@ -1,6 +1,6 @@
 package Selectors;
 
-import Converts.Array;
+import Converts.ArrayEx;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -32,10 +32,10 @@ public class Browsers extends Selectors {
         } else {
             System.out.println("Unknown Browser");
 
-            Array array = new Array();
-            array.setInput1D(broList);
-            array.selector1D();
-            result = array.getResult1D();
+            ArrayEx arrayEx = new ArrayEx();
+            arrayEx.setInput1D(broList);
+            arrayEx.selector1D();
+            result = arrayEx.getResult1D();
 
         }
 

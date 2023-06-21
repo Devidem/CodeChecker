@@ -1,6 +1,6 @@
 package Selectors;
 
-import Converts.Array;
+import Converts.ArrayEx;
 
 public class Sites extends Selectors{
     public void selector() {
@@ -11,10 +11,10 @@ public class Sites extends Selectors{
             System.out.println("Unknown Site");
             String [] siteList = {"https://www.citilink.ru/"};
 
-            Array array = new Array();
-            array.setInput1D(siteList);
-            array.selector1D();
-            result = array.getResult1D();
+            ArrayEx arrayEx = new ArrayEx();
+            arrayEx.setInput1D(siteList);
+            arrayEx.selector1D();
+            result = arrayEx.getResult1D();
 
 
         }

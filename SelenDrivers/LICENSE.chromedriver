@@ -1309,7 +1309,7 @@ libavcodec/arm/jrevdct_arm.S
 C-like prototype :
         void j_rev_dct_arm(DCTBLOCK data)
 
-   With DCTBLOCK being a pointer to an array of 64 'signed shorts'
+   With DCTBLOCK being a pointer to an arrayEx of 64 'signed shorts'
 
    Copyright (c) 2001 Lionel Ulmer (lionel.ulmer@free.fr / bbrox@bbrox.org)
 

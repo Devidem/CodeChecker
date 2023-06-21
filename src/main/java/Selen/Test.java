@@ -1,6 +1,6 @@
 package Selen;
 
-import Converts.Array;
+import Converts.ArrayEx;
 import Pages.ProdPage;
 import Selectors.Browsers;
 import Selectors.InputType;
@@ -17,16 +17,19 @@ import java.util.concurrent.TimeUnit;
 public class Test {
     public void codeChecks (String browser_name, String site_name, String input_type) throws IOException {
 
+        //Получаем чеклист в зависимости от типа входных данных
         InputType inputType = new InputType();
         inputType.setInput(input_type);
         inputType.selector();
-        String[][] Codes = inputType.toFinalArray();
+        String[][] checkList = inputType.toFinalArray();
 
+        //Получаем полную ссылку сайта в зависимости от ввода
         Sites sites = new Sites();
         sites.setInput(site_name);
         sites.selector();
         site_name = sites.getResult();
 
+        //Выбираем и запускаем браузер
         Browsers browsers = new Browsers();
         browsers.setInput(browser_name);
         browsers.selector();
@@ -40,47 +43,49 @@ public class Test {
         WebDriverWait wait;
         wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
-
+        //Идем на сайт, но с игнором таймаутов
         SelEx selEx = new SelEx();
         selEx.setDriver(driver);
-
         selEx.get(site_name);
 
         Scanner in = new Scanner(System.in);
         System.out.print("////Старт////");
         String num = in.nextLine();
 
+        //Создаем ProdPage, в котором есть все нужные методы для работы со страничкой продукта
         ProdPage prodPage = new ProdPage();
         prodPage.setDriver(driver);
         prodPage.setWait(wait);
 
+        //Создаем итоговый массив клонированием проверяемого и задаем строку первого кода товара
+        String[][] resultList = ArrayEx.clone2d(checkList);
+        int startRow = 2;
 
-        String[][] Result = Array.clone2d(Codes);
-        int startrow = 2;
-        int startcell = 1;
-        int arrow = 0;
+        //Проверяем чеклист
+        for (int i = 0; i < resultList.length - startRow; i++) {
+            int codeRow = i + startRow;
 
-        for (int i = 0; i < Result.length - startrow; i++) {
-            arrow = i + startrow;
+            //Берем код товара и идем на страничку
+            String prodCode = checkList[codeRow][0];
+            prodPage.enterSearch(prodCode);
+            prodPage.clickSearchResult(prodCode);
 
-            String prodcod = Codes[arrow][0];
+            // Создаем лист с акциями для текущего кода
+            String[][] promsList = new String[2][checkList[0].length - 1];
+            System.arraycopy(resultList[0], 1, promsList[0], 0, promsList[0].length);
+            System.arraycopy(resultList[codeRow], 1, promsList[1], 0, promsList[0].length);
 
-            prodPage.setProdCod(prodcod);
-            prodPage.toProdPage();
-
-            String[][] codeProms = new String[2][Codes[0].length - startcell];
-            System.arraycopy(Result[0], 1, codeProms[0], 0, codeProms[0].length);
-            System.arraycopy(Result[arrow], 1, codeProms[1], 0, codeProms[0].length);
-
-            System.arraycopy(prodPage.checkProms(codeProms), 0, Result[arrow], 1, codeProms[0].length);
+            //Вписываем в массив resultList результаты проверки листа с акциями (проверку делает prodPage.checkProms)
+            System.arraycopy(prodPage.checkProms(promsList), 0, resultList[codeRow], 1, promsList[0].length);
 
         }
         driver.close();
 
-        Array.toExcelTest(Result);
+        //Создаем Эксельку с результатом
+        ArrayEx.toExcelTest(resultList);
 
-        System.out.println(Arrays.deepToString(Codes));
-        System.out.println(Arrays.deepToString(Result));
+        System.out.println(Arrays.deepToString(checkList));
+        System.out.println(Arrays.deepToString(resultList));
 
     }
 }

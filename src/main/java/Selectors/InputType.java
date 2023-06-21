@@ -1,6 +1,6 @@
 package Selectors;
 
-import Converts.Array;
+import Converts.ArrayEx;
 import Interfaces.Arrayer;
 
 import java.io.IOException;
@@ -33,10 +33,10 @@ public class InputType extends Selectors implements Arrayer {
         } else {
             System.out.println("Unknown Type");
 
-            Array array = new Array();
-            array.setInput1D(inputList);
-            array.selector1D();
-            result = array.getResult1D();
+            ArrayEx arrayEx = new ArrayEx();
+            arrayEx.setInput1D(inputList);
+            arrayEx.selector1D();
+            result = arrayEx.getResult1D();
 
         }
 

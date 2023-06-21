@@ -1,9 +1,7 @@
 package Selen;
 
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.util.concurrent.TimeUnit;
 
 public class SelEx {
     WebDriver driver;
@@ -50,10 +48,7 @@ public class SelEx {
 
             }
 
-
-
         }
-
         return newXpath;
 
     }

@@ -5,11 +5,16 @@ import org.openqa.selenium.*;
 
 public class SelEx {
     WebDriver driver;
+
+    public SelEx(WebDriver driver) {
+        this.driver = driver;
+    }
+
     public void setDriver(WebDriver driver) {
         this.driver = driver;
     }
 
-    // Клик и Гет, чтобы не ждать полной зарузки сайта, благодаря игнору TimeoutException
+    // Клик с игнором таймаута
     public static void click (WebElement element) {
         try {
             element.click();
@@ -17,6 +22,7 @@ public class SelEx {
         }
     }
 
+    //Переход на страничку с игнором таймаута
     public void get (String link) {
         try {
             driver.get(link);
@@ -52,20 +58,5 @@ public class SelEx {
         return newXpath;
 
     }
-
-//    public void dynamicTimeout (WebDriver driver, String xpathChecker, int dynTimer) {
-//
-//
-//        try {
-//            WebElement element = driver.findElement(By.xpath(xpathChecker));
-//
-//        } catch (TimeoutException e) {
-//            driver.manage().timeouts().implicitlyWait((dynTimer+2), TimeUnit.SECONDS);
-//
-//        }
-//
-//
-//    }
-
 
 }

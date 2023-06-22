@@ -1,7 +1,8 @@
 package Selen;
 
 import Converts.ArrayEx;
-import Pages.ProdPage;
+import Sites.Citilink.ProdPage;
+import Sites.NoPage;
 import Selectors.Browsers;
 import Selectors.InputType;
 import Selectors.Sites;
@@ -44,18 +45,19 @@ public class Test {
         wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
         //Идем на сайт, но с игнором таймаутов
-        SelEx selEx = new SelEx();
-        selEx.setDriver(driver);
+        NoPage noPage= new NoPage(driver);
+        noPage.get(site_name);
+        SelEx selEx = new SelEx(driver);
         selEx.get(site_name);
+
+
 
         Scanner in = new Scanner(System.in);
         System.out.print("////Старт////");
         String num = in.nextLine();
 
         //Создаем ProdPage, в котором есть все нужные методы для работы со страничкой продукта
-        ProdPage prodPage = new ProdPage();
-        prodPage.setDriver(driver);
-        prodPage.setWait(wait);
+        ProdPage prodPage = new ProdPage(driver, wait);
 
         //Создаем итоговый массив клонированием проверяемого и задаем строку первого кода товара
         String[][] resultList = ArrayEx.clone2d(checkList);

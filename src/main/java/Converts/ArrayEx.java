@@ -21,58 +21,58 @@ public class ArrayEx implements Selector1D {
     String [][] input2D;
     String [] result2D;
 
-    public static void toExcel (String [][] Array, String outName, String outPath) throws IOException {
+    public static void toExcel (String [][] array, String outName, String outPath) throws IOException {
 
-        Workbook outEx = new HSSFWorkbook();
-        Sheet sheet = outEx.createSheet("Test result");
+        Workbook excelOut = new HSSFWorkbook();
+        Sheet sheet = excelOut.createSheet("Test1 result");
 
-        for (int i = 0; i<Array.length; i++) {
+        for (int i = 0; i<array.length; i++) {
             Row row = sheet.createRow(i);
 
-            for (int o = 0; o<Array[0].length; o++) {
+            for (int o = 0; o<array[0].length; o++) {
                 Cell cell = row.createCell(o);
-                cell.setCellValue(Array[i][o]);
+                cell.setCellValue(array[i][o]);
 
             }
         }
 
         LocalDate currentDate = LocalDate.now();
         Date dateNow = new Date();
-        SimpleDateFormat Sdate = new SimpleDateFormat("(hh_mm_ss a)");
-        String outDir = outPath + "/" + outName + "_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
+        SimpleDateFormat simpleDate = new SimpleDateFormat("(hh_mm_ss a)");
+        String outDirect = outPath + "/" + outName + "_" + currentDate + "_" + simpleDate.format(dateNow) + ".xls";
 
-        FileOutputStream TestRes = new FileOutputStream(outDir);
-        outEx.write(TestRes);
+        FileOutputStream outFile = new FileOutputStream(outDirect);
+        excelOut.write(outFile);
     }
 
-    public static void toExcel (int [][] Array, String outName, String outPath) throws IOException {
+    public static void toExcel (int [][] array, String outName, String outPath) throws IOException {
 
-        Workbook outEx = new HSSFWorkbook();
-        Sheet sheet = outEx.createSheet("Test result");
+        Workbook excelOut = new HSSFWorkbook();
+        Sheet sheet = excelOut.createSheet("Test1 result");
 
-        for (int i = 0; i<Array.length; i++) {
+        for (int i = 0; i<array.length; i++) {
             Row row = sheet.createRow(i);
 
-            for (int o = 0; o<Array[0].length; o++) {
+            for (int o = 0; o<array[0].length; o++) {
                 Cell cell = row.createCell(o);
-                cell.setCellValue(Array[i][o]);
+                cell.setCellValue(array[i][o]);
 
             }
         }
 
         LocalDate currentDate = LocalDate.now();
         Date dateNow = new Date();
-        SimpleDateFormat Sdate = new SimpleDateFormat("(hh_mm_ss a)");
-        String outDir = outPath + "/" + outName + "_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
+        SimpleDateFormat simpleDate = new SimpleDateFormat("(hh_mm_ss a)");
+        String outDir = outPath + "/" + outName + "_" + currentDate + "_" + simpleDate.format(dateNow) + ".xls";
 
-        FileOutputStream TestRes = new FileOutputStream(outDir);
-        outEx.write(TestRes);
+        FileOutputStream outFile = new FileOutputStream(outDir);
+        excelOut.write(outFile);
     }
 
     public void toExcel (String outName, String outPath) throws IOException {
 
-        Workbook outEx = new HSSFWorkbook();
-        Sheet sheet = outEx.createSheet("Test result");
+        Workbook excelOut = new HSSFWorkbook();
+        Sheet sheet = excelOut.createSheet("Test1 result");
 
         for (int i = 0; i< input2D.length; i++) {
             Row row = sheet.createRow(i);
@@ -86,17 +86,17 @@ public class ArrayEx implements Selector1D {
 
         LocalDate currentDate = LocalDate.now();
         Date dateNow = new Date();
-        SimpleDateFormat Sdate = new SimpleDateFormat("(hh_mm_ss a)");
-        String outDir = outPath + "/" + outName + "_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
+        SimpleDateFormat simpleDate = new SimpleDateFormat("(hh_mm_ss a)");
+        String outDir = outPath + "/" + outName + "_" + currentDate + "_" + simpleDate.format(dateNow) + ".xls";
 
-        FileOutputStream TestRes = new FileOutputStream(outDir);
-        outEx.write(TestRes);
+        FileOutputStream outFile = new FileOutputStream(outDir);
+        excelOut.write(outFile);
     }
 
     public static void toExcelTest (String [][] Array) throws IOException {
 
-        Workbook outEx = new HSSFWorkbook();
-        Sheet sheet = outEx.createSheet("Test result");
+        Workbook excelOut = new HSSFWorkbook();
+        Sheet sheet = excelOut.createSheet("Test1 result");
         String testResult = "Passed";
         int resChecker = 0;
 
@@ -118,11 +118,11 @@ public class ArrayEx implements Selector1D {
 
         LocalDate currentDate = LocalDate.now();
         Date dateNow = new Date();
-        SimpleDateFormat Sdate = new SimpleDateFormat("(hh_mm_ss a)");
-        String outDir = "./Outputs/Excel/CodesToCheck_Result_" + testResult + "_" + currentDate + "_" + Sdate.format(dateNow) + ".xls";
+        SimpleDateFormat simpleDate = new SimpleDateFormat("(hh_mm_ss a)");
+        String outDirect = "./Outputs/Excel/CodesToCheck_Result_" + testResult + "_" + currentDate + "_" + simpleDate.format(dateNow) + ".xls";
 
-        FileOutputStream TestRes = new FileOutputStream(outDir);
-        outEx.write(TestRes);
+        FileOutputStream outFile = new FileOutputStream(outDirect);
+        excelOut.write(outFile);
 
     }
 
@@ -141,16 +141,16 @@ public class ArrayEx implements Selector1D {
     }
 
     public static int [][] clone2d(int [][] array) {
-        int [][] updated = new int[array.length][array[0].length];
+        int [][] result = new int[array.length][array[0].length];
 
         for (int i = 0; i < array.length; i++) {
 
             for (int j = 0; j < array[0].length; j++) {
-                updated [i][j] = array [i][j] + 0;
+                result [i][j] = array [i][j] + 0;
             }
 
         }
-        return updated;
+        return result;
 
     }
 
@@ -163,26 +163,23 @@ public class ArrayEx implements Selector1D {
         if (input1D.length>1) {
             System.out.println(ANSI_RED + "Выберите из:" + ANSI_RESET);
 
-            int fNum = 1;
+            int objectNum = 1;
             for (int i = 0; i < input1D.length; i++) {
-                System.out.println(ANSI_GREEN + fNum + "_" + input1D[i] + ANSI_RESET);
-                fNum++;
+                System.out.println(ANSI_GREEN + objectNum + "_" + input1D[i] + ANSI_RESET);
+                objectNum++;
             }
 
-            Scanner in = new Scanner(System.in);
 
-            int num = 0;
-            for (int i = 0; i >= 0; i++) {
+
+            int scanNum = 0;
+            while (scanNum > input1D.length | scanNum < 1) {
                 System.out.print("Введите номер (1,2,etc.): ");
-                num = in.nextInt();
-                if (num <= input1D.length & num >= 1) {
-                    break;
-                }
+
+                Scanner in = new Scanner(System.in);
+                scanNum = in.nextInt();
             }
-//            System.out.print("Введите номер (1,2,etc.): ");
-//            int num = in.nextInt();
-//
-            result1D = input1D[num-1];
+
+            result1D = input1D[scanNum-1];
 
         } else {
             result1D = input1D [0];

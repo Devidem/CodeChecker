@@ -24,8 +24,7 @@ public class DemoRuns {
         String propertyName = "innerText";
         String propertyValue ="Садовая техника";
 
-        SelEx selEx = new SelEx();
-        selEx.setDriver(driver);
+        SelEx selEx = new SelEx(driver);
         xpath = selEx.xpathSelectByProperty(xpath, propertyName, propertyValue);
 
         WebElement element = driver.findElement(By.xpath(xpath));

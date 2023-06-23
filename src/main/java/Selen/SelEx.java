@@ -2,7 +2,9 @@ package Selen;
 
 import org.openqa.selenium.*;
 
-
+/**
+ * Класс с дополнительными методами, которые не явялются общими для классов Page типа.
+ */
 public class SelEx {
     WebDriver driver;
 
@@ -14,23 +16,13 @@ public class SelEx {
         this.driver = driver;
     }
 
-    // Клик с игнором таймаута
-    public static void click (WebElement element) {
-        try {
-            element.click();
-        } catch (TimeoutException ignored) {
-        }
-    }
-
-    //Переход на страничку с игнором таймаута
-    public void get (String link) {
-        try {
-            driver.get(link);
-        } catch (TimeoutException ignored) {
-        }
-    }
-
-    //Выбор xpath элемента с определенным значением property из тех, что входят в xpathContainer (первых чайлдов, без углубления).
+    /**
+     * Вычисляет Xpath локатор для нужного элемента из контейнера по значению Property (первых чайлдов, без углубления).
+     * @param xpathContainer Xpath контейнера
+     * @param propertyName Название Property
+     * @param propertyValue Значение Property
+     * @return Xpath найденного элемента
+     */
     public String xpathSelectByProperty (String xpathContainer, String propertyName, String propertyValue) {
 
         String newXpath = xpathContainer;
@@ -39,6 +31,7 @@ public class SelEx {
         String findedValue = null;
         int elemNum = 1;
 
+        //Перебираем элементы контейнера по номеру расположения и останавливаем цикл если нашли нужный
         while (!propertyValue.equals(findedValue)) {
             newXpath = xpathContainer + "/*" + "[" + elemNum + "]";
             elemNum++;
@@ -48,6 +41,7 @@ public class SelEx {
                 findedValue = element.getAttribute(propertyName);
 
             // Отлавливаем отсутствие элемента c нужным проперти
+            // Если после перебора всех элементов в контейнере, нужного не оказалось
             } catch (NoSuchElementException e) {
                 System.out.println(xpathContainer + " - Element was not found!");
                 return null;

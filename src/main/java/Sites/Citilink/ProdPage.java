@@ -7,7 +7,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import java.time.Duration;
 import java.util.Objects;
 
-//Страница товара
+
+/**
+ * Страница товара
+ */
 public class ProdPage extends CitiPage {
     public ProdPage(WebDriver driverStart, WebDriverWait wait) {
         super(driverStart, wait);
@@ -15,7 +18,12 @@ public class ProdPage extends CitiPage {
 
     WebDriver prodDriver = getDriver();
 
-    //Проверяет отображение акций товара
+    /**
+     * Проверяет отображение акций на странице товара.
+     * @param promsList Двумерный массив включающий в себя 2 строки без указания кода товара -
+     *                  с названиями акций и указаниями о необходимости их проверок (* - должна отображаться, в остальных случаях - нет).
+     * @return Возвращает одномерный String массив с результатами проверок.
+     */
     public String [] checkProms(String [][] promsList) {
 
         String [] checkResult = new String[promsList.length];

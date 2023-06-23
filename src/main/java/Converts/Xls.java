@@ -9,6 +9,14 @@ import java.io.IOException;
 import java.util.Objects;
 
 public class Xls {
+
+    /**
+     * Преобразование .xls файла в двумерный массив с кодами товаров и проверяемыми акциями.
+     * .xls имеет 2 листа - лист с кодами товаров и имеющимися у них акциями.
+     * + лист с указанием акций, которые будут проверяться.
+     * @param filePath путь к .xls файлу
+     * @return Двумерный массив с кодами товаров и проверяемыми акциями ( * - если должна отображаться, пустая строка если не должна)
+     */
     public  String[][] toFinalArray(String filePath) throws IOException {
 
         String [][] Codes = fileToArray(filePath, 0);
@@ -52,6 +60,11 @@ public class Xls {
         return Final;
     }
 
+    /**
+     * Преобразует указанный лист .xls файла в двумерный массив.
+     * @param filePath Путь к .xls файлу
+     * @param sheet Номер листа (начинается с 0)
+     */
     public String[][] fileToArray (String filePath, int sheet) throws IOException {
         FileInputStream direct = new FileInputStream(filePath);
         Workbook proms = new HSSFWorkbook(direct);
@@ -74,9 +87,14 @@ public class Xls {
         return farra;
     }
 
-    public int calc_R(String in_file, int sheet) throws IOException{
+    /**
+     * Считает количество рядов в указанном листе .xls файла.
+     * @param filePath Путь к .xls файлу
+     * @param sheet Номер листа (начинается с 0)
+     */
+    public int calc_R(String filePath, int sheet) throws IOException{
 
-        FileInputStream Direct = new FileInputStream(in_file);
+        FileInputStream Direct = new FileInputStream(filePath);
         Workbook toArray = new HSSFWorkbook(Direct);
 
         int StarRow = 2;
@@ -117,9 +135,14 @@ public class Xls {
         return PromNumbs+StarRow;
     }
 
-    public int calc_C(String dir, int sheet) throws IOException{
+    /**
+     * Считает количество ячеек в указанном листе .xls файла.
+     * @param filePath Путь к .xls файлу
+     * @param sheet Номер листа (начинается с 0)
+     */
+    public int calc_C(String filePath, int sheet) throws IOException{
 
-        FileInputStream Direct = new FileInputStream(dir); //C:/Users/SHH/IdeaProjects/PreFinalExcel/Base.xls
+        FileInputStream Direct = new FileInputStream(filePath); //C:/Users/SHH/IdeaProjects/PreFinalExcel/Base.xls
         Workbook toArray = new HSSFWorkbook(Direct);
 
         int CycleCell = 0;

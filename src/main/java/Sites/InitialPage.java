@@ -7,6 +7,9 @@ import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
+/**
+ * Класс с общими методами для абсолютно всех страниц
+ */
 public abstract class InitialPage {
 
     private WebDriver driver;
@@ -15,7 +18,10 @@ public abstract class InitialPage {
         this.driver = driver;
     }
 
-    //Клик с игнором таймаута
+    /**
+     * Кликает с игнором TimeoutException.
+     * @param element Веб-элемент.
+     */
     public void click(WebElement element) {
         try {
 //            System.out.println("Click try");
@@ -24,7 +30,10 @@ public abstract class InitialPage {
         }
     }
 
-    //Переход на страничку с игнором таймаута
+    /**
+     * Делает переход на страницу с игнором TimeoutException.
+     * @param link Адрес сайта.
+     */
     public void get(String link) {
         try {
             driver.get(link);

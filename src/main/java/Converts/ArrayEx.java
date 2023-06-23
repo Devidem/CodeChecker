@@ -15,12 +15,31 @@ import java.util.Date;
 import java.util.Objects;
 import java.util.Scanner;
 
+/**
+ * Обработка 1,2-х мерных массивов
+ */
+// Неиспользуемые toExcel методы созданы для демонстрации перегрузки методов
+// Вымышленная задумка - дать возможность использовать методы с созданием класса, если бы у нас были другие задачи,
+// требующие использовать несколько методов для работы с .xls документами
 public class ArrayEx implements Selector1D {
-    String [] input1D;
-    String result1D;
-    String [][] input2D;
-    String [] result2D;
+    private String [] input1D;
+    private String [][] input2D;
+    public ArrayEx(String[] input1D) {
+        this.input1D = input1D;
+    }
 
+    public ArrayEx(String[][] input2D) {
+        this.input2D = input2D;
+    }
+    private String result1D;
+    private String [] result2D;
+
+    /**
+     * Преобразует двумерный String массив в .xls файл.
+     * @param array Преобразуемый массив
+     * @param outName Имя .xls файла
+     * @param outPath Адрес для созданного файла (без / в конце)
+     */
     public static void toExcel (String [][] array, String outName, String outPath) throws IOException {
 
         Workbook excelOut = new HSSFWorkbook();
@@ -45,30 +64,11 @@ public class ArrayEx implements Selector1D {
         excelOut.write(outFile);
     }
 
-    public static void toExcel (int [][] array, String outName, String outPath) throws IOException {
-
-        Workbook excelOut = new HSSFWorkbook();
-        Sheet sheet = excelOut.createSheet("Test1 result");
-
-        for (int i = 0; i<array.length; i++) {
-            Row row = sheet.createRow(i);
-
-            for (int o = 0; o<array[0].length; o++) {
-                Cell cell = row.createCell(o);
-                cell.setCellValue(array[i][o]);
-
-            }
-        }
-
-        LocalDate currentDate = LocalDate.now();
-        Date dateNow = new Date();
-        SimpleDateFormat simpleDate = new SimpleDateFormat("(hh_mm_ss a)");
-        String outDir = outPath + "/" + outName + "_" + currentDate + "_" + simpleDate.format(dateNow) + ".xls";
-
-        FileOutputStream outFile = new FileOutputStream(outDir);
-        excelOut.write(outFile);
-    }
-
+    /**
+     * Преобразует input2D класса в .xls файл.
+     * @param outName Имя .xls файла
+     * @param outPath Адрес для созданного файла (без / в конце)
+     */
     public void toExcel (String outName, String outPath) throws IOException {
 
         Workbook excelOut = new HSSFWorkbook();
@@ -93,6 +93,11 @@ public class ArrayEx implements Selector1D {
         excelOut.write(outFile);
     }
 
+    /**
+     * Преобразует двумерный массив в итоговый .xls файл проверки.
+     * Содержит в имени Дату создания и результат проверки.
+     * @param Array Массив содержащий коды товаров и акции.
+     */
     public static void toExcelTest (String [][] Array) throws IOException {
 
         Workbook excelOut = new HSSFWorkbook();
@@ -126,6 +131,11 @@ public class ArrayEx implements Selector1D {
 
     }
 
+    /**
+     * Создает настоящий клон массива.
+     * @param array Преобразуемый массив
+     * @return Клон массива
+     */
     public static String [][] clone2d(String [][] array) {
         String [][] updated = new String[array.length][array[0].length];
 
@@ -140,20 +150,11 @@ public class ArrayEx implements Selector1D {
 
     }
 
-    public static int [][] clone2d(int [][] array) {
-        int [][] result = new int[array.length][array[0].length];
-
-        for (int i = 0; i < array.length; i++) {
-
-            for (int j = 0; j < array[0].length; j++) {
-                result [i][j] = array [i][j] + 0;
-            }
-
-        }
-        return result;
-
-    }
-
+    /**
+     * Выбирает строку из String [] input1D и помещает результат в String result1D.
+     * Предлагает выбрать значение вручную, если в переданном массиве несколько элементов.
+     */
+    //Сделан не статическим для демонстрации
     public void selector1D() {
 
         String ANSI_RED = "\u001B[31m";
@@ -187,9 +188,50 @@ public class ArrayEx implements Selector1D {
 
     }
 
+    /**
+     * Выбирает строку из 1-го массива.
+     * Предлагает выбрать значение вручную, если в переданном массиве несколько элементов.
+     * @param checkList Массив элементов
+     * @return Выбранная строка
+     */
+    public static String selector1D(String [] checkList) {
+
+        String[] input1D = checkList;
+
+        String ANSI_RED = "\u001B[31m";
+        String ANSI_GREEN = "\u001B[32m";
+        String ANSI_RESET = "\u001B[0m";
+
+        if (input1D.length>1) {
+            System.out.println(ANSI_RED + "Выберите из:" + ANSI_RESET);
+
+            int objectNum = 1;
+            for (int i = 0; i < input1D.length; i++) {
+                System.out.println(ANSI_GREEN + objectNum + "_" + input1D[i] + ANSI_RESET);
+                objectNum++;
+            }
 
 
 
+            int scanNum = 0;
+            while (scanNum > input1D.length | scanNum < 1) {
+                System.out.print("Введите номер (1,2,etc.): ");
+
+                Scanner in = new Scanner(System.in);
+                scanNum = in.nextInt();
+            }
+
+            return input1D[scanNum-1];
+
+        } else {
+            return input1D [0];
+        }
+
+    }
+
+
+
+    //Геттеры и Сеттеры
     public String[] getInput1D() {
         return input1D;
     }

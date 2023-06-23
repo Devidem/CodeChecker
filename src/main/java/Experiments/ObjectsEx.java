@@ -2,9 +2,15 @@ package Experiments;
 
 import java.util.Objects;
 
+/**
+ * Измененные методы класса Object
+ */
 public class ObjectsEx {
-    public static String toString (Object o) {
-        String o_change = Objects.toString(o);
+    /**
+     * Аналог Object.toString, но преобразует null в пустую строку
+     */
+    public static String toString (Object object) {
+        String o_change = Objects.toString(object);
         if (Objects.equals(o_change, "null")) {
             o_change = "";
         }

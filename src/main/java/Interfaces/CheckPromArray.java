@@ -2,7 +2,7 @@ package Interfaces;
 
 import java.io.IOException;
 
-public interface Arrayer {
+public interface CheckPromArray {
     public String [][] toFinalArray() throws IOException;
 
 }

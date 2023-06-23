@@ -15,27 +15,32 @@ import java.util.Arrays;
 import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * Набор тестов
+ */
 public class Test {
+    /**
+     * Проверяет наличие отображения акций на странице кода товара.
+     * В качестве входных данных используются .xls файлы, расположенные в папке проекта ./Inputs/Excel
+     * Результат проверки записывается в .xls файл по адресу ./Outputs/Excel - в имени указывается дата и результат.
+     * @param browser_name Название браузера - Chrome, Firefox(не реализовано)
+     * @param site_name Название сайта - Citilink, Dns(не реализовано)
+     * @param input_type Тип входных данных - Excel, Sql(не реализовано)
+     */
     public void codeChecks (String browser_name, String site_name, String input_type) throws IOException {
 
         //Получаем чеклист в зависимости от типа входных данных
-        InputType inputType = new InputType();
-        inputType.setInput(input_type);
-        inputType.selector();
+        InputType inputType = new InputType(input_type);
         String[][] checkList = inputType.toFinalArray();
 
         //Получаем полную ссылку сайта в зависимости от ввода
-        Sites sites = new Sites();
-        sites.setInput(site_name);
+        Sites sites = new Sites(site_name);
         sites.selector();
         site_name = sites.getResult();
 
         //Выбираем и запускаем браузер
-        Browsers browsers = new Browsers();
-        browsers.setInput(browser_name);
-        browsers.selector();
+        Browsers browsers = new Browsers(browser_name);
         WebDriver driver = browsers.start();
-
         driver.manage().window().maximize();
 
         driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
@@ -44,14 +49,11 @@ public class Test {
         WebDriverWait wait;
         wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
-        //Идем на сайт, но с игнором таймаутов
+        //Идем на сайт, но с игнором TimeoutException
         NoPage noPage= new NoPage(driver);
         noPage.get(site_name);
-        SelEx selEx = new SelEx(driver);
-        selEx.get(site_name);
 
-
-
+        //Просто кнопочка для старта (Citilink 429)
         Scanner in = new Scanner(System.in);
         System.out.print("////Старт////");
         String num = in.nextLine();

@@ -5,7 +5,9 @@ import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-
+/**
+ * Класс с общими методами для страниц сайта Citilink
+ */
 public abstract class CitiPage extends InitialPage {
 
     private WebDriver driverPages = getDriver();
@@ -16,7 +18,9 @@ public abstract class CitiPage extends InitialPage {
         this.wait = wait;
     }
 
-    //Клик лупы
+    /**
+     * Кликает по лупе.
+     */
     public void clickSearchButton () {
         try {
             String xpathSearchButton = "//*[@class=\"css-1d9cswg e15krpzo1\"]/*[@type=\"submit\"]";
@@ -26,14 +30,20 @@ public abstract class CitiPage extends InitialPage {
         }
     }
 
-    //Клик по товару из результатов быстрого поиска
+
+    /**
+     * Кликает по товару из результатов быстрого поиска.
+     * @param prodCode Код товара.
+     */
     public void clickSearchResult (String prodCode) {
         WebElement prodLink = driverPages.findElement(By.xpath("//*[contains(@href,\"" + prodCode + "\")]//*[@data-meta-name=\"InstantSearchMainResult\"]"));
 //        System.out.println("Finded");
         click(prodLink);
     }
 
-    //Клик по каталогу
+    /**
+     * Кликает по кнопке каталога, находящейся слева от поиска.
+     */
     public void clickCatalog () {
             String xpathCatalog = "//*[@class=\"css-3nmxdw eyoh4ac0\"]/*[@href=\"/catalog/\"]";
             WebElement element = driverPages.findElement(By.xpath(xpathCatalog)); {
@@ -41,7 +51,10 @@ public abstract class CitiPage extends InitialPage {
             element.click();
     }
 
-    //Ввод текста в строку поиска
+    /**
+     * Вводит текста в строку поиска.
+     * @param text Текст запроса.
+     */
     public void enterSearch (String text) {
         WebElement Search = driverPages.findElement(By.xpath("//input[@type=\"search\"]"));
         Search.sendKeys(text);
@@ -49,10 +62,7 @@ public abstract class CitiPage extends InitialPage {
     }
 
 
-
-
     //Геттеры сеттеры
-
     public WebDriverWait getWait() {
         return wait;
     }

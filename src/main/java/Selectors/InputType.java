@@ -55,45 +55,4 @@ public class InputType extends Selectors implements CheckPromArray {
 
     }
 
-    //    /**
-//     * Создает итоговый массив проверки акций.
-//     * @param inputType Тип данных.
-//     */
-//    public static String [][] toFinalArray(String inputType) throws IOException {
-//
-//        String selectType = selector(inputType);
-//
-//        if (selectType.contains("file")) {
-//            String dirPath = "./Inputs/Files";
-//            return Files.toFinalArray(Files.selector(dirPath));
-//
-//        } else {
-//            System.out.println("Wrong Type!"); //Скорее всего забыли про selector()!
-//            return null;
-//
-//        }
-//
-//    }
-
-//    /**
-//     * Выбирает тип входных данных.
-//     * Предлагает сделать ручной выбор при неправильном вводе.
-//     * @param inputType Тип данных.
-//     */
-//    public static String selector (String inputType) {
-//
-//        String Type = inputType.toLowerCase();
-//        String [] inputList = {"file", "sql(для примера)"};
-//
-//        if (Type.contains("file")) {
-//            return "file";
-//
-//        } else {
-//            System.out.println("Unknown Type");
-//            return ArrayEx.selector1D(inputList);
-//
-//        }
-//
-//    }
-
 }

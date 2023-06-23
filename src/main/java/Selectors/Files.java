@@ -44,34 +44,4 @@ public class Files extends Selectors implements CheckPromArray {
 
     }
 
-//    /**
-//     * Выбирает файл из папки.
-//     * Предлагает сделать ручной выбор если файлов несколько.
-//     * @param dirPath Путь папки с файлами (без / в конце)
-//     */
-//    public static String selector(String dirPath) {
-//        File dir = new File(dirPath);
-//        String[] filesList = dir.list();
-//
-//        return dirPath + "/" + ArrayEx.selector1D(filesList);
-//    }
-
-
-    //    /**
-//     * Преобразует .xls файл в итоговый массив проверки акций.
-//     * @param filePath Полный путь файла
-//     */
-//    public static String [][] toFinalArray(String filePath) throws IOException {
-//
-//        if (filePath.endsWith(".xls")){
-//            Xls excel = new Xls();
-//            return excel.toFinalArray(filePath);
-//
-//        } else {
-//            System.out.println("Wrong File");
-//            return null;
-//        }
-//
-//    }
-
 }

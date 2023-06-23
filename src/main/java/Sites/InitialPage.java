@@ -43,9 +43,7 @@ public abstract class InitialPage {
 
 
 
-
-
-
+    //Геттеры и Сеттеры
     public WebDriver getDriver() {
         return driver;
     }

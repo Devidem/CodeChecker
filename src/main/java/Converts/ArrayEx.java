@@ -165,8 +165,8 @@ public class ArrayEx implements Selector1D {
             System.out.println(ANSI_RED + "Выберите из:" + ANSI_RESET);
 
             int objectNum = 1;
-            for (int i = 0; i < input1D.length; i++) {
-                System.out.println(ANSI_GREEN + objectNum + "_" + input1D[i] + ANSI_RESET);
+            for (String objectValue : input1D) {
+                System.out.println(ANSI_GREEN + objectNum + "_" + objectValue + ANSI_RESET);
                 objectNum++;
             }
 
@@ -196,35 +196,31 @@ public class ArrayEx implements Selector1D {
      */
     public static String selector1D(String [] checkList) {
 
-        String[] input1D = checkList;
-
         String ANSI_RED = "\u001B[31m";
         String ANSI_GREEN = "\u001B[32m";
         String ANSI_RESET = "\u001B[0m";
 
-        if (input1D.length>1) {
+        if (checkList.length>1) {
             System.out.println(ANSI_RED + "Выберите из:" + ANSI_RESET);
 
             int objectNum = 1;
-            for (int i = 0; i < input1D.length; i++) {
-                System.out.println(ANSI_GREEN + objectNum + "_" + input1D[i] + ANSI_RESET);
+            for (String objectValue : checkList) {
+                System.out.println(ANSI_GREEN + objectNum + "_" + objectValue + ANSI_RESET);
                 objectNum++;
             }
 
-
-
             int scanNum = 0;
-            while (scanNum > input1D.length | scanNum < 1) {
+            while (scanNum > checkList.length | scanNum < 1) {
                 System.out.print("Введите номер (1,2,etc.): ");
 
                 Scanner in = new Scanner(System.in);
                 scanNum = in.nextInt();
             }
 
-            return input1D[scanNum-1];
+            return checkList[scanNum-1];
 
         } else {
-            return input1D [0];
+            return checkList[0];
         }
 
     }

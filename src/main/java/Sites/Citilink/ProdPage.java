@@ -74,6 +74,7 @@ public class ProdPage extends CitiPage {
                     // Если не дождался, то вписывает "404" в ячейку и завершает проверку для кода товара (не проверяет остальные акции)
                     // Если дождался, то цикл проверки скидки запускается снова
                     if (o == 0 && i==0) {
+//                        System.out.println("Проверка в " + i + o);
                         try {
                             WebElement checkElement = prodDriver.findElement(By.xpath(checkObjectXpath));
                             break;

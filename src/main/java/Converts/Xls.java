@@ -22,15 +22,20 @@ public class Xls {
         String [][] Codes = fileToArray(filePath, 0);
         String [][] Proms = fileToArray(filePath, 1);
 
-        int codestartrow = 3-1; //Номер строки, с которой начинается перечисление кодов в Codes
-        int promstartcell = 1;  //Номер ячейки, с которой начинается перечисление акций в Codes
-        int deleted = 0; // Счетчик удаленных акций
-        String promsymbol = "*";
+        //Номер строки, с которой начинается перечисление кодов в Codes
+        int codestartrow = 3-1;
+        //Номер ячейки, с которой начинается перечисление акций в Codes
+        int promstartcell = 1;
+        // Счетчик удаленных акций
+        int deleted = 0;
+        //Проверочный символ
+        String promSymbol = "*";
+
 
         for (int i = 0; i< (Proms.length-2); i++) { //Цикл убирает текст из первого ряда в скидках, которые не нужно проверять + считает количество удаленных ячеек
             String starcheck = Proms [codestartrow+i] [1];
 
-            if (!Objects.equals(starcheck, promsymbol)) {
+            if (!Objects.equals(starcheck, promSymbol)) {
                 String promname = Proms [codestartrow+i] [0];
                 for (int a = promstartcell; a <(Codes[0].length); a++) {
                     if (Objects.equals(Codes[0][a], promname)) {
@@ -42,10 +47,13 @@ public class Xls {
             }
         }
 
-        String [][] Final = new String[Codes.length][Codes[0].length-deleted]; //Делаю массив без лишних ячеек (с учетом удаленных ячеек/столбцов)
+        //Массив без лишних ячеек (с учетом удаленных ячеек/столбцов)
+        String [][] Final = new String[Codes.length][Codes[0].length-deleted];
 
-        int o_final = 0; // Свой счетчик столбцов у массива Final для цикла ниже
-        for (int o=0; o<Codes[0].length; o++ ) { // Цикл для переноса данных из отредактированного массива - забираются только те, где что-то написано в 1-й(0-й) ячейке столбца
+        // Счетчик столбцов у массива Final для цикла ниже
+        int o_final = 0;
+        // Цикл для переноса данных из отредактированного массива - забираются только те, где что-то написано в 1-й(0-й) строке столбца
+        for (int o=0; o<Codes[0].length; o++ ) {
 
             if (!Objects.equals(Codes[0][o], "")) {
 
@@ -57,6 +65,7 @@ public class Xls {
             }
 
         }
+
         return Final;
     }
 

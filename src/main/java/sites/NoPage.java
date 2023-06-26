@@ -1,4 +1,4 @@
-package Sites;
+package sites;
 
 import org.openqa.selenium.WebDriver;
 

@@ -1,14 +1,13 @@
-package Selectors;
+package selectors;
 
-import Converts.ArrayEx;
-import Interfaces.CheckPromArray;
-
-import java.io.IOException;
+import converters.ArrayEx;
+import exceptions.myExceptions.MyFileIOException;
+import interfaces.ToPromsArray;
 
 /**
  * Работа с типами данных.
  */
-public class InputType extends Selectors implements CheckPromArray {
+public class InputType extends Selectors implements ToPromsArray {
 
     public InputType(String input) {
         super(input);
@@ -17,7 +16,7 @@ public class InputType extends Selectors implements CheckPromArray {
     /**
      * Создает итоговый массив проверки акций в зависимости от типа входных данных из {@link #result}.
      */
-    public String [][] toFinalArray() throws IOException {
+    public String [][] toFinalArray() throws MyFileIOException {
         selector();
 
         if (result.contains("file")) {
@@ -26,8 +25,7 @@ public class InputType extends Selectors implements CheckPromArray {
             return files.toFinalArray();
 
         } else {
-            System.out.println("Wrong Type!"); //Скорее всего забыли про selector()!
-            return null;
+            throw new MyFileIOException("Некорректная работа селектора InputType.selector()");
 
         }
 
@@ -40,13 +38,14 @@ public class InputType extends Selectors implements CheckPromArray {
     public void selector () {
 
         String Type = input.toLowerCase();
-        String [] inputList = {"file", "sql(для примера)"};
+        String [] inputList = {"file"};
 
         if (Type.contains("file")) {
             result = "file";
 
         } else if (Type.contains("sql")) {
-            System.out.println("Кто такой этот ваш SQl? Пока не сделан!");
+            System.out.println("Пока не реализован!");
+            result = ArrayEx.selector1D(inputList);
 
         } else {
             System.out.println("Unknown Type");

@@ -1,9 +1,8 @@
-import Selen.Test;
-
-import java.io.IOException;
+import exceptions.myExceptions.MyFileIOException;
+import selen.Test;
 
 public class NewMain {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
 
         String input = "file";          //file, sql(не реализовано)
         String browser = "chrome";      //chrome, firefox(не реализовано)
@@ -11,7 +10,13 @@ public class NewMain {
 
 
         Test test = new Test();
-        test.codeChecks (browser, site, input);
+
+        try {
+            test.codeChecks (browser, site, input);
+        } catch (MyFileIOException e) {
+            //Все ошибки исключения подписаны с помощью сообщений
+            throw new RuntimeException(e);
+        }
 
 
     }

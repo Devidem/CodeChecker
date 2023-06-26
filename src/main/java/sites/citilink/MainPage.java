@@ -1,19 +1,21 @@
-package Sites.Citilink;
+package sites.citilink;
 
-import Selen.SelEx;
+import selen.SelEx;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 /**
  * Главная страница сайта
  */
-// Создан для примера по ООП - чтобы ProdPage не было одиноко!
+// Класс создан для примера ООП - чтобы ProdPage не было одиноко!
 public class MainPage extends CitiPage {
     public MainPage(WebDriver driverStart, WebDriverWait wait) {
         super(driverStart, wait);
     }
-    private WebDriver driverMain = getDriver();
+    private final WebDriver driverMain = getDriver();
 
     /**
      * Кликает по катекории из блока "Популярные категории"
@@ -25,7 +27,9 @@ public class MainPage extends CitiPage {
         String propertyName = "innerText";
 
         SelEx selEx = new SelEx(driverMain);
-        selEx.xpathSelectByProperty(xpath, propertyName, categoryName);
+        String categoryXpath = selEx.xpathSelectByProperty(xpath, propertyName, categoryName);
+        WebElement category = driverMain.findElement(By.xpath(categoryXpath));
+        click(category);
 
     }
 }

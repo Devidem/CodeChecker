@@ -1,9 +1,7 @@
-package Sites;
-
+package sites;
 
 
 import org.openqa.selenium.TimeoutException;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
@@ -24,7 +22,6 @@ public abstract class InitialPage {
      */
     public void click(WebElement element) {
         try {
-//            System.out.println("Click try");
             element.click();
         } catch (TimeoutException ignored) {
         }

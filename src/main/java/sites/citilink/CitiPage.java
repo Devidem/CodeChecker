@@ -1,13 +1,17 @@
-package Sites.Citilink;
+package sites.citilink;
 
-import Sites.InitialPage;
-import org.openqa.selenium.*;
+import sites.InitialPage;
+import org.openqa.selenium.By;
+import org.openqa.selenium.TimeoutException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 /**
  * Класс с общими методами для страниц сайта Citilink
  */
+//Шапка с поиском и каталогом есть на всех страницах
 public abstract class CitiPage extends InitialPage {
 
     private WebDriver driverPages = getDriver();
@@ -37,7 +41,6 @@ public abstract class CitiPage extends InitialPage {
      */
     public void clickSearchResult (String prodCode) {
         WebElement prodLink = driverPages.findElement(By.xpath("//*[contains(@href,\"" + prodCode + "\")]//*[@data-meta-name=\"InstantSearchMainResult\"]"));
-//        System.out.println("Finded");
         click(prodLink);
     }
 
@@ -46,13 +49,12 @@ public abstract class CitiPage extends InitialPage {
      */
     public void clickCatalog () {
             String xpathCatalog = "//*[@class=\"css-3nmxdw eyoh4ac0\"]/*[@href=\"/catalog/\"]";
-            WebElement element = driverPages.findElement(By.xpath(xpathCatalog)); {
-            }
-            element.click();
+            WebElement element = driverPages.findElement(By.xpath(xpathCatalog));
+            click(element);
     }
 
     /**
-     * Вводит текста в строку поиска.
+     * Вводит текст в строку поиска.
      * @param text Текст запроса.
      */
     public void enterSearch (String text) {

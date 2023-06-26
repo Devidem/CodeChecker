@@ -1,6 +1,6 @@
-package Selectors;
+package selectors;
 
-import Converts.ArrayEx;
+import converters.ArrayEx;
 
 /**
  * Работа с адресами сайтов

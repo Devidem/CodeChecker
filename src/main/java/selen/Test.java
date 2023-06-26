@@ -1,19 +1,18 @@
-package Selen;
+package selen;
 
-import Converts.ArrayEx;
-import Sites.Citilink.ProdPage;
-import Sites.NoPage;
-import Selectors.Browsers;
-import Selectors.InputType;
-import Selectors.Sites;
+import converters.ArrayEx;
+import exceptions.myExceptions.MyFileIOException;
+import selectors.Browsers;
+import selectors.InputType;
+import selectors.Sites;
+import sites.citilink.ProdPage;
+import sites.NoPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Scanner;
-import java.util.concurrent.TimeUnit;
 
 /**
  * Набор тестов
@@ -23,37 +22,37 @@ public class Test {
      * Проверяет наличие отображения акций на странице кода товара.
      * В качестве входных данных используются .xls файлы, расположенные в папке проекта ./Inputs/Excel
      * Результат проверки записывается в .xls файл по адресу ./Outputs/Excel - в имени указывается дата и результат.
-     * @param browser_name Название браузера - Chrome, Firefox(не реализовано)
-     * @param site_name Название сайта - Citilink, Dns(не реализовано)
-     * @param input_type Тип входных данных - Excel, Sql(не реализовано)
+     * @param browserName Название браузера - Chrome, Firefox(не реализовано)
+     * @param siteName Название сайта - Citilink, Dns(не реализовано)
+     * @param inputType Тип входных данных - Excel, Sql(не реализовано)
      */
-    public void codeChecks (String browser_name, String site_name, String input_type) throws IOException {
+    public void codeChecks (String browserName, String siteName, String inputType) throws MyFileIOException {
 
         //Получаем чеклист в зависимости от типа входных данных
-        InputType inputType = new InputType(input_type);
-        String[][] checkList = inputType.toFinalArray();
+        InputType inpType = new InputType(inputType);
+        String[][] checkList = inpType.toFinalArray();
 
         //Получаем полную ссылку сайта в зависимости от ввода
-        Sites sites = new Sites(site_name);
+        Sites sites = new Sites(siteName);
         sites.selector();
-        site_name = sites.getResult();
+        siteName = sites.getResult();
 
         //Выбираем и запускаем браузер
-        Browsers browsers = new Browsers(browser_name);
+        Browsers browsers = new Browsers(browserName);
         WebDriver driver = browsers.start();
         driver.manage().window().maximize();
 
-        driver.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
-        driver.manage().timeouts().pageLoadTimeout(5, TimeUnit.SECONDS);
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
 
         WebDriverWait wait;
         wait = new WebDriverWait(driver, Duration.ofSeconds(2));
 
         //Идем на сайт, но с игнором TimeoutException
         NoPage noPage= new NoPage(driver);
-        noPage.get(site_name);
+        noPage.get(siteName);
 
-        //Просто кнопочка для старта (Citilink 429)
+        //Просто кнопочка для старта (Citilink ругался 429 ошибкой)
         Scanner in = new Scanner(System.in);
         System.out.print("////Старт////");
         String num = in.nextLine();
@@ -64,6 +63,7 @@ public class Test {
         //Создаем итоговый массив клонированием проверяемого и задаем строку первого кода товара
         String[][] resultList = ArrayEx.clone2d(checkList);
         int startRow = 2;
+
 
         //Проверяем чеклист
         for (int i = 0; i < resultList.length - startRow; i++) {
@@ -88,6 +88,7 @@ public class Test {
         //Создаем Эксельку с результатом
         ArrayEx.toExcelTest(resultList);
 
+        //Вывод в консоль для просмотра результата - нужно только во время написания кода/проверки
         System.out.println(Arrays.deepToString(checkList));
         System.out.println(Arrays.deepToString(resultList));
 

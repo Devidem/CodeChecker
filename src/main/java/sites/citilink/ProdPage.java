@@ -1,4 +1,4 @@
-package Sites.Citilink;
+package sites.citilink;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -16,7 +16,7 @@ public class ProdPage extends CitiPage {
         super(driverStart, wait);
     }
 
-    WebDriver prodDriver = getDriver();
+    final WebDriver prodDriver = getDriver();
 
     /**
      * Проверяет отображение акций на странице товара.
@@ -26,10 +26,12 @@ public class ProdPage extends CitiPage {
      */
     public String [] checkProms(String [][] promsList) {
 
+        //Массив для результата проверки (строка, которая будет вставлена напротив кода товара)
         String [] checkResult = new String[promsList.length];
 
-        // Задаем Xpath элемента проверки и время ожидания прогрузки страницы
+        //Xpath элемента проверки и время ожидания прогрузки страницы
         String checkObjectXpath = "//*[@data-meta-value = \"about\"]";
+        //Время ожидания дозагрузки страницы
         int checkLoadTime = 5;
         WebDriverWait checkLoadWait = new WebDriverWait(prodDriver, Duration.ofSeconds(checkLoadTime));
 
@@ -74,7 +76,6 @@ public class ProdPage extends CitiPage {
                     // Если не дождался, то вписывает "404" в ячейку и завершает проверку для кода товара (не проверяет остальные акции)
                     // Если дождался, то цикл проверки скидки запускается снова
                     if (o == 0 && i==0) {
-//                        System.out.println("Проверка в " + i + o);
                         try {
                             WebElement checkElement = prodDriver.findElement(By.xpath(checkObjectXpath));
                             break;

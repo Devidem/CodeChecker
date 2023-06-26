@@ -1,6 +1,7 @@
-package Converts;
+package converters;
 
-import Selectors.Selector1D;
+import exceptions.myExceptions.MyFileIOException;
+import interfaces.Selector1D;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -43,7 +44,7 @@ public class ArrayEx implements Selector1D {
     public static void toExcel (String [][] array, String outName, String outPath) throws IOException {
 
         Workbook excelOut = new HSSFWorkbook();
-        Sheet sheet = excelOut.createSheet("Test1 result");
+        Sheet sheet = excelOut.createSheet("Test result");
 
         for (int i = 0; i<array.length; i++) {
             Row row = sheet.createRow(i);
@@ -62,6 +63,7 @@ public class ArrayEx implements Selector1D {
 
         FileOutputStream outFile = new FileOutputStream(outDirect);
         excelOut.write(outFile);
+        excelOut.close();
     }
 
     /**
@@ -91,14 +93,16 @@ public class ArrayEx implements Selector1D {
 
         FileOutputStream outFile = new FileOutputStream(outDir);
         excelOut.write(outFile);
+        excelOut.close();
     }
 
     /**
      * Преобразует двумерный массив в итоговый .xls файл проверки.
      * Содержит в имени Дату создания и результат проверки.
+     * Хранится по адресу ./Outputs/Excel/
      * @param Array Массив содержащий коды товаров и акции.
      */
-    public static void toExcelTest (String [][] Array) throws IOException {
+    public static void toExcelTest (String [][] Array) throws MyFileIOException {
 
         Workbook excelOut = new HSSFWorkbook();
         Sheet sheet = excelOut.createSheet("Test1 result");
@@ -126,8 +130,14 @@ public class ArrayEx implements Selector1D {
         SimpleDateFormat simpleDate = new SimpleDateFormat("(hh_mm_ss a)");
         String outDirect = "./Outputs/Excel/CodesToCheck_Result_" + testResult + "_" + currentDate + "_" + simpleDate.format(dateNow) + ".xls";
 
-        FileOutputStream outFile = new FileOutputStream(outDirect);
-        excelOut.write(outFile);
+        FileOutputStream outFile;
+        try {
+            outFile = new FileOutputStream(outDirect);
+            excelOut.write(outFile);
+            excelOut.close();
+        } catch (IOException e) {
+            throw new MyFileIOException("Некорректное полное имя файла для сохранения! (outDirect)", e);
+        }
 
     }
 

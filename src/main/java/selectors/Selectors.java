@@ -1,4 +1,6 @@
-package Selectors;
+package selectors;
+
+import exceptions.myExceptions.MyFileIOException;
 
 /**
  * Абстрактный класс для селекторов
@@ -14,7 +16,7 @@ public abstract class Selectors {
     /**
      * Передает значение выбора в {@link #result} в зависимости от {@link #input}
      */
-    public abstract void selector();
+    public abstract void selector() throws MyFileIOException;
 
 
     // Геттеры и Сеттеры

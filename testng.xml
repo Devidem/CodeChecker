@@ -2,11 +2,16 @@
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
 <suite name="All Test Suite">
     <test verbose="2" preserve-order="true" name="C:/Users/SHH/IdeaProjects/CodeChecker">
-        <classes>
+        <groups>
+            <run>
+                <include name="first"/>
+            </run>
 
-            <class name="Tests.Test2">
+        </groups>
 
-            </class>
-        </classes>
+        <packages>
+            <package name="Tests"></package>
+        </packages>
+
     </test>
 </suite>

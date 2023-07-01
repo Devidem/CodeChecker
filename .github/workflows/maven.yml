@@ -31,7 +31,7 @@ jobs:
     
     
     - name: Build with Maven
-      run: mvn -Dsuite=testng1.xml clean test
+      run: mvn -Dsuite=testng.xml clean test
       #mvn -B clean test mvn -Dsuite=build clean test
 
     # Optional: Uploads the full dependency graph to GitHub to improve the quality of Dependabot alerts this repository can receive

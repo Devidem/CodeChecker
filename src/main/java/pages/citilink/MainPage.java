@@ -1,4 +1,4 @@
-package sites.citilink;
+package pages.citilink;
 
 import selen.SelEx;
 import org.openqa.selenium.By;

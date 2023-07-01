@@ -1,4 +1,4 @@
-package sites;
+package pages;
 
 
 import org.openqa.selenium.TimeoutException;

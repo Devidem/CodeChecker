@@ -5,8 +5,8 @@ import exceptions.myExceptions.MyFileIOException;
 import selectors.Browsers;
 import selectors.InputType;
 import selectors.Sites;
-import sites.citilink.ProdPage;
-import sites.NoPage;
+import pages.citilink.ProdPage;
+import pages.NoPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
 

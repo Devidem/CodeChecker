@@ -1,10 +1,64 @@
+import java.io.File;
 import java.io.IOException;
-
+import java.util.Arrays;
 
 public class TestRunner2 {
     public static void main(String[] args) throws IOException {
+
+
+
+
+        File dir = new File("C:\\Users\\SHH\\IdeaProjects\\CodeChecker\\Inputs");
+        String[] arrFiles = dir.list();
+        System.out.println(Arrays.deepToString(arrFiles));
+
+
+//        System.out.println(xls.calc_C("C:\\Users\\SHH\\IdeaProjects\\CodeChecker\\Inputs\\Files\\CodesToCheck.xls", 0));
+
+//        FileInputStream direct = new FileInputStream("C:\\Users\\SHH\\IdeaProjects\\CodeChecker\\Inputs\\Files\\CodesToCheck.xls");
+//        Workbook toArray = new HSSFWorkbook(direct);
+//
+//        System.out.println(Objects.toString(toArray.getSheetAt(0).getRow(10).getCell(150)));
+
+
+
+
     }
+
 }
+
+
+//public class TestRunner2 {
+//    public static void main(String[] args) {
+//
+//        String filePath = "C:\\Users\\SHH\\IdeaProjects\\CodeChecker\\Inputs\\Files/CodesToCheck.txt";
+//        FileInputStream direct = null;
+//        try {
+//            direct = new FileInputStream(filePath);
+//        } catch (FileNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
+//        WorkbookXls proms = null;
+//
+//        try {
+//            proms = new HSSFWorkbook(direct);
+//        } catch (IOException ex) {
+//            try {
+//                proms = ExceptionCatcher.WorkbookXls(ex);
+//            } catch (IOException e) {
+//                System.err.println(e.getMessage());
+//            }
+//
+////            System.out.println(ex.getMessage());
+////            System.out.println("Введите полный адрес .xls файла: ");
+////
+////            Scanner in = new Scanner(System.in);
+////            String newFilePath = in.nextLine();
+////            direct = new FileInputStream(newFilePath);
+////            proms = new HSSFWorkbook(direct);
+//        }
+//    }
+//}
 
 
 //public class TestRunner2 {

@@ -1,4 +1,4 @@
-import Selen.SelEx;
+import selen.SelEx;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -364,7 +364,7 @@ public class TestRunner {
 //public class TestRunner {
 //    public static void main(String[] args) throws IOException {
 //        FileOutputStream TestRes = new FileOutputStream("C:/Users/SHH/IdeaProjects/PreFinalExcel/TestResult.xls");
-//        Workbook Result = new HSSFWorkbook();
+//        WorkbookXls Result = new HSSFWorkbook();
 //        Sheet sheet = Result.createSheet("TestResult");
 //
 //        int PriceNum = 3;
@@ -404,7 +404,7 @@ public class TestRunner {
 //    public static void main(String[] args) throws IOException {
 //        String dir = "C:/Users/SHH/IdeaProjects/PreFinalExcel/Base.xls";
 //        FileInputStream Direct = new FileInputStream(dir); //C:/Users/SHH/IdeaProjects/PreFinalExcel/Base.xls
-//        Workbook Proms = new HSSFWorkbook(Direct);
+//        WorkbookXls Proms = new HSSFWorkbook(Direct);
 //
 //        ReadEx Nor = new ReadEx();
 //        int rows = Nor.calcRows(dir, 1);
@@ -449,7 +449,7 @@ public class TestRunner {
 //        String dir = "C:/Users/SHH/IdeaProjects/PreFinalExcel/Base.xls";
 //
 //        FileInputStream Direct = new FileInputStream(dir); //C:/Users/SHH/IdeaProjects/PreFinalExcel/Base.xls
-//        Workbook toArray = new HSSFWorkbook(Direct);
+//        WorkbookXls toArray = new HSSFWorkbook(Direct);
 //        //Узнаем количество проверяемых акций
 //        //Для начала выясняем их общее количество
 //

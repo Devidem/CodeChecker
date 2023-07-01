@@ -14,7 +14,7 @@ public class NewMain {
         try {
             test.codeChecks (browser, site, input);
         } catch (MyFileIOException e) {
-            //Все ошибки исключения подписаны с помощью сообщений
+            //Все ошибки и исключения подписаны с помощью сообщений
             throw new RuntimeException(e);
         }
 

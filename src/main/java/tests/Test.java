@@ -1,4 +1,4 @@
-package selen;
+package tests;
 
 import converters.ArrayEx;
 import exceptions.myExceptions.MyFileIOException;
@@ -9,6 +9,7 @@ import pages.citilink.ProdPage;
 import selectors.Browsers;
 import selectors.InputType;
 import selectors.Sites;
+import tests.threads.PromChecker;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -51,11 +52,6 @@ public class Test {
         NoPage noPage= new NoPage(driver);
         noPage.get(siteName);
 
-//        //Просто кнопочка для старта (Citilink ругался 429 ошибкой)
-//        Scanner in = new Scanner(System.in);
-//        System.out.print("////Старт////");
-//        String num = in.nextLine();
-
         //Создаем ProdPage, в котором есть все нужные методы для работы со страничкой продукта
         ProdPage prodPage = new ProdPage(driver, wait);
 
@@ -84,6 +80,44 @@ public class Test {
 
         }
         driver.close();
+
+        //Создаем Эксельку с результатом
+        ArrayEx.toExcelTest(resultList);
+
+        //Вывод в консоль для просмотра результата - нужно только во время написания кода/проверки
+        System.out.println(Arrays.deepToString(checkList));
+        System.out.println(Arrays.deepToString(resultList));
+
+    }
+
+    /**
+     * Проверяет наличие отображения акций на странице кода товара (многопоточный вариант).
+     * В качестве входных данных используются .xls файлы, расположенные в папке проекта ./Inputs/Excel
+     * Результат проверки записывается в .xls файл по адресу ./Outputs/Excel - в имени указывается дата и результат.
+     * @param browserName Название браузера - Chrome, Firefox(не реализовано)
+     * @param siteName Название сайта - Citilink, Dns(не реализовано)
+     * @param inputType Тип входных данных - Excel, Sql(не реализовано)
+     * @param threadsNumber Количество потоков
+     */
+    public void codeChecks (String browserName, String siteName, String inputType, int threadsNumber) throws MyFileIOException {
+
+        //Получаем чеклист в зависимости от типа входных данных
+        InputType inpType = new InputType(inputType);
+        String[][] checkList = inpType.toFinalArray();
+
+        //Получаем полную ссылку сайта в зависимости от ввода
+        Sites sites = new Sites(siteName);
+        sites.selector();
+        siteName = sites.getResult();
+
+        //Создаем итоговый массив клонированием проверяемого и задаем строку первого кода товара
+        String[][] resultList = ArrayEx.clone2d(checkList);
+        int startRow = 2;
+
+        //Делаем многопоточную проверку промоакций
+        PromChecker promChecker = new PromChecker(browserName, siteName, checkList, resultList, startRow, threadsNumber);
+        resultList = promChecker.multiCheck();
+
 
         //Создаем Эксельку с результатом
         ArrayEx.toExcelTest(resultList);

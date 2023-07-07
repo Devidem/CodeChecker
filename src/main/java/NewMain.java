@@ -1,5 +1,5 @@
 import exceptions.myExceptions.MyFileIOException;
-import selen.Test;
+import tests.Test;
 
 public class NewMain {
     public static void main(String[] args) {
@@ -7,12 +7,14 @@ public class NewMain {
         String input = "file";          //file, sql(не реализовано)
         String browser = "chrome";      //chrome, firefox(не реализовано)
         String site = "CitiLink";       //citilink, dns(не реализовано)
+        int threadsNumber = 2;          //Количество потоков (указывается 4-й переменной в конструкторе)
 
 
         Test test = new Test();
 
         try {
-            test.codeChecks (browser, site, input);
+            //Имеет 2 варианта - однопоточный и многопоточный
+            test.codeChecks(browser, site, input, 2);
         } catch (MyFileIOException e) {
             //Все ошибки и исключения подписаны с помощью сообщений
             throw new RuntimeException(e);
@@ -21,11 +23,4 @@ public class NewMain {
 
     }
 
-}
-
-class MyThread extends Thread {
-    @Override
-    public void run() {
-
-    }
 }

@@ -1,5 +1,6 @@
 package pages.citilink;
 
+import locators.Locators;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -30,7 +31,7 @@ public class ProdPage extends CitiPage {
         String [] checkResult = new String[promsList.length];
 
         //Xpath элемента проверки и время ожидания прогрузки страницы
-        String checkObjectXpath = "//*[@data-meta-value = \"about\"]";
+        String checkObjectXpath = Locators.ProductAbout.getXpath();
         //Время ожидания дозагрузки страницы
         int checkLoadTime = 5;
         WebDriverWait checkLoadWait = new WebDriverWait(prodDriver, Duration.ofSeconds(checkLoadTime));
@@ -42,14 +43,14 @@ public class ProdPage extends CitiPage {
                 //Забираем значение и имя акции + вычисляем для нее xpath
                 String promoValue = promsList[1][o];
                 String promoName = promsList[0][o];
-                String promoXpath = "//*[@data-meta-name=\"ProductHeaderContentLayout\"]//*[contains(text(),'" + promoName + "')]";
+                String xpathPromo = Locators.VarProductPromoMain.getXpathVariable(promoName);
 
                 for (int i = 0; i<2; i++) {
 
                     // Проверка акций
                     if (Objects.equals(promoValue, "*")) {
                         try {
-                            WebElement promoElement = prodDriver.findElement(By.xpath(promoXpath));
+                            WebElement promoElement = prodDriver.findElement(By.xpath(xpathPromo));
                             checkResult[o] = "Passed";
                             break;
 
@@ -60,7 +61,7 @@ public class ProdPage extends CitiPage {
 
                     } else {
                         try {
-                            WebElement promoElement = prodDriver.findElement(By.xpath(promoXpath));
+                            WebElement promoElement = prodDriver.findElement(By.xpath(xpathPromo));
                             checkResult[o] = "FAILED";
                             break;
 

@@ -1,6 +1,7 @@
 package pages.citilink;
 
-import selen.SelEx;
+import locators.Locators;
+import experiments.SelEx;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -23,7 +24,7 @@ public class MainPage extends CitiPage {
      */
     public void clickPopCategory (String categoryName) {
 
-        String xpath = "//*[@class=\"edhylph0 app-catalog-1ljlt6q e3tyxgd0\"]";
+        String xpath = Locators.PopularCategory.getXpath();
         String propertyName = "innerText";
 
         SelEx selEx = new SelEx(driverMain);

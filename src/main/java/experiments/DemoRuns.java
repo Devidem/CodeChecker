@@ -1,4 +1,4 @@
-package selen;
+package experiments;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -7,8 +7,8 @@ import org.openqa.selenium.chrome.ChromeDriver;
 
 import java.util.Scanner;
 
-// Представленные пробеги предназначены для демонстрации работы некоторых методов.
-// Пробеги не оптимизированы и не являются лучшим вариантом применения метода - они просто дают возможность быстро увидеть результат работы.
+// Представленные раны предназначены для демонстрации работы некоторых методов.
+// Раны не оптимизированы и не являются лучшим вариантом применения метода - они просто дают возможность быстро увидеть результат работы.
 public class DemoRuns {
 
     // 1. Демонстрация SelEx.xpathSelectByProperty.

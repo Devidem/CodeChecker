@@ -1,5 +1,6 @@
 package pages.citilink;
 
+import locators.Locators;
 import pages.InitialPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
@@ -27,8 +28,8 @@ public abstract class CitiPage extends InitialPage {
      */
     public void clickSearchButton () {
         try {
-            String xpathSearchButton = "//*[@class=\"css-1d9cswg e15krpzo1\"]/*[@type=\"submit\"]";
-            WebElement element = driverPages.findElement(By.xpath(xpathSearchButton));
+            String xpath = Locators.SearchButton.getXpath();
+            WebElement element = driverPages.findElement(By.xpath(xpath));
             click(element);
         } catch (TimeoutException ignored) {
         }
@@ -40,7 +41,8 @@ public abstract class CitiPage extends InitialPage {
      * @param prodCode Код товара.
      */
     public void clickSearchResult (String prodCode) {
-        WebElement prodLink = driverPages.findElement(By.xpath("//*[contains(@href,\"" + prodCode + "\")]//*[@data-meta-name=\"InstantSearchMainResult\"]"));
+        String xpath = Locators.VarSearchResult.getXpathVariable(prodCode);
+        WebElement prodLink = driverPages.findElement(By.xpath(xpath));
         click(prodLink);
     }
 
@@ -48,8 +50,8 @@ public abstract class CitiPage extends InitialPage {
      * Кликает по кнопке каталога, находящейся слева от поиска.
      */
     public void clickCatalog () {
-            String xpathCatalog = "//*[@class=\"css-3nmxdw eyoh4ac0\"]/*[@href=\"/catalog/\"]";
-            WebElement element = driverPages.findElement(By.xpath(xpathCatalog));
+            String xpath = Locators.Catalog.getXpath();
+            WebElement element = driverPages.findElement(By.xpath(xpath));
             click(element);
     }
 
@@ -58,9 +60,12 @@ public abstract class CitiPage extends InitialPage {
      * @param text Текст запроса.
      */
     public void enterSearch (String text) {
-        WebElement Search = driverPages.findElement(By.xpath("//input[@type=\"search\"]"));
+        String xpathSearch = Locators.SearchField.getXpath();
+        String xpathWatched = Locators.SearchWatchedBefore.getXpath();
+
+        WebElement Search = driverPages.findElement(By.xpath(xpathSearch));
         Search.sendKeys(text);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'просмотренные')]")));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpathWatched)));
     }
 
 

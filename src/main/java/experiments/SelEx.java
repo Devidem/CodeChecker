@@ -1,4 +1,4 @@
-package selen;
+package experiments;
 
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;

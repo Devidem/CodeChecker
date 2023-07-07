@@ -22,3 +22,10 @@ public class NewMain {
     }
 
 }
+
+class MyThread extends Thread {
+    @Override
+    public void run() {
+
+    }
+}

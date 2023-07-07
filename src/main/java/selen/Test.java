@@ -2,17 +2,16 @@ package selen;
 
 import converters.ArrayEx;
 import exceptions.myExceptions.MyFileIOException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.NoPage;
+import pages.citilink.ProdPage;
 import selectors.Browsers;
 import selectors.InputType;
 import selectors.Sites;
-import pages.citilink.ProdPage;
-import pages.NoPage;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Arrays;
-import java.util.Scanner;
 
 /**
  * Набор тестов
@@ -42,20 +41,20 @@ public class Test {
         WebDriver driver = browsers.start();
         driver.manage().window().maximize();
 
-        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(5));
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(5));
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(3));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(3));
 
         WebDriverWait wait;
-        wait = new WebDriverWait(driver, Duration.ofSeconds(2));
+        wait = new WebDriverWait(driver, Duration.ofSeconds(1));
 
         //Идем на сайт, но с игнором TimeoutException
         NoPage noPage= new NoPage(driver);
         noPage.get(siteName);
 
-        //Просто кнопочка для старта (Citilink ругался 429 ошибкой)
-        Scanner in = new Scanner(System.in);
-        System.out.print("////Старт////");
-        String num = in.nextLine();
+//        //Просто кнопочка для старта (Citilink ругался 429 ошибкой)
+//        Scanner in = new Scanner(System.in);
+//        System.out.print("////Старт////");
+//        String num = in.nextLine();
 
         //Создаем ProdPage, в котором есть все нужные методы для работы со страничкой продукта
         ProdPage prodPage = new ProdPage(driver, wait);
@@ -65,7 +64,8 @@ public class Test {
         int startRow = 2;
 
 
-        //Проверяем чеклист
+
+        //Проверяем каждый код товара по отдельности
         for (int i = 0; i < resultList.length - startRow; i++) {
             int codeRow = i + startRow;
 

@@ -60,7 +60,7 @@ public abstract class CitiPage extends InitialPage {
     public void enterSearch (String text) {
         WebElement Search = driverPages.findElement(By.xpath("//input[@type=\"search\"]"));
         Search.sendKeys(text);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated (By.xpath("//*[contains(text(),'просмотренные')]")));
+        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath("//*[contains(text(),'просмотренные')]")));
     }
 
 

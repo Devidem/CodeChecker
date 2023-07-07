@@ -77,12 +77,15 @@ public class ProdPage extends CitiPage {
                     // Если дождался, то цикл проверки скидки запускается снова
                     if (o == 0 && i==0) {
                         try {
+//                            System.out.println("Проверка страницы");
                             WebElement checkElement = prodDriver.findElement(By.xpath(checkObjectXpath));
+//                            System.out.println("Нашел");
                             break;
 
                         } catch (NoSuchElementException e) {
                             try {
-                                checkLoadWait.until(ExpectedConditions.elementToBeClickable(By.xpath(checkObjectXpath)));
+//                                System.out.println("Стал ждать");
+                                checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
                                 System.out.println("Slow Loading");
 
                             } catch (TimeoutException ex) {

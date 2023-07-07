@@ -145,7 +145,6 @@ public class Xls {
             }
             // Аналог последних двух else if, но для NullPointerException
             catch (NullPointerException e) {
-                System.out.println("fdhdhf");
                 if (step!=1) {
                     step = step / 2;
                     cycleRow = cycleRow - step;

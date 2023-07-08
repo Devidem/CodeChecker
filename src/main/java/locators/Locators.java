@@ -1,5 +1,9 @@
 package locators;
 
+/**
+ * Набор локаторов
+ * Динамические локаторы начинаются с Var и должны вызываться методом getXpathVariable
+ */
 public enum Locators {
     SearchButton("//*[@class=\"css-1d9cswg e15krpzo1\"]/*[@type=\"submit\"]"),
     Catalog ("//*[@class=\"css-3nmxdw eyoh4ac0\"]/*[@href=\"/catalog/\"]"),
@@ -10,6 +14,10 @@ public enum Locators {
     ProductAbout ("//*[@data-meta-value = \"about\"]"),
     VarProductPromoMain("//*[@data-meta-name=\"ProductHeaderContentLayout\"]//*[contains(text(),'" + "XPATH_VARIABLE" + "')]")
     ;
+
+
+
+
 
     public String getXpath() {
         return xPath;

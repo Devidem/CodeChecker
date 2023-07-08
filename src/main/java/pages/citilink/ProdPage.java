@@ -13,8 +13,8 @@ import java.util.Objects;
  * Страница товара
  */
 public class ProdPage extends CitiPage {
-    public ProdPage(WebDriver driverStart, WebDriverWait wait) {
-        super(driverStart, wait);
+    public ProdPage(WebDriver driverStart) {
+        super(driverStart);
     }
 
     final WebDriver prodDriver = getDriver();
@@ -36,9 +36,12 @@ public class ProdPage extends CitiPage {
         int checkLoadTime = 5;
         WebDriverWait checkLoadWait = new WebDriverWait(prodDriver, Duration.ofSeconds(checkLoadTime));
 
+        int impWait = (int) prodDriver.manage().timeouts().getImplicitWaitTimeout().getSeconds();
+
         promChecker:
         {
             for (int o = 0; o < promsList.length; o++) {
+
 
                 //Забираем значение и имя акции + вычисляем для нее xpath
                 String promoValue = promsList[1][o];
@@ -98,6 +101,14 @@ public class ProdPage extends CitiPage {
 
                         }
 
+                    }
+
+                    // Регулируем ожидания implicitlyWait, чтобы не тратить время на ожидания после 1 шага и
+                    // возвращаем прежнее значение после окончания проверки
+                    if (o==0) {
+                        prodDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+                    } else if (o == promsList.length - 1) {
+                        prodDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(impWait));
                     }
 
                 }

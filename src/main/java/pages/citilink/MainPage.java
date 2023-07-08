@@ -1,11 +1,10 @@
 package pages.citilink;
 
-import locators.Locators;
 import experiments.SelEx;
+import locators.Locators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 
 /**
@@ -13,8 +12,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 // Класс создан для примера ООП - чтобы ProdPage не было одиноко!
 public class MainPage extends CitiPage {
-    public MainPage(WebDriver driverStart, WebDriverWait wait) {
-        super(driverStart, wait);
+    public MainPage(WebDriver driverStart) {
+        super(driverStart);
     }
     private final WebDriver driverMain = getDriver();
 

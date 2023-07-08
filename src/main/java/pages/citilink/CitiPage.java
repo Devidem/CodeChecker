@@ -1,13 +1,15 @@
 package pages.citilink;
 
 import locators.Locators;
-import pages.InitialPage;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import pages.InitialPage;
+
+import java.time.Duration;
 
 /**
  * Класс с общими методами для страниц сайта Citilink
@@ -16,11 +18,10 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 public abstract class CitiPage extends InitialPage {
 
     private WebDriver driverPages = getDriver();
-    private WebDriverWait wait;
+    private WebDriverWait wait = new WebDriverWait(driverPages, Duration.ofSeconds(3));
 
-    public CitiPage(WebDriver driverStart, WebDriverWait wait) {
+    public CitiPage(WebDriver driverStart) {
         super(driverStart);
-        this.wait = wait;
     }
 
     /**
@@ -65,7 +66,14 @@ public abstract class CitiPage extends InitialPage {
 
         WebElement Search = driverPages.findElement(By.xpath(xpathSearch));
         Search.sendKeys(text);
-        wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpathWatched)));
+
+        //Ожидается исчезновение окна с прежними просмотренными товарами - если не ждать, то может по нему кликнуть,
+        //вместо найденного результата + могут возникнуть проблемы с определением веб-элементов в дальнейшем (теряются
+        //после изменений в окне результатов)
+        try {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpathWatched)));
+        } catch (Exception ignored) {
+        }
     }
 
 

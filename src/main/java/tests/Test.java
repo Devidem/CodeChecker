@@ -31,14 +31,14 @@ public class Test {
         InputType inpType = new InputType(inputType);
         String[][] checkList = inpType.toFinalArray();
 
+        //Выбор браузера и его запуск
+        Browsers browsers = new Browsers(browserName);
+        WebDriver driver = FabricDriverSets.standard(browsers.start());
+
         //Получение полной ссылки сайта
         Sites sites = new Sites(siteName);
         sites.selector();
         siteName = sites.getResult();
-
-        //Выбор браузера и его запуск
-        Browsers browsers = new Browsers(browserName);
-        WebDriver driver = FabricDriverSets.standard(browsers.start());
 
         //Переход на сайт
         NoPage noPage= new NoPage(driver);

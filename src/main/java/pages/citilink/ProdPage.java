@@ -36,6 +36,7 @@ public class ProdPage extends CitiPage {
         int checkLoadTime = 5;
         WebDriverWait checkLoadWait = new WebDriverWait(prodDriver, Duration.ofSeconds(checkLoadTime));
 
+        //Запоминаем установленное значение ImplicitWait
         int impWait = (int) prodDriver.manage().timeouts().getImplicitWaitTimeout().getSeconds();
 
         promChecker:

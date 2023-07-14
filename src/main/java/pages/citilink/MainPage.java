@@ -1,7 +1,7 @@
 package pages.citilink;
 
+import enums.Locators;
 import experiments.SelEx;
-import locators.Locators;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;

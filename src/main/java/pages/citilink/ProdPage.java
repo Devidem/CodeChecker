@@ -1,6 +1,6 @@
 package pages.citilink;
 
-import locators.Locators;
+import enums.Locators;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -43,7 +43,6 @@ public class ProdPage extends CitiPage {
         {
             for (int o = 0; o < promsList.length; o++) {
 
-
                 //Забираем значение и имя акции + вычисляем для нее xpath
                 String promoValue = promsList[1][o];
                 String promoName = promsList[0][o];
@@ -82,14 +81,11 @@ public class ProdPage extends CitiPage {
                     // Если дождался, то цикл проверки скидки запускается снова
                     if (o == 0 && i==0) {
                         try {
-//                            System.out.println("Проверка страницы");
                             WebElement checkElement = prodDriver.findElement(By.xpath(checkObjectXpath));
-//                            System.out.println("Нашел");
                             break;
 
                         } catch (NoSuchElementException e) {
                             try {
-//                                System.out.println("Стал ждать");
                                 checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
                                 System.out.println("Slow Loading");
 
@@ -111,15 +107,11 @@ public class ProdPage extends CitiPage {
                     } else if (o == promsList.length - 1) {
                         prodDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(impWait));
                     }
-
                 }
-
             }
-
         }
         return checkResult;
     }
-
 }
 
 

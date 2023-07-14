@@ -1,5 +1,6 @@
-package tests.ng;
+package tests.citilink.testngAllure.supprotClasses.promChecking;
 
+import interfaces.Retryable;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 
@@ -8,7 +9,7 @@ import java.util.Objects;
 /**
  * Делает {@link #maxTry} повторов, если страница товара не прогрузилась
  */
-public class RetryAnalyzer implements IRetryAnalyzer {
+public class RetryAnalyzerPromChecking implements IRetryAnalyzer {
 
     int maxTry = 3;
     int tryNum = 0;
@@ -18,7 +19,7 @@ public class RetryAnalyzer implements IRetryAnalyzer {
 
         //Получаем значение result из теста
         Object instance = iTestResult.getInstance();
-        String result = ((PromChecking) instance).getResult();
+        String result = ((Retryable) instance).getRetryVar();
 
         // Остановка повторов при достижении максимального количества
         if (tryNum==maxTry) {

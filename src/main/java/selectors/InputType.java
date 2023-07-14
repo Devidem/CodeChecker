@@ -1,6 +1,7 @@
 package selectors;
 
 import converters.ArrayEx;
+import enums.ConstantsString;
 import exceptions.myExceptions.MyFileIOException;
 import interfaces.ToPromsArray;
 
@@ -20,7 +21,9 @@ public class InputType extends Selectors implements ToPromsArray {
         selector();
 
         if (result.contains("file")) {
-            String input = "./Inputs/Files"; //Определено конкретное значение, поскольку в проекте предусмотрена папка для входных файлов.
+            //Адрес папки проекта для входных файлов
+            String input = ConstantsString.InputFileDirectory.getValue();
+
             Files files = new Files(input);
             return files.toFinalArray();
 

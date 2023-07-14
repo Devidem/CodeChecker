@@ -1,4 +1,4 @@
-package locators;
+package enums;
 
 /**
  * Набор локаторов
@@ -12,6 +12,7 @@ public enum Locators {
     VarSearchResult("//*[contains(@href,\"" + "XPATH_VARIABLE" + "\")]//*[@data-meta-name=\"InstantSearchMainResult\"]"),
     PopularCategory ("//*[@class=\"edhylph0 app-catalog-1ljlt6q e3tyxgd0\"]"),
     ProductAbout ("//*[@data-meta-value = \"about\"]"),
+    ProductPageProdContainer("//*[@class=\"app-catalog-1xdhyk6 e19nkc9p0\"]"),
     VarProductPromoMain("//*[@data-meta-name=\"ProductHeaderContentLayout\"]//*[contains(text(),'" + "XPATH_VARIABLE" + "')]")
     ;
 

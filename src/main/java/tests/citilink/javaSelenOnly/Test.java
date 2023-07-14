@@ -1,6 +1,7 @@
-package tests;
+package tests.citilink.javaSelenOnly;
 
 import converters.ArrayEx;
+import enums.ConstantsString;
 import exceptions.myExceptions.MyFileIOException;
 import fabrics.FabricDriverSets;
 import org.openqa.selenium.WebDriver;
@@ -8,8 +9,7 @@ import pages.NoPage;
 import pages.citilink.ProdPage;
 import selectors.Browsers;
 import selectors.InputType;
-import selectors.Sites;
-import tests.threads.MultiPromCheck;
+import tests.citilink.javaSelenOnly.multithread.MultiPromCheck;
 
 import java.util.Arrays;
 
@@ -22,10 +22,9 @@ public class Test {
      * В качестве входных данных используются .xls файлы, расположенные в папке проекта ./Inputs/Excel
      * Результат проверки записывается в .xls файл по адресу ./Outputs/Excel - в имени указывается дата и результат.
      * @param browserName Название браузера - Chrome, Firefox(не реализовано)
-     * @param siteName Название сайта - Citilink, Dns(не реализовано)
      * @param inputType Тип входных данных - Excel, Sql(не реализовано)
      */
-    public void codeChecks (String browserName, String siteName, String inputType) throws MyFileIOException {
+    public void codeChecks (String browserName, String inputType) throws MyFileIOException {
 
         //Получение чеклиста для дальнейшей проверки
         InputType inpType = new InputType(inputType);
@@ -35,14 +34,12 @@ public class Test {
         Browsers browsers = new Browsers(browserName);
         WebDriver driver = FabricDriverSets.standard(browsers.start());
 
-        //Получение полной ссылки сайта
-        Sites sites = new Sites(siteName);
-        sites.selector();
-        siteName = sites.getResult();
+        //Адрес сайта
+        String siteLink = ConstantsString.CitilinkAdress.getValue();
 
         //Переход на сайт
         NoPage noPage= new NoPage(driver);
-        noPage.get(siteName);
+        noPage.get(siteLink);
 
         //Создание массива для результатов проверки клонированием проверяемого
         String[][] resultList = ArrayEx.clone2d(checkList);
@@ -88,27 +85,24 @@ public class Test {
      * В качестве входных данных используются .xls файлы, расположенные в папке проекта ./Inputs/Excel
      * Результат проверки записывается в .xls файл по адресу ./Outputs/Excel - в имени указывается дата и результат.
      * @param browserName Название браузера - Chrome, Firefox(не реализовано)
-     * @param siteName Название сайта - Citilink, Dns(не реализовано)
      * @param inputType Тип входных данных - Excel, Sql(не реализовано)
      * @param threadsNumber Количество потоков
      */
-    public void codeChecks (String browserName, String siteName, String inputType, int threadsNumber) throws MyFileIOException {
+    public void codeChecks (String browserName,String inputType, int threadsNumber) throws MyFileIOException {
 
         //Получение чеклиста для дальнейшей проверки
         InputType inpType = new InputType(inputType);
         String[][] checkList = inpType.toFinalArray();
 
-        //Получение полной ссылки сайта
-        Sites sites = new Sites(siteName);
-        sites.selector();
-        siteName = sites.getResult();
+        //Адрес сайта
+        String siteLink = ConstantsString.CitilinkAdress.getValue();
 
         //Создание массива для результатов проверки клонированием проверяемого
         String[][] resultList = ArrayEx.clone2d(checkList);
         int startRow = 2;
 
         //Многопоточная проверка промоакций
-        MultiPromCheck multiPromCheck = new MultiPromCheck(browserName, siteName, checkList, resultList, startRow, threadsNumber);
+        MultiPromCheck multiPromCheck = new MultiPromCheck(browserName, siteLink, checkList, resultList, startRow, threadsNumber);
         multiPromCheck.multiCheck();
 
         //Создание Excel с результатами

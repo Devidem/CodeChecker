@@ -1,9 +1,7 @@
-import experiments.SelEx;
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import com.google.common.io.Files;
 
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 
@@ -13,25 +11,41 @@ import java.io.IOException;
 
 public class TestRunner {
     public static void main(String[] args) throws IOException {
-        System.setProperty("webdriver.chrome.driver", "./SelenDrivers/chromedriver.exe");
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.citilink.ru/");
-
-
-        String xpath = "//*[@class=\"edhylph0 app-catalog-1ljlt6q e3tyxgd0\"]";
-        String propertyName = "innerText";
-        String propertyValue ="Садовая техника";
-
-        SelEx selEx = new SelEx(driver);
-        xpath = selEx.xpathSelectByProperty(xpath, propertyName, propertyValue);
-
-
-        WebElement Search = driver.findElement(By.xpath(xpath));
-        Search.click();
-        driver.close();
+        try {
+            Files.copy(new File("./src/main/java/experiments/categories.json"), new File("./target/allure-results/categories.json"));
+        } catch (IOException e) {
+            try {
+                throw new FileNotFoundException();
+            } catch (FileNotFoundException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
 
     }
 }
+
+
+//public class TestRunner {
+//    public static void main(String[] args) throws IOException {
+//        System.setProperty("webdriver.chrome.driver", "./SelenDrivers/chromedriver.exe");
+//        WebDriver driver = new ChromeDriver();
+//        driver.get("https://www.citilink.ru/");
+//
+//
+//        String xpath = "//*[@class=\"edhylph0 app-catalog-1ljlt6q e3tyxgd0\"]";
+//        String propertyName = "innerText";
+//        String propertyValue ="Садовая техника";
+//
+//        SelEx selEx = new SelEx(driver);
+//        xpath = selEx.xpathSelectByProperty(xpath, propertyName, propertyValue);
+//
+//
+//        WebElement Search = driver.findElement(By.xpath(xpath));
+//        Search.click();
+//        driver.close();
+//
+//    }
+//}
 
 //public class TestRunner {
 //    public static void main(String[] args) throws IOException {

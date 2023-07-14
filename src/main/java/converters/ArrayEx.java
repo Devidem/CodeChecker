@@ -23,8 +23,9 @@ import java.util.Scanner;
 // Вымышленная задумка - дать возможность использовать методы с созданием класса, если бы у нас были другие задачи,
 // требующие использовать несколько методов для работы с .xls документами
 public class ArrayEx implements Selector1D {
-    private String [] input1D;
-    private String [][] input2D;
+    private String[] input1D;
+    private String[][] input2D;
+
     public ArrayEx(String[] input1D) {
         this.input1D = input1D;
     }
@@ -32,24 +33,26 @@ public class ArrayEx implements Selector1D {
     public ArrayEx(String[][] input2D) {
         this.input2D = input2D;
     }
+
     private String result1D;
-    private String [] result2D;
+    private String[] result2D;
 
     /**
      * Преобразует двумерный String массив в .xls файл.
-     * @param array Преобразуемый массив
+     *
+     * @param array   Преобразуемый массив
      * @param outName Имя .xls файла
      * @param outPath Адрес для созданного файла (без / в конце)
      */
-    public static void toExcel (String [][] array, String outName, String outPath) throws IOException {
+    public static void toExcel(String[][] array, String outName, String outPath) throws IOException {
 
         Workbook excelOut = new HSSFWorkbook();
         Sheet sheet = excelOut.createSheet("Test result");
 
-        for (int i = 0; i<array.length; i++) {
+        for (int i = 0; i < array.length; i++) {
             Row row = sheet.createRow(i);
 
-            for (int o = 0; o<array[0].length; o++) {
+            for (int o = 0; o < array[0].length; o++) {
                 Cell cell = row.createCell(o);
                 cell.setCellValue(array[i][o]);
 
@@ -68,18 +71,19 @@ public class ArrayEx implements Selector1D {
 
     /**
      * Преобразует input2D класса в .xls файл.
+     *
      * @param outName Имя .xls файла
      * @param outPath Адрес для созданного файла (без / в конце)
      */
-    public void toExcel (String outName, String outPath) throws IOException {
+    public void toExcel(String outName, String outPath) throws IOException {
 
         Workbook excelOut = new HSSFWorkbook();
         Sheet sheet = excelOut.createSheet("Test1 result");
 
-        for (int i = 0; i< input2D.length; i++) {
+        for (int i = 0; i < input2D.length; i++) {
             Row row = sheet.createRow(i);
 
-            for (int o = 0; o< input2D[0].length; o++) {
+            for (int o = 0; o < input2D[0].length; o++) {
                 Cell cell = row.createCell(o);
                 cell.setCellValue(input2D[i][o]);
 
@@ -100,22 +104,23 @@ public class ArrayEx implements Selector1D {
      * Преобразует двумерный массив в итоговый .xls файл проверки.
      * Содержит в имени Дату создания и результат проверки.
      * Хранится по адресу ./Outputs/Excel/
+     *
      * @param Array Массив содержащий коды товаров и акции.
      */
-    public static void toExcelTest (String [][] Array) throws MyFileIOException {
+    public static void toExcelTest(String[][] Array) throws MyFileIOException {
 
         Workbook excelOut = new HSSFWorkbook();
         Sheet sheet = excelOut.createSheet("Test1 result");
         String testResult = "Passed";
         int resChecker = 0;
 
-        for (int i = 0; i<Array.length; i++) {
+        for (int i = 0; i < Array.length; i++) {
             Row row = sheet.createRow(i);
 
-            for (int o = 0; o<Array[0].length; o++) {
+            for (int o = 0; o < Array[0].length; o++) {
                 Cell cell = row.createCell(o);
                 cell.setCellValue(Array[i][o]);
-                if (resChecker == 0 && (Objects.equals(Array[i][o] , "FAILED") | Objects.toString(Array[i][o] ).equals("404")))  {
+                if (resChecker == 0 && (Objects.equals(Array[i][o], "FAILED") | Objects.toString(Array[i][o]).equals("404"))) {
                     testResult = "FAILED";
                     resChecker = 1;
 
@@ -143,16 +148,17 @@ public class ArrayEx implements Selector1D {
 
     /**
      * Создает настоящий клон массива.
+     *
      * @param array Преобразуемый массив
      * @return Клон массива
      */
-    public static String [][] clone2d(String [][] array) {
-        String [][] updated = new String[array.length][array[0].length];
+    public static String[][] clone2d(String[][] array) {
+        String[][] updated = new String[array.length][array[0].length];
 
         for (int i = 0; i < array.length; i++) {
 
             for (int j = 0; j < array[0].length; j++) {
-                updated [i][j] = array [i][j] + "";
+                updated[i][j] = array[i][j] + "";
             }
 
         }
@@ -171,7 +177,7 @@ public class ArrayEx implements Selector1D {
         String ANSI_GREEN = "\u001B[32m";
         String ANSI_RESET = "\u001B[0m";
 
-        if (input1D.length>1) {
+        if (input1D.length > 1) {
             System.out.println(ANSI_RED + "Выберите из:" + ANSI_RESET);
 
             int objectNum = 1;
@@ -179,8 +185,6 @@ public class ArrayEx implements Selector1D {
                 System.out.println(ANSI_GREEN + objectNum + "_" + objectValue + ANSI_RESET);
                 objectNum++;
             }
-
-
 
             int scanNum = 0;
             while (scanNum > input1D.length | scanNum < 1) {
@@ -190,10 +194,10 @@ public class ArrayEx implements Selector1D {
                 scanNum = in.nextInt();
             }
 
-            result1D = input1D[scanNum-1];
+            result1D = input1D[scanNum - 1];
 
         } else {
-            result1D = input1D [0];
+            result1D = input1D[0];
         }
 
     }
@@ -201,16 +205,17 @@ public class ArrayEx implements Selector1D {
     /**
      * Выбирает строку из 1-го массива.
      * Предлагает выбрать значение вручную, если в переданном массиве несколько элементов.
+     *
      * @param checkList Массив элементов
      * @return Выбранная строка
      */
-    public static String selector1D(String [] checkList) {
+    public static String selector1D(String[] checkList) {
 
         String ANSI_RED = "\u001B[31m";
         String ANSI_GREEN = "\u001B[32m";
         String ANSI_RESET = "\u001B[0m";
 
-        if (checkList.length>1) {
+        if (checkList.length > 1) {
             System.out.println(ANSI_RED + "Выберите из:" + ANSI_RESET);
 
             int objectNum = 1;
@@ -227,14 +232,13 @@ public class ArrayEx implements Selector1D {
                 scanNum = in.nextInt();
             }
 
-            return checkList[scanNum-1];
+            return checkList[scanNum - 1];
 
         } else {
             return checkList[0];
         }
 
     }
-
 
 
     //Геттеры и Сеттеры
@@ -269,6 +273,4 @@ public class ArrayEx implements Selector1D {
     public void setResult2D(String[] result2D) {
         this.result2D = result2D;
     }
-
-
 }

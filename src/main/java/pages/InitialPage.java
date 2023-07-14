@@ -1,6 +1,7 @@
 package pages;
 
 
+import io.qameta.allure.Step;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -36,6 +37,14 @@ public abstract class InitialPage {
             driver.get(link);
         } catch (TimeoutException ignored) {
         }
+    }
+
+    /**
+     * Закрывает браузер
+     */
+    @Step ("Закрытие браузера")
+    public void close () {
+        driver.close();
     }
 
 

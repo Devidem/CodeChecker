@@ -11,7 +11,7 @@ import java.util.Scanner;
 // Раны не оптимизированы и не являются лучшим вариантом применения метода - они просто дают возможность быстро увидеть результат работы.
 public class DemoRuns {
 
-    // 1. Демонстрация SelEx.xpathSelectByProperty.
+    // Демонстрация SelEx.xpathSelectByProperty.
     // Осуществляется выбор xpath из элементов входящих в блок "Популярные категории" по innerText: "Садовая техника"
     public static void main(String[] args) {
         System.setProperty("webdriver.chrome.driver", "./SelenDrivers/chromedriver.exe");

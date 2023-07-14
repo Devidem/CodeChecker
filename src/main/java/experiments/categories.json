@@ -1,0 +1,34 @@
+[
+  {
+    "name": "Успешные тесты",
+    "matchedStatuses": ["passed"]
+  },
+
+  {
+    "name": "Неудачные тесты",
+    "traceRegex": ".*AssertionError.*",
+    "matchedStatuses": ["failed"]
+  },
+
+  {
+    "name": "Пропущенные/игнорированные тесты",
+    "matchedStatuses": ["skipped"]
+  },
+
+  {
+    "name": "Ошибка автотеста",
+    "traceRegex": ".*RuntimeException.*",
+    "matchedStatuses": ["broken", "failed"]
+  },
+  {
+    "name": "Некорректные локаторы/отстутствуют элементы",
+    "traceRegex": ".*Unable to locate element.*",
+    "matchedStatuses": ["broken", "failed"]
+  },
+  {
+    "name": "Не найден файл",
+    "traceRegex": ".*FileNotFound.*",
+    "matchedStatuses": ["broken"]
+  }
+
+]

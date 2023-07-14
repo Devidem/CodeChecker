@@ -1,4 +1,4 @@
-package tests.threads;
+package tests.citilink.javaSelenOnly.multithread;
 
 import fabrics.FabricDriverSets;
 import org.openqa.selenium.WebDriver;

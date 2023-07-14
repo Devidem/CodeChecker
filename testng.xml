@@ -1,26 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suite" group-by-instances="true">
-
-<!--    Входные параметры запуска кейса -->
-    <parameter name="inputType" value="file"/>
-    <parameter name="browserName" value="chrome"/>
-    <parameter name="siteName" value="CitiLink"/>
-
-
-    <test verbose="2" preserve-order="true" name="C:/Users/SHH/IdeaProjects/TestNG_Allure">
-
-        <groups>
-            <run>
-                <include name="factory"/>
-            </run>
-
-        </groups>
-        <classes>
-
-            <class name="tests.ng.PromChecking"/>
-            <class name="tests.ng.PromCheckingFactory"/>
-        </classes>
-
-    </test>
+<suite name="All Test Suites" group-by-instances="true">
+    <suite-files>
+        <suite-file path="promcheking_single.xml" />
+        <suite-file path="promcheking_multi.xml" />
+    </suite-files>
 </suite>

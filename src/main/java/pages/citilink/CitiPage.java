@@ -1,6 +1,7 @@
 package pages.citilink;
 
-import locators.Locators;
+import enums.Locators;
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.TimeoutException;
 import org.openqa.selenium.WebDriver;
@@ -41,6 +42,7 @@ public abstract class CitiPage extends InitialPage {
      * Кликает по товару из результатов быстрого поиска.
      * @param prodCode Код товара.
      */
+    @Step("Клик по товару из результатов быстрого поиска")
     public void clickSearchResult (String prodCode) {
         String xpath = Locators.VarSearchResult.getXpathVariable(prodCode);
         WebElement prodLink = driverPages.findElement(By.xpath(xpath));
@@ -60,11 +62,13 @@ public abstract class CitiPage extends InitialPage {
      * Вводит текст в строку поиска.
      * @param text Текст запроса.
      */
+    @Step("Ввод текста в строку поиска")
     public void enterSearch (String text) {
         String xpathSearch = Locators.SearchField.getXpath();
         String xpathWatched = Locators.SearchWatchedBefore.getXpath();
 
         WebElement Search = driverPages.findElement(By.xpath(xpathSearch));
+        Search.clear();
         Search.sendKeys(text);
 
         //Ожидается исчезновение окна с прежними просмотренными товарами - если не ждать, то может по нему кликнуть,

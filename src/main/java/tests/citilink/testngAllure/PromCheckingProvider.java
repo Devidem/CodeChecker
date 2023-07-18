@@ -1,7 +1,8 @@
 package tests.citilink.testngAllure;
 
 import converters.ArrayEx;
-import enums.ConstantsString;
+import enums.ConstInt;
+import enums.ConstString;
 import enums.Locators;
 import exceptions.myExceptions.MyFileIOException;
 import experiments.FileManager;
@@ -50,7 +51,7 @@ public class PromCheckingProvider implements Screenshootable, Retryable {
         FileManager.copyCategories();
 
         //Адрес сайта
-        String siteLink = ConstantsString.CitilinkAdress.getValue();
+        String siteLink = ConstString.CitilinkAdress.getValue();
 
         //Выбор браузера и его запуск
         Browsers browsers = new Browsers(browserName);
@@ -166,7 +167,7 @@ public class PromCheckingProvider implements Screenshootable, Retryable {
     public Object[][] dataMethod()  {
 
         //Ряд с которого начинают перечисляться коды товаров
-        int startRow = 3-1;
+        int startRow = ConstInt.startRow.getValue();
 
         Object [][] dataObject = new Object[fullCheckList.length-startRow][1];
 

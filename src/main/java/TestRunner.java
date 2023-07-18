@@ -1,8 +1,19 @@
 import com.google.common.io.Files;
+import enums.ApiLinks;
+import enums.ConstString;
+import io.restassured.http.ContentType;
+import org.openqa.selenium.WebDriver;
+import org.testng.annotations.Test;
+import pages.citilink.MainPage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
+import static io.restassured.RestAssured.given;
 
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -11,18 +22,52 @@ import java.io.IOException;
 
 public class TestRunner {
     public static void main(String[] args) throws IOException {
-        try {
-            Files.copy(new File("./src/main/java/experiments/categories.json"), new File("./target/allure-results/categories.json"));
-        } catch (IOException e) {
-            try {
-                throw new FileNotFoundException();
-            } catch (FileNotFoundException ex) {
-                throw new RuntimeException(ex);
-            }
-        }
+        List<String[]> checkList = new ArrayList<>();
+        checkList.add(new String[]{"1", "1", "1"});
+        checkList.add(new String[]{"2", "2", "2"});
+        checkList.add(new String[]{"3", "3", "3"});
+        System.out.println(checkList.size());
+        System.out.println(Arrays.toString(checkList.get(0)));
+        WebDriver driver = null;
+
+
+    }
+    @Test
+    public void apiGetProdLink() {
+        String code = "1897778"; //"1897778"
+        String linkPathJson = "products[0].link_url";
+        String responseLink =
+                given().
+                        when().
+                        contentType(ContentType.JSON).
+                        get(ApiLinks.SearchProdLink.getLinkVariable(code)).
+                        then().
+                        log().all().
+                        statusCode(300).
+                        extract().body().jsonPath().get(linkPathJson);
+        String prodLink = (ConstString.CitilinkAdress.getValue() + responseLink).replace(".ru//", ".ru/");
+        System.out.println(prodLink);
 
     }
 }
+
+//public class TestRunner {
+//    public static void main(String[] args) throws IOException {
+//        Object F [][];
+//        String S [][] = new String[0][0];
+//        F=S;
+//        try {
+//            Files.copy(new File("./src/main/java/experiments/categories.json"), new File("./target/allure-results/categories.json"));
+//        } catch (IOException e) {
+//            try {
+//                throw new FileNotFoundException();
+//            } catch (FileNotFoundException ex) {
+//                throw new RuntimeException(ex);
+//            }
+//        }
+//
+//    }
+//}
 
 
 //public class TestRunner {

@@ -1,6 +1,6 @@
 package enums;
 
-public enum ConstantsString {
+public enum ConstString {
 
     CitilinkAdress ("https://www.citilink.ru/"),
     InputFileDirectory ("./Inputs/Files")
@@ -13,8 +13,8 @@ public enum ConstantsString {
     }
 
     private final String value;
-    
-    ConstantsString(String value) {
+
+    ConstString(String value) {
         this.value = value;
     }
 }

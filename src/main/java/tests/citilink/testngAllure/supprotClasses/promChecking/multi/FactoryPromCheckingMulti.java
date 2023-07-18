@@ -1,6 +1,7 @@
 package tests.citilink.testngAllure.supprotClasses.promChecking.multi;
 
-import enums.ConstantsString;
+import enums.ConstInt;
+import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
 import io.qameta.allure.Step;
 import org.testng.annotations.Factory;
@@ -23,7 +24,7 @@ public class FactoryPromCheckingMulti {
         checkList = inputType.toFinalArray();
 
         //Получение полной ссылки сайта
-        this.siteName = ConstantsString.CitilinkAdress.getValue();
+        this.siteName = ConstString.CitilinkAdress.getValue();
     }
 
     @Test(groups = "multi")
@@ -32,7 +33,7 @@ public class FactoryPromCheckingMulti {
     public Object[] factoryMethod(String inpType, String browserName) throws MyFileIOException {
         setValues(inpType);
 
-        int startRow = 3-1;
+        int startRow = ConstInt.startRow.getValue();
 
         Object [] dynamicObject = new Object[checkList.length-startRow];
 

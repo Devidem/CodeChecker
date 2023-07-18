@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Single Promo Checking Api" group-by-instances="true">
+
+<!--    Входные параметры запуска кейса -->
+    <parameter name="inputType" value="file"/>
+
+
+    <test verbose="2" preserve-order="true" name="ProductPromoChecking">
+
+        <groups>
+            <run>
+                <include name="apiSingle"/>
+            </run>
+        </groups>
+
+        <classes>
+            <class name="tests.citilink.restAssured.PromCheckingApi"/>
+        </classes>
+
+    </test>
+</suite>

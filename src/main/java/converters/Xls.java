@@ -1,5 +1,6 @@
 package converters;
 
+import enums.ConstInt;
 import exceptions.myExceptions.MyFileIOException;
 import experiments.ObjectsEx;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -28,7 +29,7 @@ public class Xls {
         String [][] proms = fileToArray(filePath, 1);
 
         //Номер строки, с которой начинается перечисление кодов в codes
-        int codeStartRow = 3-1;
+        int codeStartRow = ConstInt.startRow.getValue();
         //Номер ячейки, с которой начинается перечисление акций в codes
         int promStartCell = 1;
         // Счетчик удаленных акций

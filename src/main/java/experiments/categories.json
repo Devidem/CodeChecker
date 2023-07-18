@@ -5,13 +5,13 @@
   },
 
   {
-    "name": "Неудачные тесты",
+    "name": "Все непройденные проверки",
     "traceRegex": ".*AssertionError.*",
     "matchedStatuses": ["failed"]
   },
 
   {
-    "name": "Пропущенные/игнорированные тесты",
+    "name": "Пропущенные тесты",
     "matchedStatuses": ["skipped"]
   },
 
@@ -20,15 +20,29 @@
     "traceRegex": ".*RuntimeException.*",
     "matchedStatuses": ["broken", "failed"]
   },
+
   {
     "name": "Некорректные локаторы/отстутствуют элементы",
     "traceRegex": ".*Unable to locate element.*",
     "matchedStatuses": ["broken", "failed"]
   },
+
   {
     "name": "Не найден файл",
     "traceRegex": ".*FileNotFound.*",
     "matchedStatuses": ["broken"]
+  },
+
+  {
+    "name": "Ошибки TestNGException",
+    "traceRegex": ".*org.testng.TestNGException.*",
+    "matchedStatuses": ["broken"]
+  },
+
+  {
+    "name": "Неверный код ответа",
+    "traceRegex": ".*ted status code.*",
+    "matchedStatuses": ["failed"]
   }
 
 ]

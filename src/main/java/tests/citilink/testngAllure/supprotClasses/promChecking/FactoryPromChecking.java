@@ -1,6 +1,7 @@
 package tests.citilink.testngAllure.supprotClasses.promChecking;
 
-import enums.ConstantsString;
+import enums.ConstInt;
+import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
 import fabrics.FabricDriverSets;
 import io.qameta.allure.Step;
@@ -26,7 +27,7 @@ public class FactoryPromChecking {
         checkList = inputType.toFinalArray();
 
         //Получение полной ссылки сайта
-        String siteName = ConstantsString.CitilinkAdress.getValue();
+        String siteName = ConstString.CitilinkAdress.getValue();
 
         //Выбор браузера и его запуск
         Browsers browsers = new Browsers(browserName);
@@ -44,7 +45,7 @@ public class FactoryPromChecking {
     public Object[] factoryMethod(String inpType, String browserName) throws MyFileIOException {
         setValues(inpType, browserName);
 
-        int startRow = 3-1;
+        int startRow = ConstInt.startRow.getValue();
 
         Object [] dynamicObject = new Object[checkList.length-startRow];
 

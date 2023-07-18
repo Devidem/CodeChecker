@@ -1,7 +1,8 @@
 package tests.citilink.javaSelenOnly;
 
 import converters.ArrayEx;
-import enums.ConstantsString;
+import enums.ConstInt;
+import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
 import fabrics.FabricDriverSets;
 import org.openqa.selenium.WebDriver;
@@ -35,7 +36,7 @@ public class Test {
         WebDriver driver = FabricDriverSets.standard(browsers.start());
 
         //Адрес сайта
-        String siteLink = ConstantsString.CitilinkAdress.getValue();
+        String siteLink = ConstString.CitilinkAdress.getValue();
 
         //Переход на сайт
         NoPage noPage= new NoPage(driver);
@@ -44,7 +45,7 @@ public class Test {
         //Создание массива для результатов проверки клонированием проверяемого
         String[][] resultList = ArrayEx.clone2d(checkList);
         //Номер строки, с которой начинается перечисление кодов в Excel
-        int startRow = 2;
+        int startRow = ConstInt.startRow.getValue();
 
         //Создание ProdPage, чтобы не объявлять каждый раз в цикле
         ProdPage prodPage = new ProdPage(driver);
@@ -95,11 +96,11 @@ public class Test {
         String[][] checkList = inpType.toFinalArray();
 
         //Адрес сайта
-        String siteLink = ConstantsString.CitilinkAdress.getValue();
+        String siteLink = ConstString.CitilinkAdress.getValue();
 
         //Создание массива для результатов проверки клонированием проверяемого
         String[][] resultList = ArrayEx.clone2d(checkList);
-        int startRow = 2;
+        int startRow = ConstInt.startRow.getValue();
 
         //Многопоточная проверка промоакций
         MultiPromCheck multiPromCheck = new MultiPromCheck(browserName, siteLink, checkList, resultList, startRow, threadsNumber);

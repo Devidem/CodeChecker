@@ -4,7 +4,7 @@ import converters.ArrayEx;
 import enums.ConstInt;
 import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
-import fabrics.FabricDriverSets;
+import fabrics.SetDriver;
 import org.openqa.selenium.WebDriver;
 import pages.NoPage;
 import pages.citilink.ProdPage;
@@ -31,9 +31,10 @@ public class Test {
         InputType inpType = new InputType(inputType);
         String[][] checkList = inpType.toFinalArray();
 
-        //Выбор браузера и его запуск
+        //Выбор браузера и его запуск + настройка
         Browsers browsers = new Browsers(browserName);
-        WebDriver driver = FabricDriverSets.standard(browsers.start());
+        WebDriver driver = browsers.start();
+        SetDriver.standard(driver);
 
         //Адрес сайта
         String siteLink = ConstString.CitilinkAdress.getValue();

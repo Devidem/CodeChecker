@@ -3,7 +3,7 @@ package tests.citilink.testngAllure.supprotClasses.promChecking;
 import enums.ConstInt;
 import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
-import fabrics.FabricDriverSets;
+import fabrics.SetDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
@@ -29,9 +29,10 @@ public class FactoryPromChecking {
         //Получение полной ссылки сайта
         String siteName = ConstString.CitilinkAdress.getValue();
 
-        //Выбор браузера и его запуск
+        //Выбор браузера и его запуск + настройка
         Browsers browsers = new Browsers(browserName);
-        driver = FabricDriverSets.standard(browsers.start());
+        driver = browsers.start();
+        SetDriver.standard(driver);
 
         //Переход на сайт
         NoPage noPage= new NoPage(driver);

@@ -3,7 +3,7 @@ package tests.citilink.testngAllure;
 import converters.ArrayEx;
 import enums.Locators;
 import experiments.FileManager;
-import fabrics.FabricDriverSets;
+import fabrics.SetDriver;
 import interfaces.Retryable;
 import interfaces.Screenshootable;
 import io.qameta.allure.Description;
@@ -67,9 +67,10 @@ public class PromCheckingMulti implements Screenshootable, Retryable {
     @Step("Открытие страницы товара")
     public void openProdPage() {
 
-        //Выбор браузера и его запуск
+        //Выбор браузера и его запуск + настройка
         Browsers browsers = new Browsers(browserName);
-        driver = FabricDriverSets.standard(browsers.start());
+        driver = browsers.start();
+        SetDriver.standard(driver);
 
         //Переход на сайт
         NoPage noPage= new NoPage(driver);

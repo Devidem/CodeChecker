@@ -9,10 +9,10 @@ public interface Screenshootable {
     /**
      * Возвращает WebDriver теста
      */
-    public WebDriver getDriver();
+    WebDriver getDriver();
 
     /**
      * Возвращает значение переменной присвояемой имени скришота в Allure отчете
      */
-    public String getScreenVariable();
+    String getScreenVariable();
 }

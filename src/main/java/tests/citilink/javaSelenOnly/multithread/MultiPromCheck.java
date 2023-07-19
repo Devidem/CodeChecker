@@ -1,6 +1,6 @@
 package tests.citilink.javaSelenOnly.multithread;
 
-import fabrics.FabricDriverSets;
+import fabrics.SetDriver;
 import org.openqa.selenium.WebDriver;
 import pages.NoPage;
 import pages.citilink.MainPage;
@@ -111,9 +111,11 @@ public class MultiPromCheck {
         //Метод проверки промоакций для одного кода товара
         //Вынесен отдельно, чтобы сделать удобную настройку в run () методе
         public void checkMethod() {
-            //Выбор и запуск браузера
+
+            //Выбор и запуск браузера + настройка
             Browsers browsers = new Browsers(browserName);
-            WebDriver driver = FabricDriverSets.standard(browsers.start());
+            WebDriver driver = browsers.start();
+            SetDriver.standard(driver);
 
             //try-finally для обязательного закрытия драйвера в случае возникновения ошибок
             try {

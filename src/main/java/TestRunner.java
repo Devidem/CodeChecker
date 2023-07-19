@@ -1,17 +1,11 @@
-import com.google.common.io.Files;
 import enums.ApiLinks;
 import enums.ConstString;
 import io.restassured.http.ContentType;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Test;
-import pages.citilink.MainPage;
 
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 import static io.restassured.RestAssured.given;
 
@@ -31,6 +25,11 @@ public class TestRunner {
         WebDriver driver = null;
 
 
+    }
+    @Test
+    public void test() {
+        Queue<WebDriver> chromeDriver = new LinkedList<>();
+        System.out.println(chromeDriver.size());
     }
     @Test
     public void apiGetProdLink() {

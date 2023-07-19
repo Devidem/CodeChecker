@@ -6,7 +6,7 @@ import enums.ConstString;
 import enums.Locators;
 import exceptions.myExceptions.MyFileIOException;
 import experiments.FileManager;
-import fabrics.FabricDriverSets;
+import fabrics.SetDriver;
 import interfaces.Retryable;
 import interfaces.Screenshootable;
 import io.qameta.allure.Description;
@@ -53,9 +53,10 @@ public class PromCheckingProvider implements Screenshootable, Retryable {
         //Адрес сайта
         String siteLink = ConstString.CitilinkAdress.getValue();
 
-        //Выбор браузера и его запуск
+        //Выбор браузера и его запуск + настройка
         Browsers browsers = new Browsers(browserName);
-        driver = FabricDriverSets.standard(browsers.start());
+        driver = browsers.start();
+        SetDriver.standard(driver);
 
         //Переход на сайт
         NoPage noPage= new NoPage(driver);

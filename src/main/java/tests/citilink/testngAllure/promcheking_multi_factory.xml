@@ -15,8 +15,8 @@
         </groups>
 
         <classes>
-            <class name="tests.citilink.testngAllure.PromCheckingMulti"/>
-            <class name="tests.citilink.testngAllure.supprotClasses.promChecking.multi.FactoryPromCheckingMulti"/>
+            <class name="tests.citilink.testngAllure.PromCheckingMultiFactory"/>
+            <class name="tests.citilink.testngAllure.supprotClasses.promChecking.FactoryPromCheckingMulti"/>
         </classes>
 
     </test>

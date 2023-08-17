@@ -11,7 +11,7 @@ import org.testng.annotations.Test;
 import pages.NoPage;
 import selectors.Browsers;
 import selectors.InputType;
-import tests.citilink.testngAllure.PromChecking;
+import tests.citilink.testngAllure.PromCheckingSingleFactory;
 
 
 public class FactoryPromChecking {
@@ -58,7 +58,7 @@ public class FactoryPromChecking {
             System.arraycopy(checkList[0], 0, singleCheckList[0], 0, singleCheckList[0].length);
             System.arraycopy(checkList[i], 0, singleCheckList[1], 0, singleCheckList[0].length);
 
-            dynamicObject [i-startRow] = new PromChecking(singleCheckList, this.driver, i-startRow);
+            dynamicObject [i-startRow] = new PromCheckingSingleFactory(singleCheckList, this.driver, i-startRow);
 
         }
         return dynamicObject;

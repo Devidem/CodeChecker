@@ -1,9 +1,13 @@
 package selectors;
 
-import converters.ArrayEx;
+import converters.ExArray;
+import converters.ExSql;
 import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
 import interfaces.ToPromsArray;
+
+import java.io.IOException;
+import java.sql.SQLException;
 
 /**
  * Работа с типами данных.
@@ -27,7 +31,16 @@ public class InputType extends Selectors implements ToPromsArray {
             Files files = new Files(input);
             return files.toFinalArray();
 
-        } else {
+        } else if (result.contains("sql")) {
+            try {
+                return ExSql.toFinalArray();
+
+            } catch (IOException | SQLException e) {
+                throw new RuntimeException(e);
+            }
+
+        }
+        else {
             throw new MyFileIOException("Некорректная работа селектора InputType.selector()");
 
         }
@@ -41,18 +54,17 @@ public class InputType extends Selectors implements ToPromsArray {
     public void selector () {
 
         String Type = input.toLowerCase();
-        String [] inputList = {"file"};
+        String [] inputList = {"file", "sql"};
 
         if (Type.contains("file")) {
             result = "file";
 
         } else if (Type.contains("sql")) {
-            System.out.println("Пока не реализован!");
-            result = ArrayEx.selector1D(inputList);
+            result = "sql";
 
         } else {
             System.out.println("Unknown Type");
-            result = ArrayEx.selector1D(inputList);
+            result = ExArray.selector1D(inputList);
         }
 
     }

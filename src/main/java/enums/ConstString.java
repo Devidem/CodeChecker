@@ -3,7 +3,9 @@ package enums;
 public enum ConstString {
 
     CitilinkAdress ("https://www.citilink.ru/"),
-    InputFileDirectory ("./Inputs/Files")
+    InputFileDirectory ("./Inputs/Files"),
+    ChromeDriverDirectory ("./SelenDrivers/chromedriver.exe"),
+    FirefoxDriverDirectory ("./SelenDrivers/geckodriver.exe")
     ;
 
 

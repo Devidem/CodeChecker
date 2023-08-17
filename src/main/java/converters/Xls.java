@@ -2,7 +2,7 @@ package converters;
 
 import enums.ConstInt;
 import exceptions.myExceptions.MyFileIOException;
-import experiments.ObjectsEx;
+import experiments.ExObjects;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Workbook;
 
@@ -38,7 +38,7 @@ public class Xls {
         String promSymbol = "*";
 
         //Убирает текст из первого ряда в скидках, которые не нужно проверять + считает количество удаленных ячеек
-        for (int i = 0; i< (proms.length-2); i++) {
+        for (int i = 0; i< (proms.length-ConstInt.startRow.getValue()); i++) {
             String starCheck = proms [codeStartRow+i] [1];
 
             if (!Objects.equals(starCheck, promSymbol)) {
@@ -93,7 +93,7 @@ public class Xls {
         for (int i = 0; i < rows; i++) {
             for (int o = 0; o < cells; o++) {
                 try {
-                    finArr [i][o] = ObjectsEx.toString(proms.getSheetAt(sheet).getRow(i).getCell(o));
+                    finArr [i][o] = ExObjects.toString(proms.getSheetAt(sheet).getRow(i).getCell(o));
                 }
                 //Если будет пустой или несуществующий лист
                 catch (Exception NullPointerException) {
@@ -128,16 +128,16 @@ public class Xls {
         while (step!=0) {
             try {
                 // Если ячейка не пустая, то увеличиваем шаг в 2 раза
-                if (!Objects.equals(ObjectsEx.toString(toArray.getSheetAt(sheet).getRow(cycleRow).getCell(0)), "")) {
+                if (!Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(cycleRow).getCell(0)), "")) {
                     step = step * 2;
                     cycleRow = cycleRow + step;
                 // Если ячейка пустая и шаг не 1, то уменьшаем шаг в 2 раза
-                } else if (Objects.equals(ObjectsEx.toString(toArray.getSheetAt(sheet).getRow(cycleRow).getCell(0)), "") & step!=1) {
+                } else if (Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(cycleRow).getCell(0)), "") & step!=1) {
                     step = step / 2;
                     cycleRow = cycleRow - step;
                 // Если ячейка пустая и шаг 1, то завершаем подсчет, поскольку находимся в первой пустой ячейке
                 // Из итогового значения не вычитается единица, поскольку счет ведется с 0
-                } else if (Objects.equals(ObjectsEx.toString(toArray.getSheetAt(sheet).getRow(cycleRow).getCell(0)), "") & step==1) {
+                } else if (Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(cycleRow).getCell(0)), "") & step==1) {
                     step = 0;
                 }
                 else {
@@ -174,15 +174,15 @@ public class Xls {
         //Работает аналогично calc_R, но упрощен в NullPointerException
         while (step!=0) {
             try {
-                if (!Objects.equals(ObjectsEx.toString(toArray.getSheetAt(sheet).getRow(0).getCell(cycleCell)), "")) {
+                if (!Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(0).getCell(cycleCell)), "")) {
                     step = step * 2;
                     cycleCell = cycleCell + step;
 
-                } else if (Objects.equals(ObjectsEx.toString(toArray.getSheetAt(sheet).getRow(0).getCell(cycleCell)), "") & step!=1) {
+                } else if (Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(0).getCell(cycleCell)), "") & step!=1) {
                     step = step / 2;
                     cycleCell = cycleCell - step;
 
-                } else if (Objects.equals(ObjectsEx.toString(toArray.getSheetAt(sheet).getRow(0).getCell(cycleCell)), "") & step==1) {
+                } else if (Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(0).getCell(cycleCell)), "") & step==1) {
                     step = 0;
 
                 }

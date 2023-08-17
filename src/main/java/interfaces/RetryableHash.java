@@ -1,11 +1,12 @@
 package interfaces;
 
+import buffers.BufferDriver;
 import tests.citilink.finalTest.supportClasses.MyRetryAnalyzerPromCheckingHash;
 
 /**
  * Позволяет использовать класс в {@link MyRetryAnalyzerPromCheckingHash},
  * благодаря получению проверочной переменной через метод {@link #getRetryVar(String)}.
- * Успользуется в тестах с использованием {@link experiments.BufferDriver}
+ * Успользуется в тестах с использованием {@link BufferDriver}
  */
 public interface RetryableHash {
 

@@ -1,13 +1,13 @@
 package tests.citilink.finalTest;
 
-import converters.ArrayEx;
+import buffers.BufferSuiteVar;
+import converters.ExArray;
 import enums.ConstInt;
 import enums.Locators;
 import exceptions.myExceptions.MyFileIOException;
 import experiments.ApiRequests;
-import experiments.BufferDriver;
+import buffers.BufferDriver;
 import experiments.FanticProdCode;
-import experiments.SuiteReader;
 import fabrics.SetDriver;
 import interfaces.RetryableHash;
 import interfaces.ScreenshootableHash;
@@ -34,43 +34,42 @@ import java.util.Objects;
 @Listeners(MyListenerPromCheckingHash.class)
 public class UI implements ScreenshootableHash, RetryableHash {
 
-    //Лист с проводимыми проверками (заполняется после обработки входных данных)
+    //Массив с проводимыми проверками (используется в случаях, когда API тест не проводился)
     private String [][] fullCheckList;
 
+    //Мапа для удобного получения соответствующего драйвера в Listeners
     private final HashMap <String, WebDriver> codeDriver = new HashMap<>();
-    private final HashMap <String, String> codeResult = new HashMap<>();
-    private final HashMap <String, String> suiteVariables = new HashMap<>();;
 
-    @BeforeSuite (groups = "UI")
-    public void getSuiteVariables () {
-        suiteVariables.putAll(SuiteReader.getAllParameters());
-    }
+    //Мапа для удобного получения переменной result (по ее значению мы определяем нужен ли повтор) в RetryAnalyzer
+    private final HashMap <String, String> codeResult = new HashMap<>();
+
+
     //Проверка акций у товара
     @Step("Проверка промо-акций через UI")
     @Description("Проверка отображения промо-акций на странице товара")
     @Owner("Dmitriy Kazantsev")
     @Test(groups = "UI", dataProvider = "UI_Vider", retryAnalyzer = MyRetryAnalyzerPromCheckingHash.class,
-            dependsOnGroups = "API", alwaysRun = true)
+            alwaysRun = true, priority = 2)
     public void promCheckUI(FanticProdCode product) {
 
-        //Забираем драйвер и буффера
-        WebDriver driver = BufferDriver.getChrome();
+        //Забирается драйвер из буффера
+        WebDriver driver = BufferDriver.getDriver(BufferSuiteVar.get("browserName"));
 
-        //Запоминаем в мапе код-драйвер
+        //Запоминается драйвер в мапе код-драйвер
         codeDriver.put(product.toString(), driver);
 
-        //Создаем проверочную переменную и запоминаем ее в HashMap код-проверочная переменная
+        //Создается проверочная переменная и запоминается в мапе код-проверочная переменная
         String result = null;
         codeResult.put(product.toString(), result);
 
-
+        //Блок try-finally для гарантии возвращения WebDriver в буффер
         try{
 
 
-            //Настраиваем драйвер
+            //Настраивается драйвер
             SetDriver.standard(driver);
 
-            //Разворачиваем фантик
+            //Разворачивается фантик
             String[][] singleCheckList = product.getSingleCheckList();
 
             // Переход на страницу товара
@@ -81,7 +80,7 @@ public class UI implements ScreenshootableHash, RetryableHash {
             prodPage.get(ApiRequests.getProdLink(prodCode));
 
             // Создаем чеклист для записи итогов проверки
-            String[][] resultCheckList = ArrayEx.clone2d(singleCheckList);
+            String[][] resultCheckList = ExArray.clone2d(singleCheckList);
 
             //Xpath элемента проверки и время ожидания прогрузки страницы
             String checkObjectXpath = Locators.ProductAbout.getXpath();
@@ -129,7 +128,7 @@ public class UI implements ScreenshootableHash, RetryableHash {
                     }
 
                     // Блок проверки загрузки страницы. Запускается однократно и только на первой скидке
-                    // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то ждет появления
+                    // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то обновляет страницу и ждет появления
                     // Если не дождался, то вписывает "404" в ячейку и завершает проверку для кода товара (не проверяет остальные акции)
                     // Если дождался, то цикл проверки скидки запускается снова
                     if (o == 1 && i == 0) {
@@ -139,6 +138,7 @@ public class UI implements ScreenshootableHash, RetryableHash {
 
                         } catch (NoSuchElementException e) {
                             try {
+                                driver.navigate().refresh();
                                 checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
                                 System.out.println("Slow Loading");
 
@@ -169,15 +169,16 @@ public class UI implements ScreenshootableHash, RetryableHash {
 
         } finally {
             //Возвращаем драйвер и буффера
-            BufferDriver.returnChrome(driver);
+            BufferDriver.returnDriver(driver);
         }
     }
 
     @DataProvider (name = "UI_Vider", parallel = true)
     public Object[][] dataMethodUI()  {
 
-        //Выбираем способ формирования данных в зависимости от того, запускались ли Api тесты
-        if (PromCheckApiUiBuffer.getBufferCheckList() != null) {
+        //Выбираем способ формирования данных в зависимости от того, запускались ли Api тесты и передавали ли они
+        //какие-то данные
+        if (PromCheckApiUiBuffer.getBufferCheckList() != null && PromCheckApiUiBuffer.getBufferCheckList().size() != 0) {
             //Забираем готовые чеклисты для каждого товара, после прохождения Api тестов
             List<String[][]> afterApiCheckList = PromCheckApiUiBuffer.getBufferCheckList();
 
@@ -192,9 +193,9 @@ public class UI implements ScreenshootableHash, RetryableHash {
             return dataObject;
 
         } else {
-            //Получаем полный чек-лист fullCheckList из источникаданных
+            //Получаем полный чек-лист fullCheckList из источника данных
             try {
-                setValues(suiteVariables.get("inputType"));
+                setValues(BufferSuiteVar.get("inputType"));
             } catch (MyFileIOException e) {
                 throw new RuntimeException(e);
             }
@@ -233,9 +234,9 @@ public class UI implements ScreenshootableHash, RetryableHash {
     }
 
     //Закрытие браузера
-    @AfterSuite(groups = "UI")
+    @AfterSuite(groups = "UI", alwaysRun = true)
     public void closeDrivers() {
-        BufferDriver.closeAllChrome();
+        BufferDriver.closeAllDrivers();
     }
 
     //Методы интерфейсов

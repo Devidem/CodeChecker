@@ -1,5 +1,6 @@
 package tests.citilink.finalTest.supportClasses;
 
+import buffers.BufferDriver;
 import interfaces.RetryableHash;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
@@ -8,7 +9,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 /**
- * RetryAnalyzer для тестов с использванием {@link experiments.BufferDriver} - запускается только в группах "UI"
+ * RetryAnalyzer для тестов с использванием {@link BufferDriver} - запускается только в группах "UI"
  * Делает {@link #maxTry} повторов, если страница товара не прогрузилась
  */
 public class MyRetryAnalyzerPromCheckingHash implements IRetryAnalyzer {

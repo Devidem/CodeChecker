@@ -5,7 +5,7 @@ import java.util.Objects;
 /**
  * Измененные методы класса Object
  */
-public class ObjectsEx {
+public class ExObjects {
     /**
      * Аналог Object.toString, но преобразует null в пустую строку
      */

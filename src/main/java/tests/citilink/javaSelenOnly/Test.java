@@ -1,6 +1,6 @@
 package tests.citilink.javaSelenOnly;
 
-import converters.ArrayEx;
+import converters.ExArray;
 import enums.ConstInt;
 import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
@@ -44,7 +44,7 @@ public class Test {
         noPage.get(siteLink);
 
         //Создание массива для результатов проверки клонированием проверяемого
-        String[][] resultList = ArrayEx.clone2d(checkList);
+        String[][] resultList = ExArray.clone2d(checkList);
         //Номер строки, с которой начинается перечисление кодов в Excel
         int startRow = ConstInt.startRow.getValue();
 
@@ -74,7 +74,7 @@ public class Test {
         driver.close();
 
         //Создание Excel с результатом
-        ArrayEx.toExcelTest(resultList);
+        ExArray.toExcelTest(resultList);
 
         //Вывод в консоль для просмотра результата - нужно только во время написания кода/проверки
         System.out.println(Arrays.deepToString(checkList));
@@ -100,7 +100,7 @@ public class Test {
         String siteLink = ConstString.CitilinkAdress.getValue();
 
         //Создание массива для результатов проверки клонированием проверяемого
-        String[][] resultList = ArrayEx.clone2d(checkList);
+        String[][] resultList = ExArray.clone2d(checkList);
         int startRow = ConstInt.startRow.getValue();
 
         //Многопоточная проверка промоакций
@@ -108,7 +108,7 @@ public class Test {
         multiPromCheck.multiCheck();
 
         //Создание Excel с результатами
-        ArrayEx.toExcelTest(resultList);
+        ExArray.toExcelTest(resultList);
 
         //Вывод в консоль для просмотра результата - нужно только во время написания кода/проверки
         System.out.println(Arrays.deepToString(checkList));

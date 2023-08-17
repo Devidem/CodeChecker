@@ -1,5 +1,6 @@
 package tests.citilink.finalTest.supportClasses;
 
+import buffers.BufferDriver;
 import enums.Locators;
 import experiments.ITestResultManager;
 import org.testng.ITestListener;
@@ -8,7 +9,7 @@ import org.testng.ITestResult;
 import java.util.Arrays;
 
 /**
- * Листенер для UI тестов с использванием {@link experiments.BufferDriver} - запускается только в группах "UI"
+ * Листенер для UI тестов с использванием {@link BufferDriver} - запускается только в группах "UI"
  */
 public class MyListenerPromCheckingHash implements ITestListener {
 

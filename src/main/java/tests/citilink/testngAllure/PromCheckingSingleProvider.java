@@ -1,6 +1,6 @@
 package tests.citilink.testngAllure;
 
-import converters.ArrayEx;
+import converters.ExArray;
 import enums.ConstInt;
 import enums.ConstString;
 import enums.Locators;
@@ -29,7 +29,7 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Listeners(MyListenerPromChecking.class)
-public class PromCheckingProvider implements Screenshootable, Retryable {
+public class PromCheckingSingleProvider implements Screenshootable, Retryable {
     WebDriver driver;
     String [][] fullCheckList;
     String prodCode;
@@ -80,7 +80,7 @@ public class PromCheckingProvider implements Screenshootable, Retryable {
         prodPage.clickSearchResult(prodCode);
 
         // Создаем чеклист для записи итогов проверки
-        resultCheckList = ArrayEx.clone2d(singleCheckList);
+        resultCheckList = ExArray.clone2d(singleCheckList);
 
         //Xpath элемента проверки и время ожидания прогрузки страницы
         String checkObjectXpath = Locators.ProductAbout.getXpath();
@@ -128,7 +128,7 @@ public class PromCheckingProvider implements Screenshootable, Retryable {
                 }
 
                 // Блок проверки загрузки страницы. Запускается однократно и только на первой скидке
-                // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то ждет появления
+                // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то обновляет страницу и ждет появления
                 // Если не дождался, то вписывает "404" в ячейку и завершает проверку для кода товара (не проверяет остальные акции)
                 // Если дождался, то цикл проверки скидки запускается снова
                 if (o == 1 && i == 0) {
@@ -138,6 +138,7 @@ public class PromCheckingProvider implements Screenshootable, Retryable {
 
                     } catch (NoSuchElementException e) {
                         try {
+                            driver.navigate().refresh();
                             checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
                             System.out.println("Slow Loading");
 

@@ -1,6 +1,6 @@
 package selectors;
 
-import converters.ArrayEx;
+import converters.ExArray;
 import converters.Xls;
 import exceptions.myExceptions.MyFileIOException;
 import interfaces.ToPromsArray;
@@ -47,7 +47,7 @@ public class Files extends Selectors implements ToPromsArray {
         if (arrFiles == null) {
             throw new MyFileIOException("Папка пуста");
         }
-        result = input + "/" + ArrayEx.selector1D(arrFiles);
+        result = input + "/" + ExArray.selector1D(arrFiles);
 
     }
 

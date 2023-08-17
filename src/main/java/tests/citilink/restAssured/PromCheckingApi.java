@@ -1,6 +1,6 @@
 package tests.citilink.restAssured;
 
-import converters.ArrayEx;
+import converters.ExArray;
 import enums.ApiLinks;
 import enums.ConstInt;
 import enums.JsonRequest;
@@ -24,7 +24,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static io.restassured.RestAssured.*;
+import static io.restassured.RestAssured.given;
 
 public class PromCheckingApi {
 
@@ -63,7 +63,7 @@ public class PromCheckingApi {
         String prodCode = singleCheckList[1][0];
 
         //Клон singleCheckList для записи результатов проверок
-        String [][] resultSingleList = ArrayEx.clone2d(singleCheckList);
+        String [][] resultSingleList = ExArray.clone2d(singleCheckList);
 
         //Путь к объекту с списком акций
         String linkPathJson = "data.product.labels";

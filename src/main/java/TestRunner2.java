@@ -1,29 +1,72 @@
-import java.io.File;
+import converters.ExSql;
+import exceptions.myExceptions.MyFileIOException;
+
 import java.io.IOException;
+import java.sql.*;
 import java.util.Arrays;
 
 public class TestRunner2 {
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, SQLException, MyFileIOException {
 
 
-
-
-        File dir = new File("C:\\Users\\SHH\\IdeaProjects\\CodeChecker\\Inputs");
-        String[] arrFiles = dir.list();
-        System.out.println(Arrays.deepToString(arrFiles));
-
-
-//        System.out.println(xls.calc_C("C:\\Users\\SHH\\IdeaProjects\\CodeChecker\\Inputs\\Files\\CodesToCheck.xls", 0));
-
-//        FileInputStream direct = new FileInputStream("C:\\Users\\SHH\\IdeaProjects\\CodeChecker\\Inputs\\Files\\CodesToCheck.xls");
-//        Workbook toArray = new HSSFWorkbook(direct);
+//        try {
+//            Class.forName("org.postgresql.Driver");
+//        } catch (ClassNotFoundException e) {
+//            throw new RuntimeException(e);
+//        }
 //
-//        System.out.println(Objects.toString(toArray.getSheetAt(0).getRow(10).getCell(150)));
+//        Connection connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", "postgres",
+//                "admin");
+//
+//        Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_SENSITIVE,
+//                ResultSet.CONCUR_UPDATABLE);
+//
+//
+//        ResultSet resultSet = statement.executeQuery("SELECT * from prodcode_promo");
+
+        String [][] info = ExSql.toFinalArray();
+        System.out.println(Arrays.deepToString(info));
+
+//        while (resultSet.next()) {
+//            for (int i = 1; true; i++) {
+//                try {
+//                    System.out.println(resultSet.getString(i));
+//                } catch (SQLException e) {
+//                    break;
+//                }
+//            }
+//        }
+//        resultSet.first();
+//        System.out.println(resultSet.getString(1));
 
 
+//        statement.close();
 
 
     }
+
+//public class TestRunner2 {
+//    public static void main(String[] args) throws IOException {
+//
+//
+//
+//
+//        File dir = new File("C:\\Users\\SHH\\IdeaProjects\\CodeChecker\\Inputs");
+//        String[] arrFiles = dir.list();
+//        System.out.println(Arrays.deepToString(arrFiles));
+//
+//
+////        System.out.println(xls.calc_C("C:\\Users\\SHH\\IdeaProjects\\CodeChecker\\Inputs\\Files\\CodesToCheck.xls", 0));
+//
+////        FileInputStream direct = new FileInputStream("C:\\Users\\SHH\\IdeaProjects\\CodeChecker\\Inputs\\Files\\CodesToCheck.xls");
+////        Workbook toArray = new HSSFWorkbook(direct);
+////
+////        System.out.println(Objects.toString(toArray.getSheetAt(0).getRow(10).getCell(150)));
+//
+//
+//
+//
+//    }
 
 }
 
@@ -164,10 +207,6 @@ public class TestRunner2 {
 //
 //    }
 //}
-
-
-
-
 
 
 //public class TestRunner2 {

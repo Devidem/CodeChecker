@@ -1,9 +1,8 @@
 package tests.citilink.testngAllure;
 
-import converters.ArrayEx;
+import converters.ExArray;
 import enums.Locators;
 import experiments.FileManager;
-import fabrics.SetDriver;
 import interfaces.Retryable;
 import interfaces.Screenshootable;
 import io.qameta.allure.Description;
@@ -15,9 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pages.NoPage;
 import pages.citilink.ProdPage;
-import selectors.Browsers;
 import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromChecking;
 import tests.citilink.testngAllure.supprotClasses.promChecking.RetryAnalyzerPromChecking;
 
@@ -26,21 +23,19 @@ import java.util.Arrays;
 import java.util.Objects;
 
 @Listeners(MyListenerPromChecking.class)
-public class PromCheckingMulti implements Screenshootable, Retryable {
+public class PromCheckingSingleFactory implements Screenshootable, Retryable {
     String[][] singleCheckList;
     WebDriver driver;
-    String browserName;
-    String siteName;
 
-    public PromCheckingMulti(String[][] singleCheckList, String browserName, String siteName, int queueNum) {
+    public PromCheckingSingleFactory(String[][] singleCheckList, WebDriver driver, int queueNum) {
         this.singleCheckList = singleCheckList;
-        this.browserName = browserName;
+        this.driver = driver;
         this.queueNum = queueNum;
-        this.siteName = siteName;
     }
 
     // Обеспечиваем вызов тестов по порядку - изначально в @Factory порядок вызова "случайный" и зависит от значения метода toString() класса
     int queueNum;
+
     @Override
     public String toString() {
         return "[" + getClass().getName() + " " + queueNum + "]";
@@ -57,26 +52,15 @@ public class PromCheckingMulti implements Screenshootable, Retryable {
     String result;
 
     // Копирование categories.json в allure-results
-    @BeforeSuite(groups = "multi")
+    @BeforeSuite(groups = "factory")
     public void allureSettings() {
         FileManager.copyCategories();
     }
 
     // Переход на страницу товара
-    @BeforeMethod(groups = "multi")
+    @BeforeMethod(groups = "factory")
     @Step("Открытие страницы товара")
     public void openProdPage() {
-
-        //Выбор браузера и его запуск + настройка
-        Browsers browsers = new Browsers(browserName);
-        driver = browsers.start();
-        SetDriver.standard(driver);
-
-        //Переход на сайт
-        NoPage noPage= new NoPage(driver);
-        noPage.get(siteName);
-
-        //Переход на страницу товара
         ProdPage prodPage = new ProdPage(driver);
         prodCode = singleCheckList[1][0];
         prodPage.enterSearch(prodCode);
@@ -87,10 +71,10 @@ public class PromCheckingMulti implements Screenshootable, Retryable {
     @Step("Проверка промо-акций")
     @Description("Проверка отображения промо-акций на странице товара")
     @Owner("Dmitriy Kazantsev")
-    @Test(groups = "multi", retryAnalyzer = RetryAnalyzerPromChecking.class, description = "ProductPromoCheck")
+    @Test(groups = "factory", retryAnalyzer = RetryAnalyzerPromChecking.class, description = "ProductPromoCheck")
     public void promCheck() {
 
-        resultCheckList = ArrayEx.clone2d(singleCheckList);
+        resultCheckList = ExArray.clone2d(singleCheckList);
 
         //Xpath элемента проверки и время ожидания прогрузки страницы
         String checkObjectXpath = Locators.ProductAbout.getXpath();
@@ -135,11 +119,13 @@ public class PromCheckingMulti implements Screenshootable, Retryable {
 
                     } catch (NoSuchElementException e) {
                         resultCheckList[1][o] = "Passed";
+
                     }
+
                 }
 
                 // Блок проверки загрузки страницы. Запускается однократно и только на первой скидке
-                // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то ждет появления
+                // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то обновляет страницу и ждет появления
                 // Если не дождался, то вписывает "404" в ячейку и завершает проверку для кода товара (не проверяет остальные акции)
                 // Если дождался, то цикл проверки скидки запускается снова
                 if (o == 1 && i == 0) {
@@ -149,6 +135,7 @@ public class PromCheckingMulti implements Screenshootable, Retryable {
 
                     } catch (NoSuchElementException e) {
                         try {
+                            driver.navigate().refresh();
                             checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
                             System.out.println("Slow Loading");
 
@@ -168,7 +155,9 @@ public class PromCheckingMulti implements Screenshootable, Retryable {
                 } else if (o == singleCheckList.length - 2) {
                     driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(impWait));
                 }
+
             }
+
         }
 
         System.out.println(Arrays.deepToString(resultCheckList));
@@ -176,19 +165,17 @@ public class PromCheckingMulti implements Screenshootable, Retryable {
     }
 
     //Закрытие браузера
-    @AfterMethod(groups = "multi")
+    @AfterSuite(groups = "factory")
     public void closeDriver() {
         new ProdPage(driver).close();
     }
 
 
     //Геттеры
-    @Override
     public String getRetryVar() {
         return result;
     }
 
-    @Override
     public WebDriver getDriver() {
         return driver;
     }

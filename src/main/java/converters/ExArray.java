@@ -22,15 +22,15 @@ import java.util.Scanner;
 // Неиспользуемые toExcel методы созданы для демонстрации перегрузки методов
 // Вымышленная задумка - дать возможность использовать методы с созданием класса, если бы у нас были другие задачи,
 // требующие использовать несколько методов для работы с .xls документами
-public class ArrayEx implements Selector1D {
+public class ExArray implements Selector1D {
     private String[] input1D;
     private String[][] input2D;
 
-    public ArrayEx(String[] input1D) {
+    public ExArray(String[] input1D) {
         this.input1D = input1D;
     }
 
-    public ArrayEx(String[][] input2D) {
+    public ExArray(String[][] input2D) {
         this.input2D = input2D;
     }
 

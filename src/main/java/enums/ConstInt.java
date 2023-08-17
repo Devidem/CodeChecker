@@ -1,7 +1,11 @@
 package enums;
 
+/**
+ * Сборник общих int констант/переменных
+ */
 public enum ConstInt {
-    startRow (3-1)
+    //Ряд, с которого начинаются записи кодов товаров в Excel
+    startRow (2-1)
     ;
 
 

@@ -1,4 +1,4 @@
-package tests.citilink.testngAllure.supprotClasses.promChecking.multi;
+package tests.citilink.testngAllure.supprotClasses.promChecking;
 
 import enums.ConstInt;
 import enums.ConstString;
@@ -8,7 +8,7 @@ import org.testng.annotations.Factory;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import selectors.InputType;
-import tests.citilink.testngAllure.PromCheckingMulti;
+import tests.citilink.testngAllure.PromCheckingMultiFactory;
 
 
 public class FactoryPromCheckingMulti {
@@ -45,7 +45,7 @@ public class FactoryPromCheckingMulti {
             System.arraycopy(checkList[0], 0, singleCheckList[0], 0, singleCheckList[0].length);
             System.arraycopy(checkList[i], 0, singleCheckList[1], 0, singleCheckList[0].length);
 
-            dynamicObject [i-startRow] = new PromCheckingMulti(singleCheckList, browserName, this.siteName, i-startRow);
+            dynamicObject [i-startRow] = new PromCheckingMultiFactory(singleCheckList, browserName, this.siteName, i-startRow);
         }
         return dynamicObject;
     }

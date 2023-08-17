@@ -1,7 +1,7 @@
 package pages.citilink;
 
 import enums.Locators;
-import experiments.SelEx;
+import experiments.ExSelen;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -26,8 +26,8 @@ public class MainPage extends CitiPage {
         String xpath = Locators.PopularCategory.getXpath();
         String propertyName = "innerText";
 
-        SelEx selEx = new SelEx(driverMain);
-        String categoryXpath = selEx.xpathSelectByProperty(xpath, propertyName, categoryName);
+        ExSelen exSelen = new ExSelen(driverMain);
+        String categoryXpath = exSelen.xpathSelectByProperty(xpath, propertyName, categoryName);
         WebElement category = driverMain.findElement(By.xpath(categoryXpath));
         click(category);
 

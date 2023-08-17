@@ -6,6 +6,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
+import java.util.Arrays;
 import java.util.Objects;
 
 
@@ -28,7 +29,7 @@ public class ProdPage extends CitiPage {
     public String [] checkProms(String [][] promsList) {
 
         //Массив для результата проверки (строка, которая будет вставлена напротив кода товара)
-        String [] checkResult = new String[promsList.length];
+        String [] checkResult = new String[promsList[0].length];
 
         //Xpath элемента проверки и время ожидания прогрузки страницы
         String checkObjectXpath = Locators.ProductAbout.getXpath();
@@ -76,7 +77,7 @@ public class ProdPage extends CitiPage {
                     }
 
                     // Блок проверки загрузки страницы. Запускается однократно и только на первой скидке
-                    // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то ждет появления
+                    // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то обновляет страницу и ждет появления
                     // Если не дождался, то вписывает "404" в ячейку и завершает проверку для кода товара (не проверяет остальные акции)
                     // Если дождался, то цикл проверки скидки запускается снова
                     if (o == 0 && i==0) {
@@ -86,6 +87,7 @@ public class ProdPage extends CitiPage {
 
                         } catch (NoSuchElementException e) {
                             try {
+                                prodDriver.navigate().refresh();
                                 checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
                                 System.out.println("Slow Loading");
 

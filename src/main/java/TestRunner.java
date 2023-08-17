@@ -1,11 +1,21 @@
 import enums.ApiLinks;
 import enums.ConstString;
 import io.restassured.http.ContentType;
+import org.openqa.selenium.TakesScreenshot;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.RemoteWebDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.Test;
 
 import java.io.IOException;
+import java.time.Duration;
 import java.util.*;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ForkJoinPool;
+import java.util.concurrent.TimeUnit;
 
 import static io.restassured.RestAssured.given;
 
@@ -13,42 +23,59 @@ import static io.restassured.RestAssured.given;
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
 // then press Enter. You can now see whitespace characters in your code.
 
-
 public class TestRunner {
-    public static void main(String[] args) throws IOException {
-        List<String[]> checkList = new ArrayList<>();
-        checkList.add(new String[]{"1", "1", "1"});
-        checkList.add(new String[]{"2", "2", "2"});
-        checkList.add(new String[]{"3", "3", "3"});
-        System.out.println(checkList.size());
-        System.out.println(Arrays.toString(checkList.get(0)));
-        WebDriver driver = null;
+    public static void main(String[] args) throws IOException, InterruptedException {
+        System.setProperty("webdriver.gecko.driver", "./SelenDrivers/geckodriver.exe");
+        System.setProperty("webdriver.chrome.driver", "./SelenDrivers/chromedriver.exe");
 
-
-    }
-    @Test
-    public void test() {
-        Queue<WebDriver> chromeDriver = new LinkedList<>();
-        System.out.println(chromeDriver.size());
-    }
-    @Test
-    public void apiGetProdLink() {
-        String code = "1897778"; //"1897778"
-        String linkPathJson = "products[0].link_url";
-        String responseLink =
-                given().
-                        when().
-                        contentType(ContentType.JSON).
-                        get(ApiLinks.SearchProdLink.getLinkVariable(code)).
-                        then().
-                        log().all().
-                        statusCode(300).
-                        extract().body().jsonPath().get(linkPathJson);
-        String prodLink = (ConstString.CitilinkAdress.getValue() + responseLink).replace(".ru//", ".ru/");
-        System.out.println(prodLink);
+//        WebDriver driver = new FirefoxDriver();
+        WebDriver driver1 = new ChromeDriver();
+//        Set collection = new HashSet();
+        driver1.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(1));
+        try {
+            driver1.get(ConstString.CitilinkAdress.getValue());
+        } catch (Exception ignored) {
+        }
+        TimeUnit.SECONDS.sleep(10);
+        driver1.close();
 
     }
 }
+//public class TestRunner {
+//    public static void main(String[] args) throws IOException {
+//        List<String[]> checkList = new ArrayList<>();
+//        checkList.add(new String[]{"1", "1", "1"});
+//        checkList.add(new String[]{"2", "2", "2"});
+//        checkList.add(new String[]{"3", "3", "3"});
+//        System.out.println(checkList.size());
+//        System.out.println(Arrays.toString(checkList.get(0)));
+//        WebDriver driver = null;
+//
+//
+//    }
+//    @Test
+//    public void test() {
+//        Queue<WebDriver> chromeDriver = new LinkedList<>();
+//        System.out.println(chromeDriver.size());
+//    }
+//    @Test
+//    public void apiGetProdLink() {
+//        String code = "1897778"; //"1897778"
+//        String linkPathJson = "products[0].link_url";
+//        String responseLink =
+//                given().
+//                        when().
+//                        contentType(ContentType.JSON).
+//                        get(ApiLinks.SearchProdLink.getLinkVariable(code)).
+//                        then().
+//                        log().all().
+//                        statusCode(300).
+//                        extract().body().jsonPath().get(linkPathJson);
+//        String prodLink = (ConstString.CitilinkAdress.getValue() + responseLink).replace(".ru//", ".ru/");
+//        System.out.println(prodLink);
+//
+//    }
+//}
 
 //public class TestRunner {
 //    public static void main(String[] args) throws IOException {

@@ -8,10 +8,10 @@ import org.openqa.selenium.WebElement;
 /**
  * Класс с дополнительными методами, которые не явялются общими для классов Page типа.
  */
-public class SelEx {
+public class ExSelen {
     WebDriver driver;
 
-    public SelEx(WebDriver driver) {
+    public ExSelen(WebDriver driver) {
         this.driver = driver;
     }
 

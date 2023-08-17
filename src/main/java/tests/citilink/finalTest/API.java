@@ -1,6 +1,6 @@
 package tests.citilink.finalTest;
 
-import converters.ArrayEx;
+import converters.ExArray;
 import enums.ApiLinks;
 import enums.ConstInt;
 import enums.JsonRequest;
@@ -11,13 +11,13 @@ import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
-import io.restassured.http.ContentType;
 import org.testng.Assert;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import selectors.InputType;
+import tests.citilink.finalTest.supportClasses.ApiSpec;
 import tests.citilink.finalTest.supportClasses.PromCheckApiUiBuffer;
 import tests.citilink.restAssured.pojos.PojoPromoName;
 
@@ -57,7 +57,7 @@ public class API {
     @Step("Проверка промо-акций через Api запрос")
     @Description("Проверка наличия у товаров промо-акций через Api запросы")
     @Owner("Dmitriy Kazantsev")
-    @Test(groups = "API", dataProvider = "ApiVider", threadPoolSize = 1)
+    @Test(groups = "API", dataProvider = "ApiVider", threadPoolSize = 1, priority = 1)
     public void apiPromsChecking(FanticProdCode productCode) {
 
         //Разворачиваем из фантика чек-лист для одного кода товара
@@ -70,20 +70,21 @@ public class API {
         String prodCode = singleCheckList[1][0];
 
         //Клон singleCheckList для записи результатов проверок
-        String [][] resultSingleList = ArrayEx.clone2d(singleCheckList);
+        String [][] resultSingleList = ExArray.clone2d(singleCheckList);
 
         //Путь к объекту с списком акций
         String linkPathJson = "data.product.labels";
 
-        //Получаем коллекцию Pojo классов с именами скидок
+        //Применяем спецификацию
+        ApiSpec.json200();
+
+        //Получаем лист Pojo классов с именами скидок
         List<PojoPromoName> promsList =
                 given().
                         body(JsonRequest.PromoListRequest.getBodyVariable(prodCode)).
-                        contentType(ContentType.JSON).
                         when().
                         post(ApiLinks.SearchProdPromo.getLink()).
                         then().
-                        statusCode(200).
                         extract().body().jsonPath().getList(linkPathJson, PojoPromoName.class);
 
         //Преобразуем promsList в строку для упрощения дальнейших проверок

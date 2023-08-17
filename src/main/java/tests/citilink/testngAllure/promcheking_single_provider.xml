@@ -11,13 +11,13 @@
 
         <groups>
             <run>
-                <include name="factory"/>
+                <include name="provider"/>
             </run>
         </groups>
 
         <classes>
-            <class name="tests.citilink.testngAllure.PromChecking"/>
-            <class name="tests.citilink.testngAllure.supprotClasses.promChecking.FactoryPromChecking"/>
+            <class name="tests.citilink.testngAllure.PromCheckingSingleProvider"/>
+<!--            <class name="tests.citilink.testngAllure.supprotClasses.promChecking.FactoryPromChecking"/>-->
         </classes>
 
     </test>

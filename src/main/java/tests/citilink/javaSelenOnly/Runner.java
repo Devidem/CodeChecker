@@ -1,11 +1,12 @@
-import exceptions.myExceptions.MyFileIOException;
-import tests.citilink.javaSelenOnly.Test;
+package tests.citilink.javaSelenOnly;
 
-public class NewMain {
+import exceptions.myExceptions.MyFileIOException;
+
+public class Runner {
     public static void main(String[] args) {
 
-        String input = "file";          //file, sql(не реализовано)
-        String browser = "chrome";      //chrome, firefox(не реализовано)
+        String input = "file";            //file, sql
+        String browser = "firefox";      //chrome, firefox(не реализовано)
         int threadsNumber = 2;          //Количество потоков (указывается 3-й переменной в конструкторе)
 
 

@@ -28,12 +28,10 @@ public class Test {
     public void codeChecks (String browserName, String inputType) throws MyFileIOException {
 
         //Получение чеклиста для дальнейшей проверки
-        InputType inpType = new InputType(inputType);
-        String[][] checkList = inpType.toFinalArray();
+        String[][] checkList = InputType.toFinalArray(inputType);
 
         //Выбор браузера и его запуск + настройка
-        Browsers browsers = new Browsers(browserName);
-        WebDriver driver = browsers.start();
+        WebDriver driver = Browsers.getDriver(browserName);
         SetDriver.standard(driver);
 
         //Адрес сайта
@@ -93,8 +91,7 @@ public class Test {
     public void codeChecks (String browserName,String inputType, int threadsNumber) throws MyFileIOException {
 
         //Получение чеклиста для дальнейшей проверки
-        InputType inpType = new InputType(inputType);
-        String[][] checkList = inpType.toFinalArray();
+        String[][] checkList = InputType.toFinalArray(inputType);
 
         //Адрес сайта
         String siteLink = ConstString.CitilinkAdress.getValue();

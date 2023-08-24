@@ -1,6 +1,5 @@
 package tests.citilink.finalTest.supportClasses;
 
-import enums.ConstString;
 import io.restassured.RestAssured;
 import io.restassured.builder.RequestSpecBuilder;
 import io.restassured.builder.ResponseSpecBuilder;

@@ -3,8 +3,8 @@ package tests.citilink.testngAllure;
 import converters.ExArray;
 import enums.Locators;
 import experiments.FileManager;
-import interfaces.Retryable;
-import interfaces.Screenshootable;
+import interfaces.RetryableOld;
+import interfaces.ScreenshootableOld;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
@@ -15,15 +15,15 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
 import pages.citilink.ProdPage;
-import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromChecking;
-import tests.citilink.testngAllure.supprotClasses.promChecking.RetryAnalyzerPromChecking;
+import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromCheckingOld;
+import tests.citilink.testngAllure.supprotClasses.promChecking.RetryAnalyzerPromCheckingOld;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Objects;
 
-@Listeners(MyListenerPromChecking.class)
-public class PromCheckingSingleFactory implements Screenshootable, Retryable {
+@Listeners(MyListenerPromCheckingOld.class)
+public class PromCheckingSingleFactory implements ScreenshootableOld, RetryableOld {
     String[][] singleCheckList;
     WebDriver driver;
 
@@ -71,7 +71,7 @@ public class PromCheckingSingleFactory implements Screenshootable, Retryable {
     @Step("Проверка промо-акций")
     @Description("Проверка отображения промо-акций на странице товара")
     @Owner("Dmitriy Kazantsev")
-    @Test(groups = "factory", retryAnalyzer = RetryAnalyzerPromChecking.class, description = "ProductPromoCheck")
+    @Test(groups = "factory", retryAnalyzer = RetryAnalyzerPromCheckingOld.class, description = "ProductPromoCheck")
     public void promCheck() {
 
         resultCheckList = ExArray.clone2d(singleCheckList);
@@ -79,9 +79,13 @@ public class PromCheckingSingleFactory implements Screenshootable, Retryable {
         //Xpath элемента проверки и время ожидания прогрузки страницы
         String checkObjectXpath = Locators.ProductAbout.getXpath();
 
-        //Время ожидания дозагрузки страницы
-        int checkLoadTime = 5;
-        WebDriverWait checkLoadWait = new WebDriverWait(driver, Duration.ofSeconds(checkLoadTime));
+        //Устанавливаем дополнительное время ожидания для повторной попытки загрузки страницы
+        //и создаем явное ожидание для поиска проверочного элемента после обновления страницы
+        int checkLoadTime = 3;
+        WebDriverWait checkLoadWait = new WebDriverWait(driver, Duration.ofSeconds(0));
+
+        //Записываем начальное значение getPageLoadTimeout
+        int startTimeout = (int) driver.manage().timeouts().getPageLoadTimeout().getSeconds();
 
         //Запоминаем установленное значение ImplicitWait
         int impWait = (int) driver.manage().timeouts().getImplicitWaitTimeout().getSeconds();
@@ -134,16 +138,26 @@ public class PromCheckingSingleFactory implements Screenshootable, Retryable {
                         break;
 
                     } catch (NoSuchElementException e) {
+
                         try {
-                            driver.navigate().refresh();
+                            //Обновляем страницу с увеличенным pageLoadTimeout
+                            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout + checkLoadTime));
+                            ProdPage prodPage = new ProdPage(driver);
+                            prodPage.refresh();
+
+                            //Провеяем наличие проверочного объекта после рефреша
                             checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
                             System.out.println("Slow Loading");
 
-                        } catch (TimeoutException ex) {
+                        } catch (TimeoutException | NoSuchElementException ex) {
                             System.out.println("Page 404");
                             resultCheckList[1][o] = "Page 404";
                             result = "Page 404";
                             throw new RuntimeException("Page 404");
+
+                        } finally {
+                            //Возвращаем изначальный pageLoadTimeout
+                            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout));
                         }
                     }
                 }

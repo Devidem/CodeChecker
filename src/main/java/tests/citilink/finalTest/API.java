@@ -2,11 +2,10 @@ package tests.citilink.finalTest;
 
 import converters.ExArray;
 import enums.ApiLinks;
-import enums.ConstInt;
 import enums.JsonRequest;
 import exceptions.myExceptions.MyFileIOException;
 import experiments.FanticProdCode;
-import experiments.FileManager;
+import experiments.ProviderGenerator;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
@@ -19,7 +18,7 @@ import org.testng.annotations.Test;
 import selectors.InputType;
 import tests.citilink.finalTest.supportClasses.ApiSpec;
 import tests.citilink.finalTest.supportClasses.PromCheckApiUiBuffer;
-import tests.citilink.restAssured.pojos.PojoPromoName;
+import tests.citilink.finalTest.supportClasses.pojos.PojoPromoName;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -46,12 +45,8 @@ public class API {
         //Передаем ссылку на afterApiCheckList в буффер
         PromCheckApiUiBuffer.setBufferCheckList(afterApiCheckList);
 
-        // Копирование categories.json в allure-results
-        FileManager.copyCategories();
-
         //Получение чеклиста для дальнейшей проверки
-        InputType inpType = new InputType(inputType);
-        fullCheckList = inpType.toFinalArray();
+        fullCheckList = InputType.toFinalArray(inputType);
     }
 
     @Step("Проверка промо-акций через Api запрос")
@@ -78,42 +73,48 @@ public class API {
         //Применяем спецификацию
         ApiSpec.json200();
 
-        //Получаем лист Pojo классов с именами скидок
-        List<PojoPromoName> promsList =
-                given().
-                        body(JsonRequest.PromoListRequest.getBodyVariable(prodCode)).
-                        when().
-                        post(ApiLinks.SearchProdPromo.getLink()).
-                        then().
-                        extract().body().jsonPath().getList(linkPathJson, PojoPromoName.class);
+        //Добавляем блок try-finally для гарантии передачи массива проверок в буффер для будущих UI тестов, даже если
+        //API тест сломается
+        try {
 
-        //Преобразуем promsList в строку для упрощения дальнейших проверок
-        String proms = promsList.stream().map(x->x.getTitle()).reduce("", (sum, elem)->sum+elem);
+            //Получаем лист Pojo классов с именами скидок
+            List<PojoPromoName> promsList =
+                    given().
+                            body(JsonRequest.PromoListRequest.getBodyVariable(prodCode)).
+                            when().
+                            post(ApiLinks.SearchProdPromo.getLink()).
+                            then().
+                            extract().body().jsonPath().getList(linkPathJson, PojoPromoName.class);
 
-        for (int i = 1; i < singleCheckList[0].length; i++) {
+            //Преобразуем promsList в строку для упрощения дальнейших проверок
+            String proms = promsList.stream().map(x -> x.getTitle()).reduce("", (sum, elem) -> sum + elem);
 
-            //Забираем данные для проверки одной акции у товара
-            String promoName = singleCheckList[0][i];
-            String promoValue = singleCheckList[1][i];
+            for (int i = 1; i < singleCheckList[0].length; i++) {
 
-            //Проверяем соответствие ответа и записываем результаты
-            if (Objects.equals(promoValue, "*") && proms.contains(promoName)) {
-                result[0] = "Passed";
-                resultSingleList [1][i] = "Passed";
-            } else if (Objects.equals(promoValue, "") && !proms.contains(promoName)) {
-                result[0] = "Passed";
-                resultSingleList [1][i] = "Passed";
-            } else {
-                result[1] = "Failed";
-                resultSingleList [1][i] = "Failed";
+                //Забираем данные для проверки одной акции у товара
+                String promoName = singleCheckList[0][i];
+                String promoValue = singleCheckList[1][i];
 
-                //Преобразуем чек-лист, чтобы проверка UI происходила в соответствии с ответом Api
-                singleCheckList [1][i] = "";
+                //Проверяем соответствие ответа и записываем результаты
+                if (Objects.equals(promoValue, "*") && proms.contains(promoName)) {
+                    result[0] = "Passed";
+                    resultSingleList[1][i] = "Passed";
+                } else if (Objects.equals(promoValue, "") && !proms.contains(promoName)) {
+                    result[0] = "Passed";
+                    resultSingleList[1][i] = "Passed";
+                } else {
+                    result[1] = "Failed";
+                    resultSingleList[1][i] = "Failed";
+
+                    //Преобразуем чек-лист, чтобы проверка UI происходила в соответствии с ответом Api
+                    singleCheckList[1][i] = "";
+                }
             }
+        } finally {
+            //Передаем отредактированный чек-лист в коллекцию для дальнейшей проверки в UI тестах
+            afterApiCheckList.add(singleCheckList);
         }
 
-        //Передаем отредактированный чек-лист в коллекцию для дальнейшей проверки в UI тестах
-        afterApiCheckList.add(singleCheckList);
 
         //Прикладываем итоги проверки к тесту и делаем Assert для TestNG
         Allure.addAttachment("Result", (Arrays.deepToString(resultSingleList[0])+ "\n" + Arrays.deepToString(resultSingleList[1])));
@@ -122,28 +123,9 @@ public class API {
 
     @Description("Формирует и передает чек-лист для одного кода товара")
     @DataProvider(name = "ApiVider")
-    public Object[][] dataMethodApi()  {
+    public Object[][] dataMethodApi() throws MyFileIOException {
 
-        //Ряд с которого начинают перечисляться коды товаров
-        int startRow = ConstInt.startRow.getValue();
-
-        Object [][] dataObject = new Object[fullCheckList.length-startRow][1] ;
-
-        //Создается чек-лист для одного товара
-        for (int i = startRow; i < fullCheckList.length; i++) {
-
-            //Создаем чек лист для товара
-            String [][] singleCheckList = new String[2][fullCheckList[0].length];
-            System.arraycopy(fullCheckList[0], 0, singleCheckList[0], 0, singleCheckList[0].length);
-            System.arraycopy(fullCheckList[i], 0, singleCheckList[1], 0, singleCheckList[0].length);
-
-            //Оборачиваем в Фантик для красивого отображения кода товара в отчете Allure
-            FanticProdCode fanticProdCode = new FanticProdCode(singleCheckList);
-
-            //Добавляем фантик в массив
-            dataObject [i-startRow][0] = fanticProdCode;
-
-        }
-        return dataObject;
+        //Генерируем данные для DataProvider
+        return ProviderGenerator.getPromData();
     }
 }

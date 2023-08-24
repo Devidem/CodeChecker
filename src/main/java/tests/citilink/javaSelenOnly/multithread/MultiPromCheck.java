@@ -72,14 +72,14 @@ public class MultiPromCheck {
 
     //Поток для тестирования промоакций одного кода товара
     private class CheckThread extends Thread {
-        String[][] promsList;
-        String prodCode;
-        int codeRow;
         public CheckThread(String[][] promsList, String prodCode, int codeRow) {
             this.promsList = promsList;
             this.prodCode = prodCode;
             this.codeRow = codeRow;
         }
+        String[][] promsList;
+        String prodCode;
+        int codeRow;
 
         @Override
         public void run() {
@@ -90,6 +90,7 @@ public class MultiPromCheck {
                     try {
                         checkMethod();
                         break;
+                    //Игнорируем Exception, кроме случая, когда это последний повтор
                     } catch (Exception e) {
                         if (i==repeatsNum - 1) {
                             throw new RuntimeException(e);
@@ -104,6 +105,7 @@ public class MultiPromCheck {
                 for (int i = 0; i < promsList[0].length; i++) {
                     resultList[codeRow][i+1] = "UNCHECKED";
                 }
+                countDownLatch.countDown();
             }
             countDownLatch.countDown();
         }
@@ -113,8 +115,7 @@ public class MultiPromCheck {
         public void checkMethod() {
 
             //Выбор и запуск браузера + настройка
-            Browsers browsers = new Browsers(browserName);
-            WebDriver driver = browsers.start();
+            WebDriver driver = Browsers.getDriver(browserName);
             SetDriver.standard(driver);
 
             //try-finally для обязательного закрытия драйвера в случае возникновения ошибок

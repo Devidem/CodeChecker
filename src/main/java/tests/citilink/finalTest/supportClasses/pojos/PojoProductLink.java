@@ -1,5 +1,8 @@
-package tests.citilink.restAssured.pojos;
+package tests.citilink.finalTest.supportClasses.pojos;
 
+/**
+ * Pojo класс для сохранения ссылки на страницу товара {@link #link_url}
+ */
 public class PojoProductLink {
     public String link_url;
 

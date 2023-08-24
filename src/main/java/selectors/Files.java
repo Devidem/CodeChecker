@@ -3,52 +3,47 @@ package selectors;
 import converters.ExArray;
 import converters.Xls;
 import exceptions.myExceptions.MyFileIOException;
-import interfaces.ToPromsArray;
 
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Работа с файлами в папке {@link #input}
+ * Работа с файлами.
  */
-public class Files extends Selectors implements ToPromsArray {
-
-    public Files(String input) {
-        super(input);
-    }
+public class Files{
 
     /**
-     * Преобразует .xls файл с полным путем {@link #result} в итоговый массив проверки акций
+     * Преобразует .xls файл из папки {@param inputDir} в итоговый массив проверки акций.
      */
-    public String [][] toFinalArray() throws MyFileIOException {
+    public static String [][] toFinalArray(String inputDir) throws MyFileIOException {
 
-        selector();
+        String result = select(inputDir);
 
         if (result.endsWith(".xls")){
             Xls xls = new Xls();
             try {
                 return xls.toFinalArray(result);
             } catch (IOException e) {
-                throw new MyFileIOException("Неправильно отработал селектор или код из if", e);
+                throw new MyFileIOException("Неправильно отработал select() или код из if", e);
             }
 
         } else {
-            throw new MyFileIOException("Ошибка селектора Files.selector()!");
+            throw new MyFileIOException("Неправильно выбран файл/Ошибка селектора Files.select()!");
         }
-
     }
 
     /**
-     * Выбирает файл из директории {@link #input} и передает полный путь в {@link #result}.
+     * Выбирает файл из директории {@param inputDir}.
+     * Предалагает выбрать файл вручную, если найдено несколько.
+     * @param inputDir - Адрес папки с файлами без "/" в конце.
      */
-    public void selector() throws MyFileIOException {
-        File dir = new File(input);
+    public static String select (String inputDir) throws MyFileIOException {
+        File dir = new File(inputDir);
         String[] arrFiles = dir.list();
+
         if (arrFiles == null) {
             throw new MyFileIOException("Папка пуста");
         }
-        result = input + "/" + ExArray.selector1D(arrFiles);
-
+        return inputDir + "/" + ExArray.selector1D(arrFiles);
     }
-
 }

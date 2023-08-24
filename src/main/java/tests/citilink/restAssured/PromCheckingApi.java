@@ -18,7 +18,7 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import selectors.InputType;
-import tests.citilink.restAssured.pojos.PojoPromoName;
+import tests.citilink.finalTest.supportClasses.pojos.PojoPromoName;
 
 import java.util.Arrays;
 import java.util.List;
@@ -44,8 +44,7 @@ public class PromCheckingApi {
         FileManager.copyCategories();
 
         //Получение чеклиста для дальнейшей проверки
-        InputType inpType = new InputType(inputType);
-        fullCheckList = inpType.toFinalArray();
+        fullCheckList = InputType.toFinalArray(inputType);
     }
 
     @Step("Проверка промо-акций через Api запрос")

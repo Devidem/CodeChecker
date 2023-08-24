@@ -1,5 +1,8 @@
-package tests.citilink.restAssured.pojos;
+package tests.citilink.finalTest.supportClasses.pojos;
 
+/**
+ * Pojo класс для сохранения имен промо-акций {@link #title}
+ */
 public class PojoPromoName {
 
     public String getTitle() {

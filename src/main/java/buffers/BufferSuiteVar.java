@@ -10,7 +10,7 @@ import java.util.HashMap;
  */
 public class BufferSuiteVar {
 
-    //Мапа для параметризации DataProvider через Suite переменные
+    //Мапа для хранения Suite переменных
     private static final HashMap<String, String> suiteVariables = new HashMap<>();
 
     /**

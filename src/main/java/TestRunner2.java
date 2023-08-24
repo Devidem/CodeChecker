@@ -1,9 +1,7 @@
-import converters.ExSql;
 import exceptions.myExceptions.MyFileIOException;
 
 import java.io.IOException;
-import java.sql.*;
-import java.util.Arrays;
+import java.sql.SQLException;
 
 public class TestRunner2 {
     public static void main(String[] args) throws IOException, SQLException, MyFileIOException {
@@ -24,8 +22,8 @@ public class TestRunner2 {
 //
 //        ResultSet resultSet = statement.executeQuery("SELECT * from prodcode_promo");
 
-        String [][] info = ExSql.toFinalArray();
-        System.out.println(Arrays.deepToString(info));
+//        String [][] info = ExSql.toFinalArray();
+//        System.out.println(Arrays.deepToString(info));
 
 //        while (resultSet.next()) {
 //            for (int i = 1; true; i++) {

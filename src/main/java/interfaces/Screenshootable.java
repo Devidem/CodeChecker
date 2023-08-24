@@ -1,18 +1,22 @@
 package interfaces;
 
 import org.openqa.selenium.WebDriver;
+import org.testng.ITestResult;
+import tests.citilink.finalTest.supportClasses.MyListenerPromChecking;
 
 /**
- * Позволяет использовать методы {@link experiments.ITestResultManager}
+ * Позволяет делать скриншоты с помощью {@link experiments.ITestResultManager} и
+ * использовать класс в {@link MyListenerPromChecking}
+ * благодаря получению вебдрайвера
  */
 public interface Screenshootable {
     /**
      * Возвращает WebDriver теста
      */
-    WebDriver getDriver();
+    WebDriver getDriver(ITestResult iTestResult);
 
     /**
-     * Возвращает значение переменной присвояемой имени скришота в Allure отчете
+     * Возвращает из теста String переменную, которая добавляется к имени скриншота
      */
-    String getScreenVariable();
+    String getScreenNameVar(ITestResult iTestResult);
 }

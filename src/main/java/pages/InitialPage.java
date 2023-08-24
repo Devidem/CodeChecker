@@ -7,7 +7,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * Класс с общими методами для абсолютно всех страниц
+ * Абстрактный класс с методами общими для абсолютно всех страниц
  */
 public abstract class InitialPage {
 
@@ -45,6 +45,16 @@ public abstract class InitialPage {
     @Step ("Закрытие браузера")
     public void close () {
         driver.close();
+    }
+
+    /**
+     * Обновляет страницу (F5)
+     */
+    public void refresh () {
+        try {
+            driver.navigate().refresh();
+        } catch (TimeoutException ignored) {
+        }
     }
 
 

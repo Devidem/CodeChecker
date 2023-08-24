@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
-<suite name="All Test Suites" group-by-instances="true">
-    <suite-files>
-        <suite-file path="promcheking_single.xml" />
-        <suite-file path="promcheking_multi.xml" />
-    </suite-files>
-</suite>

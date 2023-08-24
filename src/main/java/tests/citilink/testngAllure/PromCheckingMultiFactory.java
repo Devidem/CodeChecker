@@ -4,8 +4,8 @@ import converters.ExArray;
 import enums.Locators;
 import experiments.FileManager;
 import fabrics.SetDriver;
-import interfaces.Retryable;
-import interfaces.Screenshootable;
+import interfaces.RetryableOld;
+import interfaces.ScreenshootableOld;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
@@ -18,15 +18,15 @@ import org.testng.annotations.*;
 import pages.NoPage;
 import pages.citilink.ProdPage;
 import selectors.Browsers;
-import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromChecking;
-import tests.citilink.testngAllure.supprotClasses.promChecking.RetryAnalyzerPromChecking;
+import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromCheckingOld;
+import tests.citilink.testngAllure.supprotClasses.promChecking.RetryAnalyzerPromCheckingOld;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Objects;
 
-@Listeners(MyListenerPromChecking.class)
-public class PromCheckingMultiFactory implements Screenshootable, Retryable {
+@Listeners(MyListenerPromCheckingOld.class)
+public class PromCheckingMultiFactory implements ScreenshootableOld, RetryableOld {
     String[][] singleCheckList;
     WebDriver driver;
     String browserName;
@@ -68,8 +68,7 @@ public class PromCheckingMultiFactory implements Screenshootable, Retryable {
     public void openProdPage() {
 
         //Выбор браузера и его запуск + настройка
-        Browsers browsers = new Browsers(browserName);
-        driver = browsers.start();
+        driver = Browsers.getDriver(browserName);
         SetDriver.standard(driver);
 
         //Переход на сайт
@@ -87,7 +86,7 @@ public class PromCheckingMultiFactory implements Screenshootable, Retryable {
     @Step("Проверка промо-акций")
     @Description("Проверка отображения промо-акций на странице товара")
     @Owner("Dmitriy Kazantsev")
-    @Test(groups = "multi", retryAnalyzer = RetryAnalyzerPromChecking.class, description = "ProductPromoCheck")
+    @Test(groups = "multi", retryAnalyzer = RetryAnalyzerPromCheckingOld.class, description = "ProductPromoCheck")
     public void promCheck() {
 
         resultCheckList = ExArray.clone2d(singleCheckList);
@@ -95,81 +94,95 @@ public class PromCheckingMultiFactory implements Screenshootable, Retryable {
         //Xpath элемента проверки и время ожидания прогрузки страницы
         String checkObjectXpath = Locators.ProductAbout.getXpath();
 
-        //Время ожидания дозагрузки страницы
-        int checkLoadTime = 5;
-        WebDriverWait checkLoadWait = new WebDriverWait(driver, Duration.ofSeconds(checkLoadTime));
+        //Устанавливаем дополнительное время ожидания для повторной попытки загрузки страницы
+        //и создаем явное ожидание для поиска проверочного элемента после обновления страницы
+        int checkLoadTime = 3;
+        WebDriverWait checkLoadWait = new WebDriverWait(driver, Duration.ofSeconds(0));
+
+        //Записываем начальное значение getPageLoadTimeout
+        int startTimeout = (int) driver.manage().timeouts().getPageLoadTimeout().getSeconds();
 
         //Запоминаем установленное значение ImplicitWait
         int impWait = (int) driver.manage().timeouts().getImplicitWaitTimeout().getSeconds();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+
+        //Блок try-finally для гарантии возвращения ненулевого значения ImplicitWait
+        try {
 
 
-        //Проверка списка акций у товара
-        for (int o = 1; o < singleCheckList[0].length; o++) {
+            //Проверка списка акций у товара
+            for (int o = 1; o < singleCheckList[0].length; o++) {
 
-            //Забираем значение и имя акции + вычисляем для нее xpath
-            String promoName = singleCheckList[0][o];
-            String promoValue = singleCheckList[1][o];
-            String xpathPromo = Locators.VarProductPromoMain.getXpathVariable(promoName);
+                //Забираем значение и имя акции + вычисляем для нее xpath
+                String promoName = singleCheckList[0][o];
+                String promoValue = singleCheckList[1][o];
+                String xpathPromo = Locators.VarProductPromoMain.getXpathVariable(promoName);
 
-            // Цикл с алгоритмом проверки отдельной акции
-            for (int i = 0; i < 2; i++) {
+                // Цикл с алгоритмом проверки отдельной акции
+                for (int i = 0; i < 2; i++) {
 
-                // Проверка акций
-                if (Objects.equals(promoValue, "*")) {
-                    try {
-                        WebElement promoElement = driver.findElement(By.xpath(xpathPromo));
-                        resultCheckList[1][o] = "Passed";
-                        break;
-
-                    } catch (NoSuchElementException e) {
-                        resultCheckList[1][o] = "Failed";
-                        result = "Failed";
-                    }
-
-                } else {
-                    try {
-                        WebElement promoElement = driver.findElement(By.xpath(xpathPromo));
-                        resultCheckList[1][o] = "Failed";
-                        result = "Failed";
-                        break;
-
-                    } catch (NoSuchElementException e) {
-                        resultCheckList[1][o] = "Passed";
-                    }
-                }
-
-                // Блок проверки загрузки страницы. Запускается однократно и только на первой скидке
-                // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то обновляет страницу и ждет появления
-                // Если не дождался, то вписывает "404" в ячейку и завершает проверку для кода товара (не проверяет остальные акции)
-                // Если дождался, то цикл проверки скидки запускается снова
-                if (o == 1 && i == 0) {
-                    try {
-                        WebElement checkElement = driver.findElement(By.xpath(checkObjectXpath));
-                        break;
-
-                    } catch (NoSuchElementException e) {
+                    // Проверка акций
+                    if (Objects.equals(promoValue, "*")) {
                         try {
-                            driver.navigate().refresh();
-                            checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
-                            System.out.println("Slow Loading");
+                            WebElement promoElement = driver.findElement(By.xpath(xpathPromo));
+                            resultCheckList[1][o] = "Passed";
+                            break;
 
-                        } catch (TimeoutException ex) {
-                            System.out.println("Page 404");
-                            resultCheckList[1][o] = "Page 404";
-                            result = "Page 404";
-                            throw new RuntimeException("Page 404");
+                        } catch (NoSuchElementException e) {
+                            resultCheckList[1][o] = "Failed";
+                            result = "Failed";
+                        }
+
+                    } else {
+                        try {
+                            WebElement promoElement = driver.findElement(By.xpath(xpathPromo));
+                            resultCheckList[1][o] = "Failed";
+                            result = "Failed";
+                            break;
+
+                        } catch (NoSuchElementException e) {
+                            resultCheckList[1][o] = "Passed";
+                        }
+                    }
+
+                    // Блок проверки загрузки страницы. Запускается однократно и только на первой скидке
+                    // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то обновляет страницу и ждет появления
+                    // Если не дождался, то вписывает "404" в ячейку и завершает проверку для кода товара (не проверяет остальные акции)
+                    // Если дождался, то цикл проверки скидки запускается снова
+                    if (o == 1 && i == 0) {
+                        try {
+                            WebElement checkElement = driver.findElement(By.xpath(checkObjectXpath));
+                            break;
+
+                        } catch (NoSuchElementException e) {
+
+                            try {
+                                //Обновляем страницу с увеличенным pageLoadTimeout
+                                driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout + checkLoadTime));
+                                ProdPage prodPage = new ProdPage(driver);
+                                prodPage.refresh();
+
+                                //Провеяем наличие проверочного объекта после рефреша
+                                checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
+                                System.out.println("Slow Loading");
+
+                            } catch (TimeoutException | NoSuchElementException ex) {
+                                System.out.println("Page 404");
+                                resultCheckList[1][o] = "Page 404";
+                                result = "Page 404";
+                                throw new RuntimeException("Page 404");
+
+                            } finally {
+                                //Возвращаем изначальный pageLoadTimeout
+                                driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout));
+                            }
                         }
                     }
                 }
-
-                // Регулируем ожидания implicitlyWait, чтобы не тратить время на ожидания после 1 шага и
-                // возвращаем прежнее значение после окончания проверки
-                if (o == 1) {
-                    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
-                } else if (o == singleCheckList.length - 2) {
-                    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(impWait));
-                }
             }
+        } finally {
+            //возвращаем implicitlyWait, который был до проверки
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(impWait));
         }
 
         System.out.println(Arrays.deepToString(resultCheckList));

@@ -1,7 +1,6 @@
 package converters;
 
 import exceptions.myExceptions.MyFileIOException;
-import interfaces.Selector1D;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -17,12 +16,11 @@ import java.util.Objects;
 import java.util.Scanner;
 
 /**
- * Обработка 1,2-х мерных массивов
+ * Класс для обработки 1,2-х мерных массивов
  */
-// Неиспользуемые toExcel методы созданы для демонстрации перегрузки методов
-// Вымышленная задумка - дать возможность использовать методы с созданием класса, если бы у нас были другие задачи,
-// требующие использовать несколько методов для работы с .xls документами
-public class ExArray implements Selector1D {
+// Неиспользуемые методы созданы для демонстрации перегрузки методов
+// Вымышленная задумка - дать возможность использовать методы с созданием класса
+public class ExArray{
     private String[] input1D;
     private String[][] input2D;
 
@@ -39,16 +37,17 @@ public class ExArray implements Selector1D {
 
     /**
      * Преобразует двумерный String массив в .xls файл.
-     *
      * @param array   Преобразуемый массив
      * @param outName Имя .xls файла
-     * @param outPath Адрес для созданного файла (без / в конце)
+     * @param outPath Адрес для создаваемого файла (без / в конце)
      */
     public static void toExcel(String[][] array, String outName, String outPath) throws IOException {
 
+        //Создаем книгу с листом Test result
         Workbook excelOut = new HSSFWorkbook();
         Sheet sheet = excelOut.createSheet("Test result");
 
+        //Переписываем данные из массива в книгу
         for (int i = 0; i < array.length; i++) {
             Row row = sheet.createRow(i);
 
@@ -59,27 +58,32 @@ public class ExArray implements Selector1D {
             }
         }
 
+        //Добавляем дату для дальнейшей записи в имя файла
         LocalDate currentDate = LocalDate.now();
         Date dateNow = new Date();
         SimpleDateFormat simpleDate = new SimpleDateFormat("(hh_mm_ss a)");
+
+        //Прописываем итоговый адрес и имя файла, содержащее дату создания
         String outDirect = outPath + "/" + outName + "_" + currentDate + "_" + simpleDate.format(dateNow) + ".xls";
 
+        //Сохраняем книгу в файл Excel
         FileOutputStream outFile = new FileOutputStream(outDirect);
         excelOut.write(outFile);
         excelOut.close();
     }
 
     /**
-     * Преобразует input2D класса в .xls файл.
-     *
+     * Преобразует {@link #input2D} класса в .xls файл.
      * @param outName Имя .xls файла
-     * @param outPath Адрес для созданного файла (без / в конце)
+     * @param outPath Адрес для создаваемого файла (без / в конце)
      */
     public void toExcel(String outName, String outPath) throws IOException {
 
+        //Создаем книгу с листом Test result
         Workbook excelOut = new HSSFWorkbook();
         Sheet sheet = excelOut.createSheet("Test1 result");
 
+        //Переписываем данные из массива в книгу
         for (int i = 0; i < input2D.length; i++) {
             Row row = sheet.createRow(i);
 
@@ -89,12 +93,15 @@ public class ExArray implements Selector1D {
 
             }
         }
-
+        //Добавляем дату для дальнейшей записи в имя файла
         LocalDate currentDate = LocalDate.now();
         Date dateNow = new Date();
         SimpleDateFormat simpleDate = new SimpleDateFormat("(hh_mm_ss a)");
+
+        //Прописываем итоговый адрес и имя файла, содержащее дату создания
         String outDir = outPath + "/" + outName + "_" + currentDate + "_" + simpleDate.format(dateNow) + ".xls";
 
+        //Сохраняем книгу в файл Excel
         FileOutputStream outFile = new FileOutputStream(outDir);
         excelOut.write(outFile);
         excelOut.close();
@@ -103,38 +110,43 @@ public class ExArray implements Selector1D {
     /**
      * Преобразует двумерный массив в итоговый .xls файл проверки.
      * Содержит в имени Дату создания и результат проверки.
-     * Хранится по адресу ./Outputs/Excel/
-     *
+     * Файл сохраняется по адресу ./Outputs/Excel/
      * @param Array Массив содержащий коды товаров и акции.
      */
     public static void toExcelTest(String[][] Array) throws MyFileIOException {
 
+        //Создаем книгу с листом Test result
         Workbook excelOut = new HSSFWorkbook();
         Sheet sheet = excelOut.createSheet("Test1 result");
+
+        //Заполняем значение результата прохождения теста (может измениться на Failed в дальнейшем)
         String testResult = "Passed";
         int resChecker = 0;
 
+        //Переписываем данные из массива в книгу
         for (int i = 0; i < Array.length; i++) {
             Row row = sheet.createRow(i);
 
             for (int o = 0; o < Array[0].length; o++) {
                 Cell cell = row.createCell(o);
                 cell.setCellValue(Array[i][o]);
+
+                //Проверяем значение результатов теста до нахождения первой ошибки
                 if (resChecker == 0 && (Objects.equals(Array[i][o], "FAILED") | Objects.toString(Array[i][o]).equals("404"))) {
                     testResult = "FAILED";
                     resChecker = 1;
-
                 }
-
             }
-
         }
 
+        //Добавляем дату для дальнейшей записи в имя файла
         LocalDate currentDate = LocalDate.now();
         Date dateNow = new Date();
         SimpleDateFormat simpleDate = new SimpleDateFormat("(hh_mm_ss a)");
+        //Прописываем итоговый адрес и имя файла, содержащее дату создания и результат проверки
         String outDirect = "./Outputs/Excel/CodesToCheck_Result_" + testResult + "_" + currentDate + "_" + simpleDate.format(dateNow) + ".xls";
 
+        //Сохраняем книгу в файл Excel
         FileOutputStream outFile;
         try {
             outFile = new FileOutputStream(outDirect);
@@ -147,8 +159,7 @@ public class ExArray implements Selector1D {
     }
 
     /**
-     * Создает настоящий клон массива.
-     *
+     * Создает истинный клон String[][] массива через конкатенацию значений с пустой строкой
      * @param array Преобразуемый массив
      * @return Клон массива
      */
@@ -156,21 +167,17 @@ public class ExArray implements Selector1D {
         String[][] updated = new String[array.length][array[0].length];
 
         for (int i = 0; i < array.length; i++) {
-
             for (int j = 0; j < array[0].length; j++) {
                 updated[i][j] = array[i][j] + "";
             }
-
         }
         return updated;
-
     }
 
     /**
-     * Выбирает строку из String [] input1D и помещает результат в String result1D.
+     * Выбирает строку из {@link #input1D}  и помещает результат в {@link #result1D}
      * Предлагает выбрать значение вручную, если в переданном массиве несколько элементов.
      */
-    //Сделан не статическим для демонстрации
     public void selector1D() {
 
         String ANSI_RED = "\u001B[31m";
@@ -199,13 +206,11 @@ public class ExArray implements Selector1D {
         } else {
             result1D = input1D[0];
         }
-
     }
 
     /**
      * Выбирает строку из 1-го массива.
      * Предлагает выбрать значение вручную, если в переданном массиве несколько элементов.
-     *
      * @param checkList Массив элементов
      * @return Выбранная строка
      */
@@ -231,13 +236,11 @@ public class ExArray implements Selector1D {
                 Scanner in = new Scanner(System.in);
                 scanNum = in.nextInt();
             }
-
             return checkList[scanNum - 1];
 
         } else {
             return checkList[0];
         }
-
     }
 
 
@@ -254,9 +257,6 @@ public class ExArray implements Selector1D {
         return result1D;
     }
 
-    public void setResult1D(String result1D) {
-        this.result1D = result1D;
-    }
 
     public String[][] getInput2D() {
         return input2D;
@@ -270,7 +270,5 @@ public class ExArray implements Selector1D {
         return result2D;
     }
 
-    public void setResult2D(String[] result2D) {
-        this.result2D = result2D;
-    }
+
 }

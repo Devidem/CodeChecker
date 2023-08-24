@@ -7,8 +7,8 @@ import enums.Locators;
 import exceptions.myExceptions.MyFileIOException;
 import experiments.FileManager;
 import fabrics.SetDriver;
-import interfaces.Retryable;
-import interfaces.Screenshootable;
+import interfaces.RetryableOld;
+import interfaces.ScreenshootableOld;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
@@ -21,15 +21,15 @@ import pages.NoPage;
 import pages.citilink.ProdPage;
 import selectors.Browsers;
 import selectors.InputType;
-import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromChecking;
-import tests.citilink.testngAllure.supprotClasses.promChecking.RetryAnalyzerPromChecking;
+import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromCheckingOld;
+import tests.citilink.testngAllure.supprotClasses.promChecking.RetryAnalyzerPromCheckingOld;
 
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Objects;
 
-@Listeners(MyListenerPromChecking.class)
-public class PromCheckingSingleProvider implements Screenshootable, Retryable {
+@Listeners(MyListenerPromCheckingOld.class)
+public class PromCheckingSingleProvider implements ScreenshootableOld, RetryableOld {
     WebDriver driver;
     String [][] fullCheckList;
     String prodCode;
@@ -44,8 +44,7 @@ public class PromCheckingSingleProvider implements Screenshootable, Retryable {
     public void testPrepare(String inputType, String browserName) throws MyFileIOException {
 
         //Получение чеклиста для дальнейшей проверки
-        InputType inpType = new InputType(inputType);
-        fullCheckList = inpType.toFinalArray();
+        fullCheckList = InputType.toFinalArray(inputType);
 
         // Копирование categories.json в allure-results
         FileManager.copyCategories();
@@ -54,8 +53,7 @@ public class PromCheckingSingleProvider implements Screenshootable, Retryable {
         String siteLink = ConstString.CitilinkAdress.getValue();
 
         //Выбор браузера и его запуск + настройка
-        Browsers browsers = new Browsers(browserName);
-        driver = browsers.start();
+        driver = Browsers.getDriver(browserName);
         SetDriver.standard(driver);
 
         //Переход на сайт
@@ -67,7 +65,7 @@ public class PromCheckingSingleProvider implements Screenshootable, Retryable {
     @Step("Проверка промо-акций")
     @Description("Проверка отображения промо-акций на странице товара")
     @Owner("Dmitriy Kazantsev")
-    @Test(groups = "provider", dataProvider = "PromVider", retryAnalyzer = RetryAnalyzerPromChecking.class, description = "ProductPromoCheck", threadPoolSize = 1)
+    @Test(groups = "provider", dataProvider = "PromVider", retryAnalyzer = RetryAnalyzerPromCheckingOld.class, description = "ProductPromoCheck", threadPoolSize = 1)
     public void promCheck(String[][] singleCheckList) {
 
         //Обнуляем проверочную переменную
@@ -85,9 +83,13 @@ public class PromCheckingSingleProvider implements Screenshootable, Retryable {
         //Xpath элемента проверки и время ожидания прогрузки страницы
         String checkObjectXpath = Locators.ProductAbout.getXpath();
 
-        //Время ожидания дозагрузки страницы
-        int checkLoadTime = 5;
-        WebDriverWait checkLoadWait = new WebDriverWait(driver, Duration.ofSeconds(checkLoadTime));
+        //Устанавливаем дополнительное время ожидания для повторной попытки загрузки страницы
+        //и создаем явное ожидание для поиска проверочного элемента после обновления страницы
+        int checkLoadTime = 3;
+        WebDriverWait checkLoadWait = new WebDriverWait(driver, Duration.ofSeconds(0));
+
+        //Записываем начальное значение getPageLoadTimeout
+        int startTimeout = (int) driver.manage().timeouts().getPageLoadTimeout().getSeconds();
 
         //Запоминаем установленное значение ImplicitWait
         int impWait = (int) driver.manage().timeouts().getImplicitWaitTimeout().getSeconds();
@@ -137,16 +139,25 @@ public class PromCheckingSingleProvider implements Screenshootable, Retryable {
                         break;
 
                     } catch (NoSuchElementException e) {
+
                         try {
-                            driver.navigate().refresh();
+                            //Обновляем страницу с увеличенным pageLoadTimeout
+                            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout + checkLoadTime));
+                            prodPage.refresh();
+
+                            //Провеяем наличие проверочного объекта после рефреша
                             checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
                             System.out.println("Slow Loading");
 
-                        } catch (TimeoutException ex) {
+                        } catch (TimeoutException | NoSuchElementException ex) {
                             System.out.println("Page 404");
-                            resultCheckList[0][o] = "Page 404";
+                            resultCheckList[1][o] = "Page 404";
                             result = "Page 404";
                             throw new RuntimeException("Page 404");
+
+                        } finally {
+                            //Возвращаем изначальный pageLoadTimeout
+                            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout));
                         }
                     }
                 }

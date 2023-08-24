@@ -21,10 +21,18 @@ public class SetDriver {
     /**
      * Разворачивает окно и позволяет определить вручную implicitlyWait и pageLoadTimeout
      */
-    public static void standardManual(WebDriver driver, int implicitlyWait, int pageLoadTimeout){
+    public synchronized static void standardManual(WebDriver driver, int implicitlyWait, int pageLoadTimeout){
         driver.manage().window().maximize();
         driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitlyWait));
         driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(pageLoadTimeout));
+    }
+
+    public synchronized static int getPageOut(WebDriver driver){
+        return (int) driver.manage().timeouts().getPageLoadTimeout().getSeconds();
+    }
+
+    public synchronized static int getImpOut(WebDriver driver){
+        return (int) driver.manage().timeouts().getPageLoadTimeout().getSeconds();
     }
 
 }

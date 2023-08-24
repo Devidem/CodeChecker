@@ -14,9 +14,9 @@ import java.util.Queue;
  * Помогает переиспользовать драйверы между тестами без закрытия, при одно- и многопоточном тестировании
  */
 public class BufferDriver {
-    private static Queue <WebDriver> chromeDriver = new LinkedList<>();
+    private static final Queue <WebDriver> chromeDriver = new LinkedList<>();
 
-    private static Queue <WebDriver> firefoxDriver = new LinkedList<>();
+    private static final Queue <WebDriver> firefoxDriver = new LinkedList<>();
 
     /**
      * Возвращает драйвер в соответствии с переданным имененем браузера
@@ -24,7 +24,7 @@ public class BufferDriver {
      */
     public synchronized static WebDriver getDriver(String name) {
 
-        String broName = Browsers.selector(name);
+        String broName = Browsers.select(name);
 
         if (broName.contains("chrome")) {
             return getChrome();
@@ -75,7 +75,7 @@ public class BufferDriver {
     /**
      * Помещает переданный ChromeDriver в буффер
      */
-    public static void returnChrome (WebDriver chrome) {
+    public static synchronized void returnChrome (WebDriver chrome) {
         chromeDriver.add(chrome);
     }
 
@@ -103,7 +103,7 @@ public class BufferDriver {
     /**
      * Помещает переданный FirefoxDriver в буффер
      */
-    public static void returnFirefox (WebDriver firefox) {
+    public static synchronized void returnFirefox (WebDriver firefox) {
         firefoxDriver.add(firefox);
     }
 

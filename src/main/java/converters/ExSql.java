@@ -5,28 +5,34 @@ import enums.PostgreData;
 import exceptions.myExceptions.MyFileIOException;
 import experiments.ExObjects;
 
-import java.io.IOException;
 import java.sql.*;
 import java.util.Objects;
 
 /**
  * Класс для работы с PostgreSql
  */
-public class ExSql {
+public class ExSql{
 
     /**
      * Получение финального проверочного массива из SQL
      */
-    public static String[][] toFinalArray() throws IOException, MyFileIOException, SQLException {
+    public static String[][] toFinalArray() throws MyFileIOException {
 
         String queryCodes = "SELECT * from prodcode_promo";
         String queryProms = "SELECT * from active_promo";
 
         //Массив с кодами товаров и отображаемыми акциями
-        String [][] codes = to2dString(PostgreData.LocalProdcode1, queryCodes);
+        String [][] codes;
         //Массив с списком проверяемых акций
-        String [][] proms = to2dString(PostgreData.LocalProdcode1, queryProms);
+        String [][] proms;
 
+        //Заполняем массивы данными из SQL
+        try {
+            codes = to2dString(PostgreData.LocalProdcode1, queryCodes);
+            proms = to2dString(PostgreData.LocalProdcode1, queryProms);
+        } catch (SQLException e) {
+            throw new RuntimeException("Ошибка при генерации массивов из SQL");
+        }
 
         //Номер строки, с которой начинается перечисление кодов в codes
         int codeStartRow = ConstInt.startRow.getValue();
@@ -37,7 +43,7 @@ public class ExSql {
         //Проверочный символ
         String promSymbol = "*";
 
-        //Убирает текст из первого ряда в скидках, которые не нужно проверять + считает количество удаленных ячеек
+        //Убираем текст из первого ряда в скидках, которые не нужно проверять + считает количество удаленных ячеек
         for (int i = 0; i< (proms.length-ConstInt.startRow.getValue()); i++) {
             String starCheck = proms [codeStartRow+i] [1];
 
@@ -57,7 +63,7 @@ public class ExSql {
         String [][] finalArray = new String[codes.length][codes[0].length-deleted];
         // Счетчик(указатель) столбцов для конечного массива finalArray
         int oFinal = 0;
-        // Переносит данные из отредактированного массива - забираются только столбцы с непустой 0-й строкой
+        // Переносим данные из отредактированного массива - забираются только столбцы с непустой 0-й строкой
         for (int o=0; o<codes[0].length; o++ ) {
             try {
                 if (!Objects.equals(codes[0][o], "")) {
@@ -72,13 +78,12 @@ public class ExSql {
             } catch (NullPointerException e) {
                 throw new MyFileIOException("Первый и второй лист не соответствуют требованиям", e);
             }
-
         }
         return finalArray;
     }
 
     /**
-     * Преобразует результат запроса в двемерный String массив
+     * Преобразует результат запроса в двумерный String массив
      */
     public static String [][] to2dString(PostgreData databaseEnum, String query) throws SQLException {
 

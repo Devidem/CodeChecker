@@ -6,7 +6,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
 /**
- * Класс с дополнительными методами, которые не явялются общими для классов Page типа.
+ * Класс с дополнительными методами для работы с Selenium.
  */
 public class ExSelen {
     WebDriver driver;
@@ -16,7 +16,7 @@ public class ExSelen {
     }
 
     /**
-     * Вычисляет Xpath локатор для нужного элемента из контейнера по значению Property (первых чайлдов, без углубления).
+     * Вычисляет Xpath локатор для нужного элемента из контейнера по значению Property (перебирает первых чайлдов).
      * @param xpathContainer Xpath контейнера
      * @param propertyName Название Property
      * @param propertyValue Значение Property
@@ -30,7 +30,7 @@ public class ExSelen {
         String foundValue = null;
         int elemNum = 1;
 
-        //Перебираем элементы контейнера по номеру расположения и останавливаем цикл если нашли нужный
+        //Перебираем элементы контейнера по номеру расположения и останавливаем цикл если нашли нужный Property
         while (!propertyValue.equals(foundValue)) {
             newXpath = xpathContainer + "/*" + "[" + elemNum + "]";
             elemNum++;
@@ -44,12 +44,9 @@ public class ExSelen {
             } catch (NoSuchElementException e) {
                 System.out.println(xpathContainer + " - Element was not found!");
                 return null;
-
             }
-
         }
         return newXpath;
-
     }
 
 

@@ -20,9 +20,11 @@ public class Xls {
      * .xls имеет 2 листа - лист с кодами товаров и имеющимися у них акциями
      * + лист с указанием акций, которые будут проверяться.
      * @param filePath путь к .xls файлу
-     * @return Двумерный массив с кодами товаров и проверяемыми акциями ( * - если должна отображаться, пустая строка если не должна)
+     * @return Двумерный массив с кодами товаров и проверяемыми акциями ( * - если должна отображаться и пустая строка,
+     * если не должна)
      */
-    public  String[][] toFinalArray(String filePath) throws IOException, MyFileIOException {
+    public String[][] toFinalArray(String filePath) throws IOException, MyFileIOException {
+
         //Массив с кодами товаров и отображаемыми акциями
         String [][] codes = fileToArray(filePath, 0);
         //Массив с списком проверяемых акций
@@ -83,6 +85,7 @@ public class Xls {
      * @param sheet Номер листа (начинается с 0)
      */
     public String[][] fileToArray (String filePath, int sheet) throws IOException {
+
         FileInputStream direct = new FileInputStream(filePath);
         Workbook proms = new HSSFWorkbook(direct);
         //Создается массив исходя из количества рядов и стобцов в файле
@@ -99,7 +102,6 @@ public class Xls {
                 catch (Exception NullPointerException) {
                     finArr [i][o] = "";
                 }
-
             }
         }
         return finArr;
@@ -115,8 +117,8 @@ public class Xls {
         FileInputStream direct = new FileInputStream(filePath);
         Workbook toArray = new HSSFWorkbook(direct);
 
-        //Счетчик рядов (для наглядности) + номер ряда с которой с которого начинается перечисление кодов товаров (начинается 0)
-        int cycleRow = 2;
+        //Счетчик рядов и первый провеяемый объект
+        int cycleRow = 0;
         //Шаг для проверки следующего ряда
         int step = 1;
 
@@ -125,7 +127,7 @@ public class Xls {
         // Apache Poi может возвращать 3 варианта на пустую ячейку в excel в зависимости от условий - пустая строка, строковое null и NullPointerException
         // Поэтому, чтобы упростить описание условий и привести таблицу к единому виду, используется созданный
         // метод ObjectsEx.toString - аналог метода Objects, только превращает строковое null в пустую строку
-        while (step!=0) {
+        while (true) {
             try {
                 // Если ячейка не пустая, то увеличиваем шаг в 2 раза
                 if (!Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(cycleRow).getCell(0)), "")) {
@@ -135,10 +137,11 @@ public class Xls {
                 } else if (Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(cycleRow).getCell(0)), "") & step!=1) {
                     step = step / 2;
                     cycleRow = cycleRow - step;
+
                 // Если ячейка пустая и шаг 1, то завершаем подсчет, поскольку находимся в первой пустой ячейке
                 // Из итогового значения не вычитается единица, поскольку счет ведется с 0
                 } else if (Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(cycleRow).getCell(0)), "") & step==1) {
-                    step = 0;
+                    break;
                 }
                 else {
                     System.out.println("Здесь невозможно оказаться");
@@ -150,7 +153,7 @@ public class Xls {
                     step = step / 2;
                     cycleRow = cycleRow - step;
                 } else {
-                    step = 0;
+                    break;
                 }
             }
         }
@@ -172,7 +175,7 @@ public class Xls {
         int step = 1;
 
         //Работает аналогично calc_R, но упрощен в NullPointerException
-        while (step!=0) {
+        while (true) {
             try {
                 if (!Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(0).getCell(cycleCell)), "")) {
                     step = step * 2;
@@ -183,7 +186,7 @@ public class Xls {
                     cycleCell = cycleCell - step;
 
                 } else if (Objects.equals(ExObjects.toString(toArray.getSheetAt(sheet).getRow(0).getCell(cycleCell)), "") & step==1) {
-                    step = 0;
+                    break;
 
                 }
                 else {
@@ -191,11 +194,9 @@ public class Xls {
                 }
             //Здесь можно оказаться только если в нулевой ячейке будет пусто или указании несуществующего листа
             } catch (NullPointerException e) {
-                step = 0;
+                break;
             }
-
         }
         return cycleCell;
     }
-
 }

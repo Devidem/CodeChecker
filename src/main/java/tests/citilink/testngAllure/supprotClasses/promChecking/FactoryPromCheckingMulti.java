@@ -20,8 +20,7 @@ public class FactoryPromCheckingMulti {
     public void setValues (String inpType) throws MyFileIOException {
 
         //Получение чеклиста для дальнейшей проверки
-        InputType inputType = new InputType(inpType);
-        checkList = inputType.toFinalArray();
+        checkList = InputType.toFinalArray(inpType);
 
         //Получение полной ссылки сайта
         this.siteName = ConstString.CitilinkAdress.getValue();

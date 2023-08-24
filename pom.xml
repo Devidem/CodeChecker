@@ -4,9 +4,9 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>org.example</groupId>
-    <artifactId>IfTest</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <groupId>org.dmk</groupId>
+    <artifactId>DemoProject</artifactId>
+    <version>1.0</version>
 
     <dependencies>
 
@@ -157,8 +157,8 @@
 
 
     <properties>
-        <aspectj.version>1.9.19</aspectj.version>
         <suite>testng.xml</suite>
+        <aspectj.version>1.9.19</aspectj.version>
         <slf4j.version>1.6.1</slf4j.version>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>

@@ -23,15 +23,13 @@ public class FactoryPromChecking {
     public void setValues (String inpType, String browserName) throws MyFileIOException {
 
         //Получение чеклиста для дальнейшей проверки
-        InputType inputType = new InputType(inpType);
-        checkList = inputType.toFinalArray();
+        checkList = InputType.toFinalArray(inpType);
 
         //Получение полной ссылки сайта
         String siteName = ConstString.CitilinkAdress.getValue();
 
         //Выбор браузера и его запуск + настройка
-        Browsers browsers = new Browsers(browserName);
-        driver = browsers.start();
+        driver = Browsers.getDriver(browserName);
         SetDriver.standard(driver);
 
         //Переход на сайт

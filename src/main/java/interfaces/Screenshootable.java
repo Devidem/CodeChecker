@@ -19,4 +19,9 @@ public interface Screenshootable {
      * Возвращает из теста String переменную, которая добавляется к имени скриншота
      */
     String getScreenNameVar(ITestResult iTestResult);
+
+    /**
+     * Возвращает из теста Xpath элемента, по которому будет производиться обрезание скриншота
+     */
+    String getCutXpath(ITestResult iTestResult);
 }

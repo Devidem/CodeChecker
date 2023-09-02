@@ -5,10 +5,11 @@ import enums.ConstInt;
 import enums.ConstString;
 import enums.Locators;
 import exceptions.myExceptions.MyFileIOException;
+import exceptions.myExceptions.MyInputParamException;
 import experiments.FileManager;
 import fabrics.SetDriver;
-import interfaces.RetryableOld;
-import interfaces.ScreenshootableOld;
+import interfaces.oldVersions.RetryableOld;
+import interfaces.oldVersions.ScreenshootableOld;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
@@ -24,6 +25,7 @@ import selectors.InputType;
 import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromCheckingOld;
 import tests.citilink.testngAllure.supprotClasses.promChecking.RetryAnalyzerPromCheckingOld;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.Objects;
@@ -41,7 +43,7 @@ public class PromCheckingSingleProvider implements ScreenshootableOld, Retryable
 
     @BeforeSuite(groups = "provider")
     @Parameters ({"inputType", "browserName"})
-    public void testPrepare(String inputType, String browserName) throws MyFileIOException {
+    public void testPrepare(String inputType, String browserName) throws MyFileIOException, IOException, MyInputParamException {
 
         //Получение чеклиста для дальнейшей проверки
         fullCheckList = InputType.toFinalArray(inputType);

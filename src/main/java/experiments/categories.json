@@ -16,7 +16,7 @@
   },
 
   {
-    "name": "Ошибка автотеста",
+    "name": "Упавшие тесты",
     "traceRegex": ".*RuntimeException.*",
     "matchedStatuses": ["broken", "failed"]
   },
@@ -34,13 +34,13 @@
   },
 
   {
-    "name": "Ошибки TestNGException",
+    "name": "Ошибки TestNG",
     "traceRegex": ".*org.testng.TestNGException.*",
     "matchedStatuses": ["broken"]
   },
 
   {
-    "name": "Неверный код ответа",
+    "name": "Неверный код ответа API",
     "traceRegex": ".*ted status code.*",
     "matchedStatuses": ["failed"]
   }

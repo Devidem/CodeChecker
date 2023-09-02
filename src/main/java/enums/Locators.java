@@ -9,16 +9,17 @@ public enum Locators {
     Catalog ("//*[@class=\"css-3nmxdw eyoh4ac0\"]/*[@href=\"/catalog/\"]"),
     SearchField ("//input[@type=\"search\"]"),
     SearchWatchedBefore ("//*[contains(text(),'просмотренные')]"),
-    VarSearchResult("//*[contains(@href,\"" + "XPATH_VARIABLE" + "\")]//*[@data-meta-name=\"InstantSearchMainResult\"]"),
     PopularCategory ("//*[@class=\"edhylph0 app-catalog-1ljlt6q e3tyxgd0\"]"),
     ProdPageBasket ("//*[@data-meta-name = \"BasketDesktopButton\"]"),
     ProductAbout ("//*[@data-meta-value = \"about\"]"),
     ProductPageProdContainer("//*[@class=\"app-catalog-1xdhyk6 e19nkc9p0\"]"),
-    VarProductPromoMain("//*[@data-meta-name=\"ProductHeaderContentLayout\"]//*[contains(text(),'" + "XPATH_VARIABLE" + "')]")
+
+//--------------------------------------------------------------------------------------------------------------------//
+    VarProductPromoMain("//*[@data-meta-name=\"ProductHeaderContentLayout\"]//*[contains(text(),'" + "XPATH_VARIABLE" + "')]"),
+    VarSearchResult("//*[contains(@href,\"" + "XPATH_VARIABLE" + "\")]//*[@data-meta-name=\"InstantSearchMainResult\"]")
+
+
     ;
-
-
-
 //--------------------------------------------------------------------------------------------------------------------//
 
     public String getXpath() {

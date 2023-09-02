@@ -5,8 +5,8 @@ import experiments.SuiteReader;
 import java.util.HashMap;
 
 /**
- * Буффер для сохранения переменных из Suite
- * Используется для применения параметров в DataProvider
+ * Буфер для сохранения переменных из Suite.
+ * Используется для применения параметров в DataProvider.
  */
 public class BufferSuiteVar {
 
@@ -22,7 +22,7 @@ public class BufferSuiteVar {
     }
 
     /**
-     * Записывает все параметры Suite в буффер
+     * Записывает все параметры Suite в буфер
      */
     public static void read() {
         suiteVariables.putAll(SuiteReader.getAllParameters());

@@ -5,6 +5,7 @@ import enums.ApiLinks;
 import enums.ConstInt;
 import enums.JsonRequest;
 import exceptions.myExceptions.MyFileIOException;
+import exceptions.myExceptions.MyInputParamException;
 import experiments.FanticProdCode;
 import experiments.FileManager;
 import io.qameta.allure.Allure;
@@ -20,6 +21,7 @@ import org.testng.annotations.Test;
 import selectors.InputType;
 import tests.citilink.finalTest.supportClasses.pojos.PojoPromoName;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -38,7 +40,7 @@ public class PromCheckingApi {
     @BeforeSuite(groups = "apiSingle")
     @Step ("Подготовка чеклиста")
     @Parameters("inputType")
-    public void testPrepare(String inputType) throws MyFileIOException {
+    public void testPrepare(String inputType) throws MyFileIOException, IOException, MyInputParamException {
 
         // Копирование categories.json в allure-results
         FileManager.copyCategories();
@@ -70,7 +72,7 @@ public class PromCheckingApi {
         //Получаем коллекцию Pojo классов с именами скидок
         List<PojoPromoName> promsList =
                 given().
-                        body(JsonRequest.PromoListRequest.getBodyVariable(prodCode)).
+                        body(JsonRequest.VarPromoListRequest.getBodyVariable(prodCode)).
                         contentType(ContentType.JSON).
                         when().
                         post(ApiLinks.SearchProdPromo.getLink()).

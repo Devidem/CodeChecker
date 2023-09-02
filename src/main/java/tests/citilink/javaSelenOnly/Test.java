@@ -4,6 +4,7 @@ import converters.ExArray;
 import enums.ConstInt;
 import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
+import exceptions.myExceptions.MyInputParamException;
 import fabrics.SetDriver;
 import org.openqa.selenium.WebDriver;
 import pages.NoPage;
@@ -12,6 +13,7 @@ import selectors.Browsers;
 import selectors.InputType;
 import tests.citilink.javaSelenOnly.multithread.MultiPromCheck;
 
+import java.io.IOException;
 import java.util.Arrays;
 
 /**
@@ -25,7 +27,7 @@ public class Test {
      * @param browserName Название браузера - Chrome, Firefox(не реализовано)
      * @param inputType Тип входных данных - Excel, Sql(не реализовано)
      */
-    public void codeChecks (String browserName, String inputType) throws MyFileIOException {
+    public void codeChecks (String browserName, String inputType) throws MyFileIOException, MyInputParamException, IOException {
 
         //Получение чеклиста для дальнейшей проверки
         String[][] checkList = InputType.toFinalArray(inputType);
@@ -88,7 +90,7 @@ public class Test {
      * @param inputType Тип входных данных - Excel, Sql(не реализовано)
      * @param threadsNumber Количество потоков
      */
-    public void codeChecks (String browserName,String inputType, int threadsNumber) throws MyFileIOException {
+    public void codeChecks (String browserName,String inputType, int threadsNumber) throws MyFileIOException, IOException, MyInputParamException {
 
         //Получение чеклиста для дальнейшей проверки
         String[][] checkList = InputType.toFinalArray(inputType);

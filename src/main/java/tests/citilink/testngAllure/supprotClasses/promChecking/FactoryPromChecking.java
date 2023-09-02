@@ -3,6 +3,7 @@ package tests.citilink.testngAllure.supprotClasses.promChecking;
 import enums.ConstInt;
 import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
+import exceptions.myExceptions.MyInputParamException;
 import fabrics.SetDriver;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
@@ -13,6 +14,8 @@ import selectors.Browsers;
 import selectors.InputType;
 import tests.citilink.testngAllure.PromCheckingSingleFactory;
 
+import java.io.IOException;
+
 
 public class FactoryPromChecking {
 
@@ -20,7 +23,7 @@ public class FactoryPromChecking {
     WebDriver driver;
 
     @Step ("Set Start Values")
-    public void setValues (String inpType, String browserName) throws MyFileIOException {
+    public void setValues (String inpType, String browserName) throws MyFileIOException, IOException, MyInputParamException {
 
         //Получение чеклиста для дальнейшей проверки
         checkList = InputType.toFinalArray(inpType);
@@ -41,7 +44,7 @@ public class FactoryPromChecking {
     @Test(groups = "factory")
     @org.testng.annotations.Factory
     @Parameters ({"inputType", "browserName"})
-    public Object[] factoryMethod(String inpType, String browserName) throws MyFileIOException {
+    public Object[] factoryMethod(String inpType, String browserName) throws MyFileIOException, MyInputParamException, IOException {
         setValues(inpType, browserName);
 
         int startRow = ConstInt.startRow.getValue();

@@ -3,12 +3,15 @@ package tests.citilink.testngAllure.supprotClasses.promChecking;
 import enums.ConstInt;
 import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
+import exceptions.myExceptions.MyInputParamException;
 import io.qameta.allure.Step;
 import org.testng.annotations.Factory;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import selectors.InputType;
 import tests.citilink.testngAllure.PromCheckingMultiFactory;
+
+import java.io.IOException;
 
 
 public class FactoryPromCheckingMulti {
@@ -17,7 +20,7 @@ public class FactoryPromCheckingMulti {
     String siteName;
 
     @Step ("Set Start Values")
-    public void setValues (String inpType) throws MyFileIOException {
+    public void setValues (String inpType) throws MyFileIOException, IOException, MyInputParamException {
 
         //Получение чеклиста для дальнейшей проверки
         checkList = InputType.toFinalArray(inpType);
@@ -29,7 +32,7 @@ public class FactoryPromCheckingMulti {
     @Test(groups = "multi")
     @Factory
     @Parameters ({"inputType", "browserName"})
-    public Object[] factoryMethod(String inpType, String browserName) throws MyFileIOException {
+    public Object[] factoryMethod(String inpType, String browserName) throws MyFileIOException, IOException, MyInputParamException {
         setValues(inpType);
 
         int startRow = ConstInt.startRow.getValue();

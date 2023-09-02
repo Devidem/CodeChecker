@@ -4,12 +4,19 @@ package enums;
  * Место для хранения данных доступа к базам SQL
  */
 public enum PostgreData {
-    LocalProdcode ("jdbc:postgresql://localhost:5432/test_prodcode", "postgres", "admin"),
-    LocalProdcode1 ("jdbc:postgresql://localhost:5432/postgres", "postgres", "admin")
+    LocalTestProdcode("jdbc:postgresql://localhost:5432/test_prodcode", "postgres", "admin"),
+    LocalPostgres("jdbc:postgresql://localhost:5432/postgres", "postgres", "admin")
 
     ;
 
 //--------------------------------------------------------------------------------------------------------------------//
+
+    /**
+     * Получить адрес базы данных
+     */
+    public String getUrl() {
+        return url;
+    }
 
     /**
      * Получить имя пользователя
@@ -25,12 +32,7 @@ public enum PostgreData {
         return password;
     }
 
-    /**
-     * Получить адрес базы данных
-     */
-    public String getUrl() {
-        return url;
-    }
+
 
 //--------------------------------------------------------------------------------------------------------------------//
     private final String url;

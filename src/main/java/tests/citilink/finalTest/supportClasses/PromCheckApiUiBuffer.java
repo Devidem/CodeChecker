@@ -3,7 +3,7 @@ package tests.citilink.finalTest.supportClasses;
 import java.util.List;
 
 /**
- * Буффер для передачи сформированных чек-листов проверки промоакций товаров между {@link tests.citilink.finalTest.API}
+ * Буфер для передачи сформированных чек-листов проверки промоакций товаров между {@link tests.citilink.finalTest.API}
  * и {@link tests.citilink.finalTest.UI}
  */
 public class PromCheckApiUiBuffer {

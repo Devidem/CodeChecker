@@ -1,9 +1,8 @@
 package pages.citilink;
 
 import enums.Locators;
+import fabrics.SetDriver;
 import org.openqa.selenium.*;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import java.time.Duration;
 import java.util.Objects;
@@ -30,27 +29,29 @@ public class ProdPage extends CitiPage {
         //Массив для результата проверки (строка, которая будет вставлена напротив кода товара)
         String [] checkResult = new String[promsList[0].length];
 
-        //Xpath элемента проверки и время ожидания прогрузки страницы
-        String checkObjectXpath = Locators.ProductAbout.getXpath();
-
         //Устанавливаем дополнительное время ожидания для повторной попытки загрузки страницы
-        //и создаем явное ожидание для поиска проверочного элемента после обновления страницы
         int checkLoadTime = 3;
-        WebDriverWait checkLoadWait = new WebDriverWait(prodDriver, Duration.ofSeconds(0));
 
-        //Записываем начальное значение getPageLoadTimeout
-        int startTimeout = (int) prodDriver.manage().timeouts().getPageLoadTimeout().getSeconds();
+        //Xpath проверочного элемента
+        String checkObjectXpath = Locators.ProdPageBasket.getXpath();
 
-        //Запоминаем установленное значение ImplicitWait и меняем его на 0, чтобы не тратить лишнее время при проверках
-        int impWait = (int) prodDriver.manage().timeouts().getImplicitWaitTimeout().getSeconds();
-        prodDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+        //Записываем начальное значение PageLoadTimeout и ImplicitWait
+        int startTimeout = SetDriver.getPageOut(prodDriver);
+        int startImplicit = SetDriver.getImpOut(prodDriver);
 
-        //Блок try-finally для гарантии возвращения ненулевого значения ImplicitWait
+        //Блок try-finally для гарантии возвращения PageLoadTimeout и ImplicitWait после проверки
         try {
 
             promChecker:
             {
                 for (int o = 0; o < promsList[0].length; o++) {
+
+                    //Начиная со второй скидки отключаем implicitlyWait, чтобы не тратить время на ожидание.
+                    //Без использования на первой скидке, могут быть проблемы с обнаружением элементов
+                    //сразу после загрузки страницы.
+                    if (o==2) {
+                        prodDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+                    }
 
                     //Забираем значение и имя акции + вычисляем для нее xpath
                     String promoName = promsList[0][o];
@@ -68,7 +69,6 @@ public class ProdPage extends CitiPage {
 
                             } catch (NoSuchElementException e) {
                                 checkResult[o] = "FAILED";
-
                             }
 
                         } else {
@@ -79,39 +79,37 @@ public class ProdPage extends CitiPage {
 
                             } catch (NoSuchElementException e) {
                                 checkResult[o] = "Passed";
-
                             }
+                        }
 
+                        //Останавливаем запуск дополнительной проверки начиная со второй промо-акции
+                        if (o > 1) {
+                            break;
                         }
 
                         // Блок проверки загрузки страницы. Запускается однократно и только на первой скидке
                         // Закрывает цикл, если нашел проверочный элемент (checkElement), а если нет, то обновляет страницу и ждет появления
                         // Если не дождался, то вписывает "404" в ячейку и завершает проверку для кода товара (не проверяет остальные акции)
                         // Если дождался, то цикл проверки скидки запускается снова
-                        if (o == 0 && i == 0) {
+                        if (i == 0) {
                             try {
                                 WebElement checkElement = prodDriver.findElement(By.xpath(checkObjectXpath));
                                 break;
 
                             } catch (NoSuchElementException e) {
-
                                 try {
                                     //Обновляем страницу с увеличенным pageLoadTimeout
-                                    prodDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout + checkLoadTime));
+                                    prodDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(SetDriver.getPageOut(prodDriver) + checkLoadTime));
                                     refresh();
 
                                     //Провеяем наличие проверочного объекта после рефреша
-                                    checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
+                                    WebElement checkElement = prodDriver.findElement(By.xpath(checkObjectXpath));
                                     System.out.println("Slow Loading");
 
                                 } catch (TimeoutException | NoSuchElementException ex) {
                                     System.out.println("404");
                                     checkResult[o] = "404";
                                     break promChecker;
-
-                                } finally {
-                                    //Возвращаем изначальный pageLoadTimeout
-                                    prodDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout));
                                 }
                             }
                         }
@@ -119,8 +117,9 @@ public class ProdPage extends CitiPage {
                 }
             }
         } finally {
-            //возвращаем implicitlyWait, который был до проверки
-            prodDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(impWait));
+            //Возвращаем изначальные implicitlyWait и pageLoadTimeout
+            prodDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(startImplicit));
+            prodDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout));
         }
         return checkResult;
     }

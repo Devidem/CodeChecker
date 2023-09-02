@@ -1,6 +1,6 @@
 package selectors;
 
-import converters.ExArray;
+import exceptions.myExceptions.MyInputParamException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -13,7 +13,7 @@ public class Browsers {
     /**
      * Возвращает нужный вебдрайвер в зависимости от значения {@param browserName}.
      */
-    public static WebDriver getDriver(String browserName) {
+    public static WebDriver getDriver(String browserName) throws MyInputParamException {
 
         String result = select(browserName);
 
@@ -25,28 +25,22 @@ public class Browsers {
             return new FirefoxDriver();
         }
 
-        throw new RuntimeException("Wrong Browser!");//Скорее всего забыли про select()!
+        //Здесь мы не должны оказываться
+        throw new RuntimeException();
     }
 
-    public static String select(String input) {
+    public static String select(String input) throws MyInputParamException {
         input = input.toLowerCase();
-        String result;
-
-        String[] broList = {"chrome", "firefox"};
 
         if (input.contains("chrome")) {
-            result = "chrome";
+            return "chrome";
 
         } else if (input.contains("firefox")) {
-            result = "firefox";
+            return "firefox";
 
         } else {
-            //Предлагаем сделать выбор вручную
-            System.out.println("Unknown Browser");
-            result = ExArray.selector1D(broList);
+            throw new MyInputParamException("Неверный входной параметр \"browserName\" \nДоступные варианты - Сhrome/Firefox");
 
         }
-    return result;
     }
-
 }

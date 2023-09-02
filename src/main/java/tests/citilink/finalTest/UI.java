@@ -3,11 +3,12 @@ package tests.citilink.finalTest;
 import buffers.BufferDriver;
 import buffers.BufferSuiteVar;
 import converters.ExArray;
+import enums.ConstInt;
 import enums.Locators;
 import exceptions.myExceptions.MyFileIOException;
+import exceptions.myExceptions.MyInputParamException;
 import experiments.ApiRequests;
 import experiments.FanticProdCode;
-import experiments.ProviderGenerator;
 import fabrics.SetDriver;
 import interfaces.Retryable;
 import interfaces.Screenshootable;
@@ -23,10 +24,12 @@ import org.testng.annotations.DataProvider;
 import org.testng.annotations.Listeners;
 import org.testng.annotations.Test;
 import pages.citilink.ProdPage;
+import selectors.InputType;
 import tests.citilink.finalTest.supportClasses.MyListenerPromChecking;
 import tests.citilink.finalTest.supportClasses.MyRetryAnalyzerPromChecking;
 import tests.citilink.finalTest.supportClasses.PromCheckApiUiBuffer;
 
+import java.io.IOException;
 import java.time.Duration;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -36,16 +39,13 @@ import java.util.Objects;
 @Listeners(MyListenerPromChecking.class)
 public class UI implements Screenshootable, Retryable {
 
-    //Массив с проводимыми проверками (используется в случаях, когда API тест не проводился)
-    private String [][] fullCheckList;
-
     //Мапа для удобного получения соответствующего драйвера в Listeners
     private final HashMap <String, WebDriver> codeDriver = new HashMap<>();
 
     //Мапа для хранения переменной result для финального Ассерта
     private final HashMap <String, String> codeResult = new HashMap<>();
 
-    //Мапа хранящая переменную true/false, в которой мы определяем необходимость запуска RetryAnalyzer
+    //Мапа хранящая переменную true/false, в которой мы определяем необходимость обработки RetryAnalyzer'ом
     private final HashMap <String, Boolean> retryValue = new HashMap<>();
 
 
@@ -77,7 +77,22 @@ public class UI implements Screenshootable, Retryable {
         String checkObjectXpath = Locators.ProdPageBasket.getXpath();
 
         //Забираем драйвер из буфера
-        WebDriver driver = BufferDriver.getDriver(BufferSuiteVar.get("browserName"));
+        WebDriver driver;
+        try {
+            //В соответствии с входным параметром из Suite
+            driver = BufferDriver.getDriver(BufferSuiteVar.get("browserName"));
+        } catch (MyInputParamException e) {
+            //Указываем Chrome как браузер по умолчанию на случай некорректного указания параметра в Suite
+            //(сделано для примера обработки собственных исключений)
+            try {
+                System.out.println(e.getMessage());
+                System.out.println("Выбран по умолчанию Chrome");
+                driver = BufferDriver.getDriver("chrome");
+            } catch (MyInputParamException ex) {
+                //Здесь мы не должны оказываться
+                throw new RuntimeException(ex);
+            }
+        }
 
         //Записываем начальное значение PageLoadTimeout и ImplicitWait
         int startTimeout = SetDriver.getPageOut(driver);
@@ -203,11 +218,12 @@ public class UI implements Screenshootable, Retryable {
     }
 
     @DataProvider (name = "UI_Vider", parallel = true)
-    public Object[][] dataMethodUI() throws MyFileIOException {
+    public Object[][] dataMethodUI() throws MyFileIOException, IOException, MyInputParamException {
 
         //Выбираем способ формирования данных в зависимости от того, запускались ли Api тесты и передавали ли они
         //какие-то данные
         if (PromCheckApiUiBuffer.getBufferCheckList() != null && PromCheckApiUiBuffer.getBufferCheckList().size() != 0) {
+
             //Забираем готовые чеклисты для каждого товара, после прохождения Api тестов
             List<String[][]> afterApiCheckList = PromCheckApiUiBuffer.getBufferCheckList();
 
@@ -222,8 +238,36 @@ public class UI implements Screenshootable, Retryable {
             return dataObject;
 
         } else {
-            //Генерируем данные для DataProvider
-            return ProviderGenerator.getPromData();
+
+            //Забираем значение параметры из Сьюита
+            String inpType = BufferSuiteVar.get("inputType");
+
+            //Получаем чеклист для дальнейшей проверки
+            String [][] fullCheckList;
+            fullCheckList = InputType.toFinalArray(inpType);
+
+            //Ряд с которого начинают перечисляться коды товаров в массиве
+            int startRow = ConstInt.startRow.getValue();
+
+            //Создаем список для помещения "обернутых" проверочных массивов
+            Object [][] dataObject = new Object[fullCheckList.length-startRow][1] ;
+
+            //Создаем чек-лист для одного товара
+            for (int i = startRow; i < fullCheckList.length; i++) {
+
+                //Создаем чек лист для товара
+                String [][] singleCheckList = new String[2][fullCheckList[0].length];
+                System.arraycopy(fullCheckList[0], 0, singleCheckList[0], 0, singleCheckList[0].length);
+                System.arraycopy(fullCheckList[i], 0, singleCheckList[1], 0, singleCheckList[0].length);
+
+                //Оборачиваем в Фантик для красивого отображения кода товара в отчете Allure
+                FanticProdCode fanticProdCode = new FanticProdCode(singleCheckList);
+
+                //Добавляем фантик в массив
+                dataObject [i-startRow][0] = fanticProdCode;
+
+            }
+            return dataObject;
         }
     }
 
@@ -234,11 +278,17 @@ public class UI implements Screenshootable, Retryable {
         BufferDriver.closeAllDrivers();
     }
 
+
+
     //Методы интерфейсов
     @Override
     public Boolean getRetryVar(ITestResult iTestResult) {
         String prodCode = iTestResult.getParameters()[0].toString();
         return retryValue.get(prodCode);
+    }
+    @Override
+    public String getTestId(ITestResult iTestResult) {
+        return iTestResult.getParameters()[0].toString();
     }
     @Override
     public WebDriver getDriver(ITestResult iTestResult) {
@@ -251,13 +301,8 @@ public class UI implements Screenshootable, Retryable {
     }
 
     @Override
-    public String getTestId(ITestResult iTestResult) {
-        return iTestResult.getParameters()[0].toString();
-    }
-
-    //Геттеры
-    public String[][] getFullCheckList() {
-        return fullCheckList;
+    public String getCutXpath(ITestResult iTestResult) {
+        return Locators.ProductPageProdContainer.getXpath();
     }
 
 }

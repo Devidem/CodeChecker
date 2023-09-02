@@ -1,4 +1,4 @@
-package interfaces;
+package interfaces.oldVersions;
 
 /**
  * Позволяет использовать класс в RetryAnalyzer, благодаря получению проверочной переменной через метод {@link #getRetryVar()}

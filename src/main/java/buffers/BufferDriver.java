@@ -1,17 +1,17 @@
 package buffers;
 
+import exceptions.myExceptions.MyInputParamException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import selectors.Browsers;
 
 import java.util.LinkedList;
 import java.util.NoSuchElementException;
 import java.util.Queue;
 
 /**
- * Буффер с очередями из драйверов
- * Помогает переиспользовать драйверы между тестами без закрытия, при одно- и многопоточном тестировании
+ * Буфер с очередями из драйверов.
+ * Помогает переиспользовать драйверы между тестами без закрытия, при одно- и многопоточном тестировании.
  */
 public class BufferDriver {
     private static final Queue <WebDriver> chromeDriver = new LinkedList<>();
@@ -22,9 +22,9 @@ public class BufferDriver {
      * Возвращает драйвер в соответствии с переданным имененем браузера
      * @param name - имя браузера
      */
-    public synchronized static WebDriver getDriver(String name) {
+    public synchronized static WebDriver getDriver(String name) throws MyInputParamException {
 
-        String broName = Browsers.select(name);
+        String broName = name.toLowerCase();
 
         if (broName.contains("chrome")) {
             return getChrome();
@@ -33,13 +33,13 @@ public class BufferDriver {
             return getFirefox();
 
         } else {
-            throw new RuntimeException("Ошибка при выборе браузера");
+            throw new MyInputParamException("Неверный входной параметр \"browserName\" \nДоступные варианты - Сhrome/Firefox");
         }
 
     }
 
     /**
-     * Помещает переданный WebDriver в буффер
+     * Помещает переданный WebDriver в буфер
      */
     public synchronized static void returnDriver (WebDriver driver) {
         if (driver instanceof ChromeDriver) {
@@ -52,7 +52,7 @@ public class BufferDriver {
     }
 
     /**
-     * Закрывает все WebDriver в буффере и очищает его
+     * Закрывает все WebDriver в буфере и очищает его
      */
     public static void closeAllDrivers () {
         closeAllFirefox();
@@ -61,8 +61,8 @@ public class BufferDriver {
 
 
     /**
-     * Возвращает ChromeDriver из буффера.
-     * Если буффер пуст, то создает новый ChromeDriver
+     * Возвращает ChromeDriver из буфера.
+     * Если буфер пуст, то создает новый ChromeDriver
      */
     public static WebDriver getChrome() {
         try {
@@ -73,14 +73,14 @@ public class BufferDriver {
     }
 
     /**
-     * Помещает переданный ChromeDriver в буффер
+     * Помещает переданный ChromeDriver в буфер
      */
     public static synchronized void returnChrome (WebDriver chrome) {
         chromeDriver.add(chrome);
     }
 
     /**
-     * Закрывает все ChromeDriver в буффере и очищает его
+     * Закрывает все ChromeDriver в буфере и очищает его
      */
     public static void closeAllChrome () {
         while (chromeDriver.size() != 0) {
@@ -89,8 +89,8 @@ public class BufferDriver {
     }
 
     /**
-     * Возвращает ChromeDriver из буффера.
-     * Если буффер пуст, то создает новый FirefoxDriver
+     * Возвращает ChromeDriver из буфера.
+     * Если буфер пуст, то создает новый FirefoxDriver
      */
     public static WebDriver getFirefox() {
         try {
@@ -101,14 +101,14 @@ public class BufferDriver {
     }
 
     /**
-     * Помещает переданный FirefoxDriver в буффер
+     * Помещает переданный FirefoxDriver в буфер
      */
     public static synchronized void returnFirefox (WebDriver firefox) {
         firefoxDriver.add(firefox);
     }
 
     /**
-     * Закрывает все FirefoxDriver в буффере и очищает его
+     * Закрывает все FirefoxDriver в буфере и очищает его
      */
     public static void closeAllFirefox () {
         while (firefoxDriver.size() != 0) {

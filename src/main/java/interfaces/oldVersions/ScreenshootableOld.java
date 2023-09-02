@@ -1,4 +1,4 @@
-package interfaces;
+package interfaces.oldVersions;
 
 import org.openqa.selenium.WebDriver;
 

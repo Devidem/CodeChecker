@@ -23,13 +23,13 @@ public class ExSql{
 
         //Массив с кодами товаров и отображаемыми акциями
         String [][] codes;
-        //Массив с списком проверяемых акций
+        //Массив со списком проверяемых акций
         String [][] proms;
 
         //Заполняем массивы данными из SQL
         try {
-            codes = to2dString(PostgreData.LocalProdcode1, queryCodes);
-            proms = to2dString(PostgreData.LocalProdcode1, queryProms);
+            codes = to2dString(PostgreData.LocalPostgres, queryCodes);
+            proms = to2dString(PostgreData.LocalPostgres, queryProms);
         } catch (SQLException e) {
             throw new RuntimeException("Ошибка при генерации массивов из SQL");
         }

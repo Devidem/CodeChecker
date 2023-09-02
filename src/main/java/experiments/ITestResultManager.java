@@ -2,7 +2,7 @@ package experiments;
 
 import buffers.BufferDriver;
 import interfaces.Screenshootable;
-import interfaces.ScreenshootableOld;
+import interfaces.oldVersions.ScreenshootableOld;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -23,27 +23,28 @@ public class ITestResultManager {
     /**
      * Делает обрезанный по элементу скриншот в тестах с использованием {@link BufferDriver}
      */
-    public static synchronized void addScreenShootOfElement(ITestResult iTestResult, String xpath) {
+    public static synchronized void addScreenShootOfElement(ITestResult iTestResult) {
 
-        //Получаем объект класса теста
-        Object instance = iTestResult.getInstance();
+        //Приводим iTestResult к Screenshootable
+        Screenshootable screenshootable = (Screenshootable) iTestResult.getInstance();
 
-        //По коду товара получаем драйвер из хеш-мапы
-        String prodCode = ((Screenshootable) instance).getScreenNameVar(iTestResult);
-        WebDriver driver = ((Screenshootable) instance).getDriver(iTestResult);
+        //Получаем данные из теста
+        String prodCode = screenshootable.getScreenNameVar(iTestResult);
+        WebDriver driver = screenshootable.getDriver(iTestResult);
+        String cutXpath = screenshootable.getCutXpath(iTestResult);
 
         //Делаем ограниченный скриншот по элементу и готовим к преобразованию в byte массив
         AShot ashot = new AShot();
-        ByteArrayOutputStream screen = new ByteArrayOutputStream();
-        WebElement element = driver.findElement(By.xpath(xpath));
+        ByteArrayOutputStream screenshoot = new ByteArrayOutputStream();
+        WebElement cutElement = driver.findElement(By.xpath(cutXpath));
         try {
-            ImageIO.write(ashot.coordsProvider(new WebDriverCoordsProvider()).takeScreenshot(driver, element).getImage(), "png", screen);
+            ImageIO.write(ashot.coordsProvider(new WebDriverCoordsProvider()).takeScreenshot(driver, cutElement).getImage(), "png", screenshoot);
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
         //Добавляем скриншот
-        Allure.getLifecycle().addAttachment("FailureScreen_"+ prodCode, "image/png", "png", screen.toByteArray());
+        Allure.getLifecycle().addAttachment("FailureScreen_"+ prodCode, "image/png", "png", screenshoot.toByteArray());
 
     }
 

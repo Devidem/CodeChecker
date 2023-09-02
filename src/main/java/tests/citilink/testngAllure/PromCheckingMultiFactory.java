@@ -2,10 +2,11 @@ package tests.citilink.testngAllure;
 
 import converters.ExArray;
 import enums.Locators;
+import exceptions.myExceptions.MyInputParamException;
 import experiments.FileManager;
 import fabrics.SetDriver;
-import interfaces.RetryableOld;
-import interfaces.ScreenshootableOld;
+import interfaces.oldVersions.RetryableOld;
+import interfaces.oldVersions.ScreenshootableOld;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
@@ -65,7 +66,7 @@ public class PromCheckingMultiFactory implements ScreenshootableOld, RetryableOl
     // Переход на страницу товара
     @BeforeMethod(groups = "multi")
     @Step("Открытие страницы товара")
-    public void openProdPage() {
+    public void openProdPage() throws MyInputParamException {
 
         //Выбор браузера и его запуск + настройка
         driver = Browsers.getDriver(browserName);

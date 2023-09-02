@@ -1,9 +1,11 @@
 package selectors;
 
-import converters.ExArray;
 import converters.ExSql;
 import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
+import exceptions.myExceptions.MyInputParamException;
+
+import java.io.IOException;
 
 /**
  * Работа с типами данных.
@@ -13,14 +15,13 @@ public class InputType {
     /**
      * Возвращает итоговый массив проверки акций в зависимости от переданного типа входных данных из {@param input}.
      */
-    public static String [][] toFinalArray(String input) throws MyFileIOException {
+    public static String [][] toFinalArray(String input) throws MyFileIOException, IOException, MyInputParamException {
+
         //Выбираем корректное строковое значение типа данных
         String result = select(input);
 
         if (result.contains("file")) {
-            //Адрес папки проекта для входных файлов
             String inputDir = ConstString.InputFileDirectory.getValue();
-
             return Files.toFinalArray(inputDir);
 
         } else if (result.contains("sql")) {
@@ -28,19 +29,18 @@ public class InputType {
         }
 
         else {
-            throw new MyFileIOException("Некорректная работа селектора InputType.selector()");
+            throw new MyFileIOException("Некорректная работа селектора InputType.select()");
         }
     }
+
     /**
      * Выбирает тип входных данных в зависимости от значения {@param input}.
      * Предлагает сделать ручной выбор при неправильном вводе.
      * @param input - Тип входных данных.
      */
-
-    public static String select(String input) {
+    public static String select(String input) throws MyInputParamException {
 
         String Type = input.toLowerCase();
-        String [] inputList = {"file", "sql"};
 
         if (Type.contains("file")) {
             return  "file";
@@ -49,11 +49,8 @@ public class InputType {
             return  "sql";
 
         } else {
-            //Предлагаем сделать выбор вручную
-            System.out.println("Unknown Type");
-            return ExArray.selector1D(inputList);
+            throw new MyInputParamException("Неверный входной параметр \"inputType\" \nДоступные варианты - File/Sql");
+
         }
-
     }
-
 }

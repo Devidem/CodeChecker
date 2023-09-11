@@ -39,6 +39,15 @@ public class SetDriver implements Backable<Navigator> {
     }
 
     /**
+     * Разворачивает окно и позволяет определить вручную implicitlyWait и pageLoadTimeout
+     */
+    public synchronized static void standardManual(WebDriver driver, int implicitlyWait, int pageLoadTimeout){
+        driver.manage().window().maximize();
+        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(implicitlyWait));
+        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(pageLoadTimeout));
+    }
+
+    /**
      * Возвращает текущее значение PageLoadTimeout
      */
     public synchronized static int getPageOut(WebDriver driver){

@@ -2,7 +2,6 @@ package experiments;
 
 import buffers.BufferDriver;
 import interfaces.Screenshootable;
-import interfaces.old.ScreenshootableOld;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -45,31 +44,6 @@ public class ITestResultManager {
 
         //Добавляем скриншот
         Allure.getLifecycle().addAttachment("FailureScreen_"+ prodCode, "image/png", "png", screenshoot.toByteArray());
-
-    }
-
-
-    /**
-     * Делает обрезанный по элементу скриншот
-     */
-    public static synchronized void addScreenShootOfElementOld(ITestResult iTestResult, String xpath) {
-
-        //Получаем значение result из теста
-        Object instance = iTestResult.getInstance();
-        WebDriver driver = ((ScreenshootableOld) instance).getDriver();
-
-        //Делаем ограниченный скриншот по элементу и готовим к преобразованию в byte массив
-        AShot ashot = new AShot();
-        ByteArrayOutputStream screen = new ByteArrayOutputStream();
-        WebElement element = driver.findElement(By.xpath(xpath));
-        try {
-            ImageIO.write(ashot.coordsProvider(new WebDriverCoordsProvider()).takeScreenshot(driver, element).getImage(), "png", screen);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
-        //Добавляем скриншот
-        Allure.getLifecycle().addAttachment("FailureScreen_"+((ScreenshootableOld) instance).getScreenVariable(), "image/png", "png", screen.toByteArray());
 
     }
 

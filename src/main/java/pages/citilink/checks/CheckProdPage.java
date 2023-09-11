@@ -2,7 +2,7 @@ package pages.citilink.checks;
 
 import converters.ExArray;
 import enums.Locators;
-import fabrics.old.SetDriverOld;
+import fabrics.SetDriver;
 import interfaces.Backable;
 import org.openqa.selenium.*;
 import pages.citilink.naviClasses.ProdPage;
@@ -42,14 +42,14 @@ public class CheckProdPage extends CheckInit<CheckProdPage> implements Backable<
         String checkObjectXpath = Locators.ProdPageBasket.getXpath();
 
         //Записываем начальное значение PageLoadTimeout и ImplicitWait
-        int startTimeout = SetDriverOld.getPageOut(driver);
-        int startImplicit = SetDriverOld.getImpOut(driver);
+        int startTimeout = SetDriver.getPageOut(driver);
+        int startImplicit = SetDriver.getImpOut(driver);
 
         //Блок try-finally для гарантии возвращения WebDriver в буфер в изначальном состоянии
         try{
 
             //Настраиваем драйвер
-            SetDriverOld.standardManual(driver, 2, 3);
+            SetDriver.standardManual(driver, 2, 3);
 
             //Проверяем список акций у товара
             checkPromo :
@@ -113,7 +113,7 @@ public class CheckProdPage extends CheckInit<CheckProdPage> implements Backable<
                                 try {
                                     System.out.println("Start Refresh");
                                     //Обновляем страницу с увеличенным pageLoadTimeout
-                                    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(SetDriverOld.getPageOut(driver) + checkLoadTime));
+                                    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(SetDriver.getPageOut(driver) + checkLoadTime));
                                     driver.navigate().refresh();
 
                                     //Проверяем наличие проверочного объекта после рефреша

@@ -1,4 +1,4 @@
-package pages.citilink;
+package pages.citilink.old;
 
 import enums.Locators;
 import experiments.ExSelen;
@@ -11,14 +11,14 @@ import org.openqa.selenium.WebElement;
  * Главная страница сайта
  */
 // Класс создан для примера ООП - чтобы ProdPage не было одиноко!
-public class MainPage extends CitiPage {
-    public MainPage(WebDriver driverStart) {
-        super(driverStart);
+public class MainPageOld extends CitiPageOld {
+    public MainPageOld(WebDriver driver) {
+        super(driver);
     }
     private final WebDriver driverMain = getDriver();
 
     /**
-     * Кликает по катекории из блока "Популярные категории"
+     * Кликает по категории из блока "Популярные категории"
      * @param categoryName Полное название категории
      */
     public void clickPopCategory (String categoryName) {

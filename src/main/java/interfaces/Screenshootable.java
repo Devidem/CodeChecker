@@ -6,8 +6,7 @@ import tests.citilink.finalTest.supportClasses.MyListenerPromChecking;
 
 /**
  * Позволяет делать скриншоты с помощью {@link experiments.ITestResultManager} и
- * использовать класс в {@link MyListenerPromChecking}
- * благодаря получению вебдрайвера
+ * использовать класс в {@link MyListenerPromChecking}, благодаря получению вебдрайвера
  */
 public interface Screenshootable {
     /**

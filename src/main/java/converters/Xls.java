@@ -11,7 +11,7 @@ import java.io.IOException;
 import java.util.Objects;
 
 /**
- * Обработка Xls файлов
+ * Обработка Xls файлов.
  */
 public class Xls {
 
@@ -19,9 +19,9 @@ public class Xls {
      * Преобразование .xls файла в двумерный массив с кодами товаров и проверяемыми акциями.
      * .xls имеет 2 листа - лист с кодами товаров и имеющимися у них акциями
      * + лист с указанием акций, которые будут проверяться.
-     * @param filePath путь к .xls файлу
+     * @param filePath путь к .xls файлу.
      * @return Двумерный массив с кодами товаров и проверяемыми акциями ( * - если должна отображаться и пустая строка,
-     * если не должна)
+     * если не должна).
      */
     public String[][] toFinalArray(String filePath) throws IOException, MyFileIOException {
 
@@ -70,29 +70,28 @@ public class Xls {
                     //Не увеличивается только при столбцах с потертой скидкой
                     oFinal++;
                 }
-            //Возникает в случае несоотвествия файла используемому образцу(не тот Template)
+            //Возникает в случае несоответствия файла используемому образцу(не тот Template)
             } catch (NullPointerException e) {
                 throw new MyFileIOException("Первый и второй лист не соответствуют требованиям", e);
             }
-
         }
         return finalArray;
     }
 
     /**
      * Преобразует указанный лист .xls файла в двумерный массив.
-     * @param filePath Путь к .xls файлу
-     * @param sheet Номер листа (начинается с 0)
+     * @param filePath Путь к .xls файлу.
+     * @param sheet Номер листа (начинается с 0).
      */
     public String[][] fileToArray (String filePath, int sheet) throws IOException {
 
         FileInputStream direct = new FileInputStream(filePath);
         Workbook proms = new HSSFWorkbook(direct);
-        //Создается массив исходя из количества рядов и стобцов в файле
+        //Создается массив исходя из количества рядов и столбцов в файле
         int rows = calc_R(filePath, sheet);
         int cells = calc_C(filePath, sheet);
         String [][] finArr = new String[rows][cells];
-        //Переписываеся значения ячеек
+        //Переписывается значения ячеек
         for (int i = 0; i < rows; i++) {
             for (int o = 0; o < cells; o++) {
                 try {
@@ -109,15 +108,15 @@ public class Xls {
 
     /**
      * Считает количество рядов .xls файла в первом столбце.
-     * @param filePath Путь к .xls файлу
-     * @param sheet Номер листа (начинается с 0)
+     * @param filePath Путь к .xls файлу.
+     * @param sheet Номер листа (начинается с 0).
      */
     public int calc_R(String filePath, int sheet) throws IOException{
 
         FileInputStream direct = new FileInputStream(filePath);
         Workbook toArray = new HSSFWorkbook(direct);
 
-        //Счетчик рядов и первый провеяемый объект
+        //Счетчик рядов и первый проверяемый объект
         int cycleRow = 0;
         //Шаг для проверки следующего ряда
         int step = 1;
@@ -162,8 +161,8 @@ public class Xls {
 
     /**
      * Считает количество ячеек в .xls файла в 1(0) ряду.
-     * @param filePath Путь к .xls файлу
-     * @param sheet Номер листа (начинается с 0)
+     * @param filePath Путь к .xls файлу.
+     * @param sheet Номер листа (начинается с 0).
      */
     //Работает аналогично calc_R, но упрощен в цикле для кейса с NullPointerException
     public int calc_C(String filePath, int sheet) throws IOException{
@@ -192,7 +191,7 @@ public class Xls {
                 else {
                     System.out.println("Здесь невозможно оказаться");
                 }
-            //Здесь можно оказаться только если в нулевой ячейке будет пусто или указании несуществующего листа
+            //Здесь можно оказаться только если в нулевой ячейке будет пусто или при указании несуществующего листа
             } catch (NullPointerException e) {
                 break;
             }

@@ -1,17 +1,17 @@
-package tests.citilink.javaSelenOnly;
+package tests.citilink.javaSelenOnly.old;
 
 import converters.ExArray;
 import enums.ConstInt;
 import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
 import exceptions.myExceptions.MyInputParamException;
-import fabrics.SetDriver;
+import fabrics.old.SetDriverOld;
 import org.openqa.selenium.WebDriver;
-import pages.NoPage;
-import pages.citilink.ProdPage;
+import pages.citilink.old.NoPageOld;
+import pages.citilink.old.ProdPageOld;
 import selectors.Browsers;
 import selectors.InputType;
-import tests.citilink.javaSelenOnly.multithread.MultiPromCheck;
+import tests.citilink.javaSelenOnly.old.multithread.MultiPromCheck;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -19,28 +19,28 @@ import java.util.Arrays;
 /**
  * Набор тестов
  */
-public class Test {
+public class TestOld {
     /**
-     * Проверяет наличие отображения акций на странице кода товара.
-     * В качестве входных данных используются .xls файлы, расположенные в папке проекта ./Inputs/Excel
+     * Проверяет наличие отображения акций на странице кода товара (однопоточный вариант).
+     * В качестве входных данных используется .xls файл, расположенные в папке проекта ./Inputs/Excel или PostgreSql.
      * Результат проверки записывается в .xls файл по адресу ./Outputs/Excel - в имени указывается дата и результат.
-     * @param browserName Название браузера - Chrome, Firefox(не реализовано)
-     * @param inputType Тип входных данных - Excel, Sql(не реализовано)
+     * @param browserName Название браузера - Chrome, Firefox
+     * @param inputType Тип входных данных - Excel, Sql
      */
     public void codeChecks (String browserName, String inputType) throws MyFileIOException, MyInputParamException, IOException {
 
-        //Получение чеклиста для дальнейшей проверки
+        //Получение чек-листа для дальнейшей проверки
         String[][] checkList = InputType.toFinalArray(inputType);
 
         //Выбор браузера и его запуск + настройка
         WebDriver driver = Browsers.getDriver(browserName);
-        SetDriver.standard(driver);
+        SetDriverOld.standard(driver);
 
         //Адрес сайта
         String siteLink = ConstString.CitilinkAdress.getValue();
 
         //Переход на сайт
-        NoPage noPage= new NoPage(driver);
+        NoPageOld noPage= new NoPageOld(driver);
         noPage.get(siteLink);
 
         //Создание массива для результатов проверки клонированием проверяемого
@@ -49,7 +49,7 @@ public class Test {
         int startRow = ConstInt.startRow.getValue();
 
         //Создание ProdPage, чтобы не объявлять каждый раз в цикле
-        ProdPage prodPage = new ProdPage(driver);
+        ProdPageOld prodPage = new ProdPageOld(driver);
 
         //Проверка каждого товара
         for (int i = 0; i < resultList.length - startRow; i++) {
@@ -84,15 +84,15 @@ public class Test {
 
     /**
      * Проверяет наличие отображения акций на странице кода товара (многопоточный вариант).
-     * В качестве входных данных используются .xls файлы, расположенные в папке проекта ./Inputs/Excel
+     * В качестве входных данных используется .xls файл, расположенные в папке проекта ./Inputs/Excel или PostgreSql.
      * Результат проверки записывается в .xls файл по адресу ./Outputs/Excel - в имени указывается дата и результат.
-     * @param browserName Название браузера - Chrome, Firefox(не реализовано)
-     * @param inputType Тип входных данных - Excel, Sql(не реализовано)
+     * @param browserName Название браузера - Chrome, Firefox
+     * @param inputType Тип входных данных - Excel, Sql
      * @param threadsNumber Количество потоков
      */
     public void codeChecks (String browserName,String inputType, int threadsNumber) throws MyFileIOException, IOException, MyInputParamException {
 
-        //Получение чеклиста для дальнейшей проверки
+        //Получение чек-листа для дальнейшей проверки
         String[][] checkList = InputType.toFinalArray(inputType);
 
         //Адрес сайта
@@ -102,7 +102,7 @@ public class Test {
         String[][] resultList = ExArray.clone2d(checkList);
         int startRow = ConstInt.startRow.getValue();
 
-        //Многопоточная проверка промоакций
+        //Многопоточная проверка промо-акций
         MultiPromCheck multiPromCheck = new MultiPromCheck(browserName, siteLink, checkList, resultList, startRow, threadsNumber);
         multiPromCheck.multiCheck();
 

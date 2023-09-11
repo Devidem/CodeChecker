@@ -1,7 +1,7 @@
-package pages.citilink;
+package pages.citilink.old;
 
 import enums.Locators;
-import fabrics.SetDriver;
+import fabrics.old.SetDriverOld;
 import org.openqa.selenium.*;
 
 import java.time.Duration;
@@ -11,12 +11,10 @@ import java.util.Objects;
 /**
  * Страница товара
  */
-public class ProdPage extends CitiPage {
-    public ProdPage(WebDriver driverStart) {
-        super(driverStart);
+public class ProdPageOld extends CitiPageOld {
+    public ProdPageOld(WebDriver driver) {
+        super(driver);
     }
-
-    final WebDriver prodDriver = getDriver();
 
     /**
      * Проверяет отображение акций на странице товара.
@@ -36,8 +34,8 @@ public class ProdPage extends CitiPage {
         String checkObjectXpath = Locators.ProdPageBasket.getXpath();
 
         //Записываем начальное значение PageLoadTimeout и ImplicitWait
-        int startTimeout = SetDriver.getPageOut(prodDriver);
-        int startImplicit = SetDriver.getImpOut(prodDriver);
+        int startTimeout = SetDriverOld.getPageOut(driver);
+        int startImplicit = SetDriverOld.getImpOut(driver);
 
         //Блок try-finally для гарантии возвращения PageLoadTimeout и ImplicitWait после проверки
         try {
@@ -50,7 +48,7 @@ public class ProdPage extends CitiPage {
                     //Без использования на первой скидке, могут быть проблемы с обнаружением элементов
                     //сразу после загрузки страницы.
                     if (o==2) {
-                        prodDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
+                        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(0));
                     }
 
                     //Забираем значение и имя акции + вычисляем для нее xpath
@@ -63,18 +61,18 @@ public class ProdPage extends CitiPage {
                         // Проверка акций
                         if (Objects.equals(promoValue, "*")) {
                             try {
-                                WebElement promoElement = prodDriver.findElement(By.xpath(xpathPromo));
+                                WebElement promoElement = driver.findElement(By.xpath(xpathPromo));
                                 checkResult[o] = "Passed";
                                 break;
 
                             } catch (NoSuchElementException e) {
-                                checkResult[o] = "FAILED";
+                                checkResult[o] = "Failed";
                             }
 
                         } else {
                             try {
-                                WebElement promoElement = prodDriver.findElement(By.xpath(xpathPromo));
-                                checkResult[o] = "FAILED";
+                                WebElement promoElement = driver.findElement(By.xpath(xpathPromo));
+                                checkResult[o] = "Failed";
                                 break;
 
                             } catch (NoSuchElementException e) {
@@ -93,17 +91,17 @@ public class ProdPage extends CitiPage {
                         // Если дождался, то цикл проверки скидки запускается снова
                         if (i == 0) {
                             try {
-                                WebElement checkElement = prodDriver.findElement(By.xpath(checkObjectXpath));
+                                WebElement checkElement = driver.findElement(By.xpath(checkObjectXpath));
                                 break;
 
                             } catch (NoSuchElementException e) {
                                 try {
                                     //Обновляем страницу с увеличенным pageLoadTimeout
-                                    prodDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(SetDriver.getPageOut(prodDriver) + checkLoadTime));
+                                    driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(SetDriverOld.getPageOut(driver) + checkLoadTime));
                                     refresh();
 
-                                    //Провеяем наличие проверочного объекта после рефреша
-                                    WebElement checkElement = prodDriver.findElement(By.xpath(checkObjectXpath));
+                                    //Проверяем наличие проверочного объекта после рефреша
+                                    WebElement checkElement = driver.findElement(By.xpath(checkObjectXpath));
                                     System.out.println("Slow Loading");
 
                                 } catch (TimeoutException | NoSuchElementException ex) {
@@ -118,8 +116,8 @@ public class ProdPage extends CitiPage {
             }
         } finally {
             //Возвращаем изначальные implicitlyWait и pageLoadTimeout
-            prodDriver.manage().timeouts().implicitlyWait(Duration.ofSeconds(startImplicit));
-            prodDriver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout));
+            driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(startImplicit));
+            driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout));
         }
         return checkResult;
     }

@@ -1,6 +1,6 @@
 package tests.citilink.testngAllure.supprotClasses.promChecking;
 
-import interfaces.oldVersions.RetryableOld;
+import interfaces.old.RetryableOld;
 import org.testng.IRetryAnalyzer;
 import org.testng.ITestResult;
 

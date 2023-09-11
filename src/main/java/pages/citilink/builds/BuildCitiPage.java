@@ -1,4 +1,4 @@
-package pages.citilink;
+package pages.citilink.builds;
 
 import enums.Locators;
 import io.qameta.allure.Step;
@@ -8,66 +8,65 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import pages.InitialPage;
+import pages.citilink.Navigator;
+import pages.common.builds.BuildInitialPage;
 
 import java.time.Duration;
 
 /**
- * Класс с общими методами для страниц сайта Citilink
+ * Build класс с общими методами для всех страниц сайта Citilink
  */
 //Шапка с поиском и каталогом есть на всех страницах
-public abstract class CitiPage extends InitialPage {
-
-    private WebDriver driverPages = getDriver();
-    private WebDriverWait wait = new WebDriverWait(driverPages, Duration.ofSeconds(3));
-
-    public CitiPage(WebDriver driverStart) {
-        super(driverStart);
+public abstract class BuildCitiPage<T> extends BuildInitialPage<T> {
+    public BuildCitiPage(WebDriver driver, Navigator navigator) {
+        super(driver, navigator);
     }
 
     /**
-     * Кликает по лупе.
+     * Клик по лупе.
      */
-    public void clickSearchButton () {
+    public T clickSearchButton () {
         try {
             String xpath = Locators.SearchButton.getXpath();
-            WebElement element = driverPages.findElement(By.xpath(xpath));
-            click(element);
+            click(xpath);
         } catch (TimeoutException ignored) {
         }
+        return (T) this;
     }
 
 
     /**
-     * Кликает по товару из результатов быстрого поиска.
+     * Клик по товару из результатов быстрого поиска.
      * @param prodCode Код товара.
      */
     @Step("Клик по товару из результатов быстрого поиска")
-    public void clickSearchResult (String prodCode) {
+    public T clickSearchResult (String prodCode) {
         String xpath = Locators.VarSearchResult.getXpathVariable(prodCode);
-        WebElement prodLink = driverPages.findElement(By.xpath(xpath));
-        click(prodLink);
+        click(xpath);
+        return (T) this;
     }
 
     /**
-     * Кликает по кнопке каталога, находящейся слева от поиска.
+     * Клик по кнопке каталога, находящейся слева от поиска.
      */
-    public void clickCatalog () {
-            String xpath = Locators.Catalog.getXpath();
-            WebElement element = driverPages.findElement(By.xpath(xpath));
-            click(element);
+    public T clickCatalog () {
+        String xpath = Locators.Catalog.getXpath();
+        click(xpath);
+        return (T) this;
     }
 
     /**
-     * Вводит текст в строку поиска.
+     * Вводит текст в строку поиска, предварительно очистив ее.
      * @param text Текст запроса.
      */
     @Step("Ввод текста в строку поиска")
-    public void enterSearch (String text) {
+    public T enterSearch (String text) {
+        WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(3));
         String xpathSearch = Locators.SearchField.getXpath();
         String xpathWatched = Locators.SearchWatchedBefore.getXpath();
 
-        WebElement Search = driverPages.findElement(By.xpath(xpathSearch));
+        //Ввод текста с предварительной очисткой поля
+        WebElement Search = driver.findElement(By.xpath(xpathSearch));
         Search.clear();
         Search.sendKeys(text);
 
@@ -78,20 +77,6 @@ public abstract class CitiPage extends InitialPage {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.xpath(xpathWatched)));
         } catch (Exception ignored) {
         }
-    }
-
-
-    //Геттеры сеттеры
-    public WebDriverWait getWait() {
-        return wait;
-    }
-
-    public void setWait(WebDriverWait wait) {
-        this.wait = wait;
-    }
-
-    public void setMulti(WebDriver driver, WebDriverWait wait) {
-        this.driverPages = driver;
-        this.wait = wait;
+        return (T) this;
     }
 }

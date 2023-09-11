@@ -1,10 +1,5 @@
-import exceptions.myExceptions.MyFileIOException;
-
-import java.io.IOException;
-import java.sql.SQLException;
-
 public class TestRunner2 {
-    public static void main(String[] args) throws IOException, SQLException, MyFileIOException {
+    public static void main(String[] args) {
 
 
 //        try {

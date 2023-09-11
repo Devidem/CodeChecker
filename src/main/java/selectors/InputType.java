@@ -8,7 +8,7 @@ import exceptions.myExceptions.MyInputParamException;
 import java.io.IOException;
 
 /**
- * Работа с типами данных.
+ * Работа с типами входных данных.
  */
 public class InputType {
 
@@ -35,7 +35,6 @@ public class InputType {
 
     /**
      * Выбирает тип входных данных в зависимости от значения {@param input}.
-     * Предлагает сделать ручной выбор при неправильном вводе.
      * @param input - Тип входных данных.
      */
     public static String select(String input) throws MyInputParamException {
@@ -50,7 +49,6 @@ public class InputType {
 
         } else {
             throw new MyInputParamException("Неверный входной параметр \"inputType\" \nДоступные варианты - File/Sql");
-
         }
     }
 }

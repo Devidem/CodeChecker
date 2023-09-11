@@ -4,12 +4,12 @@ import enums.ConstInt;
 import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
 import exceptions.myExceptions.MyInputParamException;
-import fabrics.SetDriver;
+import fabrics.old.SetDriverOld;
 import io.qameta.allure.Step;
 import org.openqa.selenium.WebDriver;
 import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
-import pages.NoPage;
+import pages.citilink.old.NoPageOld;
 import selectors.Browsers;
 import selectors.InputType;
 import tests.citilink.testngAllure.PromCheckingSingleFactory;
@@ -25,7 +25,7 @@ public class FactoryPromChecking {
     @Step ("Set Start Values")
     public void setValues (String inpType, String browserName) throws MyFileIOException, IOException, MyInputParamException {
 
-        //Получение чеклиста для дальнейшей проверки
+        //Получение чек-листа для дальнейшей проверки
         checkList = InputType.toFinalArray(inpType);
 
         //Получение полной ссылки сайта
@@ -33,10 +33,10 @@ public class FactoryPromChecking {
 
         //Выбор браузера и его запуск + настройка
         driver = Browsers.getDriver(browserName);
-        SetDriver.standard(driver);
+        SetDriverOld.standard(driver);
 
         //Переход на сайт
-        NoPage noPage= new NoPage(driver);
+        NoPageOld noPage= new NoPageOld(driver);
         noPage.get(siteName);
 
     }

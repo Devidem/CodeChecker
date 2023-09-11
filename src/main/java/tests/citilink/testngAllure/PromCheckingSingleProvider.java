@@ -7,9 +7,9 @@ import enums.Locators;
 import exceptions.myExceptions.MyFileIOException;
 import exceptions.myExceptions.MyInputParamException;
 import experiments.FileManager;
-import fabrics.SetDriver;
-import interfaces.oldVersions.RetryableOld;
-import interfaces.oldVersions.ScreenshootableOld;
+import fabrics.old.SetDriverOld;
+import interfaces.old.RetryableOld;
+import interfaces.old.ScreenshootableOld;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
@@ -18,8 +18,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pages.NoPage;
-import pages.citilink.ProdPage;
+import pages.citilink.old.NoPageOld;
+import pages.citilink.old.ProdPageOld;
 import selectors.Browsers;
 import selectors.InputType;
 import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromCheckingOld;
@@ -45,7 +45,7 @@ public class PromCheckingSingleProvider implements ScreenshootableOld, Retryable
     @Parameters ({"inputType", "browserName"})
     public void testPrepare(String inputType, String browserName) throws MyFileIOException, IOException, MyInputParamException {
 
-        //Получение чеклиста для дальнейшей проверки
+        //Получение чек-листа для дальнейшей проверки
         fullCheckList = InputType.toFinalArray(inputType);
 
         // Копирование categories.json в allure-results
@@ -56,10 +56,10 @@ public class PromCheckingSingleProvider implements ScreenshootableOld, Retryable
 
         //Выбор браузера и его запуск + настройка
         driver = Browsers.getDriver(browserName);
-        SetDriver.standard(driver);
+        SetDriverOld.standard(driver);
 
         //Переход на сайт
-        NoPage noPage= new NoPage(driver);
+        NoPageOld noPage= new NoPageOld(driver);
         noPage.get(siteLink);
     }
 
@@ -74,12 +74,12 @@ public class PromCheckingSingleProvider implements ScreenshootableOld, Retryable
         result = null;
 
         // Переход на страницу товара
-        ProdPage prodPage = new ProdPage(driver);
+        ProdPageOld prodPage = new ProdPageOld(driver);
         prodCode = singleCheckList[0][0];
         prodPage.enterSearch(prodCode);
         prodPage.clickSearchResult(prodCode);
 
-        // Создаем чеклист для записи итогов проверки
+        // Создаем чек-лист для записи итогов проверки
         resultCheckList = ExArray.clone2d(singleCheckList);
 
         //Xpath элемента проверки и время ожидания прогрузки страницы
@@ -202,7 +202,7 @@ public class PromCheckingSingleProvider implements ScreenshootableOld, Retryable
     //Закрытие браузера
     @AfterSuite(groups = "provider")
     public void closeDriver() {
-        new ProdPage(driver).close();
+        new ProdPageOld(driver).close();
     }
 
 

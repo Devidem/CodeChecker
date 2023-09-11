@@ -6,7 +6,7 @@ package enums;
  */
 public enum Locators {
     SearchButton("//*[@class=\"css-1d9cswg e15krpzo1\"]/*[@type=\"submit\"]"),
-    Catalog ("//*[@class=\"css-3nmxdw eyoh4ac0\"]/*[@href=\"/catalog/\"]"),
+    Catalog ("//*[@class=\"css-gbhtnj eyoh4ac0\"]/*[@href=\"/catalog/\"]"),
     SearchField ("//input[@type=\"search\"]"),
     SearchWatchedBefore ("//*[contains(text(),'просмотренные')]"),
     PopularCategory ("//*[@class=\"edhylph0 app-catalog-1ljlt6q e3tyxgd0\"]"),
@@ -22,9 +22,17 @@ public enum Locators {
     ;
 //--------------------------------------------------------------------------------------------------------------------//
 
+    /**
+     * @return xPath элемента
+     */
     public String getXpath() {
         return xPath;
     }
+
+    /**
+     * @param xpathVariable изменяемая часть xPath
+     * @return xPath элемента
+     */
     public String getXpathVariable (String xpathVariable) {
         return getXpath().replace("XPATH_VARIABLE", xpathVariable);
     }

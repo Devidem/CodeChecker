@@ -1,7 +1,7 @@
 package exceptions.myExceptions;
 
 /**
- * Исключение для ошибок, связанных с неправильным вводом входных параметров
+ * Исключение для ошибок, связанных с неправильным вводом входных параметров.
  */
 public class MyInputParamException extends Exception{
     public MyInputParamException() {

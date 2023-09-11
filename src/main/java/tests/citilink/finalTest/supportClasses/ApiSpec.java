@@ -11,11 +11,19 @@ import io.restassured.specification.ResponseSpecification;
  * Набор спецификаций для Api тестов
  */
 public class ApiSpec {
+
+    /**
+     * @return ResponseSpecification с параметром ContentType.JSON
+     */
     public static RequestSpecification reqJson() {
         return new RequestSpecBuilder().
                 setContentType(ContentType.JSON).
                 build();
     }
+
+    /**
+     * @return ResponseSpecification с ожиданием 200 кода
+     */
     public static ResponseSpecification resp200() {
         return new ResponseSpecBuilder().
                 expectStatusCode(200).
@@ -23,7 +31,7 @@ public class ApiSpec {
     }
 
     /**
-     * Устанавливает ContentType.JSON и expectStatusCode200
+     * Устанавливает спецификации ContentType.JSON и expectStatusCode200
      */
     public static void json200 () {
         RestAssured.requestSpecification = reqJson();

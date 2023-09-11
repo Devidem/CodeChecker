@@ -9,12 +9,12 @@ import java.sql.*;
 import java.util.Objects;
 
 /**
- * Класс для работы с PostgreSql
+ * Класс для работы с PostgreSql.
  */
 public class ExSql{
 
     /**
-     * Получение финального проверочного массива из SQL
+     * Получение финального проверочного массива из SQL.
      */
     public static String[][] toFinalArray() throws MyFileIOException {
 
@@ -74,7 +74,7 @@ public class ExSql{
                     //Не увеличивается только при столбцах с потертой скидкой
                     oFinal++;
                 }
-                //Возникает в случае несоотвествия файла используемому образцу(не тот Template)
+                //Возникает в случае несоответствия файла используемому образцу(не тот Template)
             } catch (NullPointerException e) {
                 throw new MyFileIOException("Первый и второй лист не соответствуют требованиям", e);
             }
@@ -83,7 +83,7 @@ public class ExSql{
     }
 
     /**
-     * Преобразует результат запроса в двумерный String массив
+     * Преобразует результат запроса в двумерный String массив.
      */
     public static String [][] to2dString(PostgreData databaseEnum, String query) throws SQLException {
 
@@ -129,7 +129,7 @@ public class ExSql{
     }
 
     /**
-     * Возвращает пустой двумерный массив с размером соответствующим результату запроса
+     * Возвращает пустой двумерный массив с размером соответствующим результату запроса.
      */
     private static String [][] getTemplateString2d (ResultSet result) throws SQLException {
 

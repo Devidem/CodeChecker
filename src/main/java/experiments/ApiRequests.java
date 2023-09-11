@@ -11,9 +11,9 @@ import static io.restassured.RestAssured.given;
  */
 public class ApiRequests {
     /**
-     * Получение ссылки страницы товара
-     * @param prodCode Код товара
-     * @return Полная ссылка на страницу товара
+     * Получение ссылки на страницу товара.
+     * @param prodCode Код товара.
+     * @return Полная ссылка на страницу товара.
      */
     public static String getProdLink(String prodCode) {
         String linkPathJson = "products[0].link_url";

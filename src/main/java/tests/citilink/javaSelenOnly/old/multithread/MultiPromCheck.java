@@ -1,12 +1,12 @@
-package tests.citilink.javaSelenOnly.multithread;
+package tests.citilink.javaSelenOnly.old.multithread;
 
 import buffers.BufferDriver;
 import exceptions.myExceptions.MyInputParamException;
-import fabrics.SetDriver;
+import fabrics.old.SetDriverOld;
 import org.openqa.selenium.WebDriver;
-import pages.NoPage;
-import pages.citilink.MainPage;
-import pages.citilink.ProdPage;
+import pages.citilink.old.MainPageOld;
+import pages.citilink.old.NoPageOld;
+import pages.citilink.old.ProdPageOld;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
@@ -34,12 +34,12 @@ public class MultiPromCheck {
 
     //Объявляем ExecutorService, чтобы регулировать и оптимизировать количество одновременных потоков
     ExecutorService executorService;
-    //Объявялем счетчик, чтобы закрыть executorService, после выполнения всех проверок
+    //Объявляем счетчик, чтобы закрыть executorService, после выполнения всех проверок
     private CountDownLatch countDownLatch;
 
     /**
-     * Производит многопоточную проверку промоакций с 3 попытками в случае падения.
-     * Учитывает ограничение по количеству потоков, а также оптимизировам с помощью CountDownLatch.
+     * Производит многопоточную проверку промо-акций с 3 попытками в случае падения.
+     * Учитывает ограничение по количеству потоков, а также оптимизирован с помощью CountDownLatch.
      */
     public void multiCheck() {
         //Устанавливаем счетчик равный количеству кодов товаров
@@ -78,7 +78,7 @@ public class MultiPromCheck {
         }
     }
 
-    //Поток для тестирования промоакций одного кода товара
+    //Поток для тестирования промо-акций одного кода товара
     private class CheckThread extends Thread {
         public CheckThread(String[][] promsList, String prodCode, int codeRow) {
             this.promsList = promsList;
@@ -86,9 +86,9 @@ public class MultiPromCheck {
             this.codeRow = codeRow;
         }
 
-        String[][] promsList;
-        String prodCode;
-        int codeRow;
+        private String[][] promsList;
+        private String prodCode;
+        private int codeRow;
 
         @Override
         public void run() {
@@ -119,30 +119,30 @@ public class MultiPromCheck {
             }
         }
 
-        //Метод проверки промоакций для одного кода товара
+        //Метод проверки промо-акций для одного кода товара
         //Вынесен отдельно, чтобы сделать удобную настройку в run () методе
         private void checkMethod() throws MyInputParamException {
 
             //Выбор и запуск браузера + настройка
             WebDriver driver = BufferDriver.getDriver(browserName);
-            SetDriver.standard(driver);
+            SetDriverOld.standard(driver);
 
             //try-finally для обязательного закрытия драйвера в случае возникновения ошибок
             try {
                 //Пропускаем переход на сайт, если мы уже на нем
                 if (!driver.getCurrentUrl().contains(siteName)) {
                     //Переход на сайт, но с игнором TimeoutException
-                    NoPage noPage = new NoPage(driver);
+                    NoPageOld noPage = new NoPageOld(driver);
                     noPage.get(siteName);
                 }
 
                 //Переход на страничку продукта
-                MainPage mainPage = new MainPage(driver);
+                MainPageOld mainPage = new MainPageOld(driver);
                 mainPage.enterSearch(prodCode);
                 mainPage.clickSearchResult(prodCode);
 
                 //Проверка акций для одного товара и сохранение результата
-                ProdPage prodPage = new ProdPage(driver);
+                ProdPageOld prodPage = new ProdPageOld(driver);
                 System.arraycopy(prodPage.checkProms(promsList), 0, resultList[codeRow], 1, promsList[0].length);
             } finally {
                 //Возвращаем драйвер в буфер

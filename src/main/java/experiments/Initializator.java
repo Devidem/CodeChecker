@@ -1,7 +1,9 @@
 package experiments;
 
+import buffers.BufferDriver;
 import buffers.BufferSuiteVar;
 import enums.ConstString;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.Test;
 
@@ -29,4 +31,9 @@ public class Initializator {
         System.out.println("Предустановки выполнены успешно");
     }
 
+    @AfterSuite (groups = "Init")
+    public void afterSuite () {
+        //Закрываем все браузеры из буфера
+        BufferDriver.closeAllDrivers();
+    }
 }

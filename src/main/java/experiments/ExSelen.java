@@ -9,7 +9,7 @@ import org.openqa.selenium.WebElement;
  * Класс с дополнительными методами для работы с Selenium.
  */
 public class ExSelen {
-    WebDriver driver;
+    private WebDriver driver;
 
     public ExSelen(WebDriver driver) {
         this.driver = driver;
@@ -55,5 +55,4 @@ public class ExSelen {
     public void setDriver(WebDriver driver) {
         this.driver = driver;
     }
-
 }

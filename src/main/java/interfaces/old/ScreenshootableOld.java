@@ -1,4 +1,4 @@
-package interfaces.oldVersions;
+package interfaces.old;
 
 import org.openqa.selenium.WebDriver;
 
@@ -12,7 +12,7 @@ public interface ScreenshootableOld {
     WebDriver getDriver();
 
     /**
-     * Возвращает значение переменной присвояемой имени скришота в Allure отчете
+     * Возвращает значение переменной, присвояемой имени скриншота в Allure отчете
      */
     String getScreenVariable();
 }

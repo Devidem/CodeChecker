@@ -29,6 +29,9 @@ public class Browsers {
         throw new RuntimeException();
     }
 
+    /**
+     * Приводит текстовое значение {@param input} к одному из доступных вариантов
+     */
     public static String select(String input) throws MyInputParamException {
         input = input.toLowerCase();
 

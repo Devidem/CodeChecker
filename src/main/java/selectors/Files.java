@@ -9,7 +9,7 @@ import java.io.IOException;
 /**
  * Работа с файлами.
  */
-public class Files{
+public class Files {
 
     /**
      * Преобразует .xls файл из папки {@param inputDir} в итоговый массив проверки акций.
@@ -29,7 +29,6 @@ public class Files{
 
     /**
      * Выбирает файл из директории {@param inputDir}.
-     * Предалагает выбрать файл вручную, если найдено несколько.
      * @param inputDir - Адрес папки с файлами без "/" в конце.
      */
     public static String select (String inputDir) throws MyFileIOException {

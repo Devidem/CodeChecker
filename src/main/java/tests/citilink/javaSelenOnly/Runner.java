@@ -12,14 +12,12 @@ public class Runner {
         String browserName = "chrome";      //chrome, firefox
         int threadsNumber = 2;              //Количество потоков (указывается 3-й переменной в конструкторе)
 
-
-        Test test = new Test();
-
+        Tests tests = new Tests();
         try {
             //Имеет 2 варианта - однопоточный и многопоточный
-            test.codeChecks(browserName, inputType, threadsNumber);
+            tests.promCheckingMultiThread(browserName, inputType, threadsNumber);
 
-        } catch (MyFileIOException | IOException | MyInputParamException e) {
+        } catch (MyFileIOException | IOException | InterruptedException | MyInputParamException e) {
             //Исключения дополнительно не обрабатываются
             throw new RuntimeException(e);
         }

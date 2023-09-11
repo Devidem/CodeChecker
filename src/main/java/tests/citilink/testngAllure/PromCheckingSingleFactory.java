@@ -3,8 +3,8 @@ package tests.citilink.testngAllure;
 import converters.ExArray;
 import enums.Locators;
 import experiments.FileManager;
-import interfaces.oldVersions.RetryableOld;
-import interfaces.oldVersions.ScreenshootableOld;
+import interfaces.old.RetryableOld;
+import interfaces.old.ScreenshootableOld;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
@@ -14,7 +14,7 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pages.citilink.ProdPage;
+import pages.citilink.old.ProdPageOld;
 import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromCheckingOld;
 import tests.citilink.testngAllure.supprotClasses.promChecking.RetryAnalyzerPromCheckingOld;
 
@@ -61,7 +61,7 @@ public class PromCheckingSingleFactory implements ScreenshootableOld, RetryableO
     @BeforeMethod(groups = "factory")
     @Step("Открытие страницы товара")
     public void openProdPage() {
-        ProdPage prodPage = new ProdPage(driver);
+        ProdPageOld prodPage = new ProdPageOld(driver);
         prodCode = singleCheckList[1][0];
         prodPage.enterSearch(prodCode);
         prodPage.clickSearchResult(prodCode);
@@ -142,7 +142,7 @@ public class PromCheckingSingleFactory implements ScreenshootableOld, RetryableO
                         try {
                             //Обновляем страницу с увеличенным pageLoadTimeout
                             driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout + checkLoadTime));
-                            ProdPage prodPage = new ProdPage(driver);
+                            ProdPageOld prodPage = new ProdPageOld(driver);
                             prodPage.refresh();
 
                             //Провеяем наличие проверочного объекта после рефреша
@@ -181,7 +181,7 @@ public class PromCheckingSingleFactory implements ScreenshootableOld, RetryableO
     //Закрытие браузера
     @AfterSuite(groups = "factory")
     public void closeDriver() {
-        new ProdPage(driver).close();
+        new ProdPageOld(driver).close();
     }
 
 

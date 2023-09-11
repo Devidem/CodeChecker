@@ -10,15 +10,15 @@ import java.util.Map;
 public class SuiteReader {
 
     /**
-     * Возвращает значение параметра
-     * @param name Имя параметра
+     * Возвращает значение параметра.
+     * @param name Имя параметра.
      */
     public static String getParameter (String name) {
         return Reporter.getCurrentTestResult().getTestContext().getCurrentXmlTest().getParameter(name);
     }
 
     /**
-     * Возвращает мапу всех имеющихся параметров
+     * Возвращает коллекцию всех имеющихся параметров
      */
     public static Map<String, String> getAllParameters () {
         return  Reporter.getCurrentTestResult().getTestContext().getCurrentXmlTest().getAllParameters();

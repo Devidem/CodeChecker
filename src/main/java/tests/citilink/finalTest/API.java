@@ -1,6 +1,7 @@
 package tests.citilink.finalTest;
 
 import buffers.BufferSuiteVar;
+import buffers.PromCheckApiUiBuffer;
 import converters.ExArray;
 import enums.ApiLinks;
 import enums.ConstInt;
@@ -19,7 +20,6 @@ import org.testng.annotations.Parameters;
 import org.testng.annotations.Test;
 import selectors.InputType;
 import tests.citilink.finalTest.supportClasses.ApiSpec;
-import tests.citilink.finalTest.supportClasses.PromCheckApiUiBuffer;
 import tests.citilink.finalTest.supportClasses.pojos.PojoPromoName;
 
 import java.io.IOException;
@@ -36,7 +36,7 @@ public class API {
     private final List<String[][]> afterApiCheckList = new ArrayList<>();
 
     @BeforeSuite(groups = "API")
-    @Step("Подготовка чеклиста")
+    @Step("Подготовка чек-листа")
     @Parameters("inputType")
     public void testPrepare(String inputType) {
 
@@ -128,7 +128,7 @@ public class API {
         //Забираем значение параметры из Сьюита
         String inpType = BufferSuiteVar.get("inputType");
 
-        //Получаем чеклист для дальнейшей проверки
+        //Получаем чек-лист для дальнейшей проверки
         String [][] fullCheckList;
         fullCheckList = InputType.toFinalArray(inpType);
 

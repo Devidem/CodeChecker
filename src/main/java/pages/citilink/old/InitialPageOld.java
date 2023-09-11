@@ -1,4 +1,4 @@
-package pages;
+package pages.citilink.old;
 
 
 import io.qameta.allure.Step;
@@ -9,11 +9,11 @@ import org.openqa.selenium.WebElement;
 /**
  * Абстрактный класс с методами общими для абсолютно всех страниц
  */
-public abstract class InitialPage {
+public abstract class InitialPageOld {
 
-    private WebDriver driver;
+    protected WebDriver driver;
 
-    public InitialPage(WebDriver driver) {
+    public InitialPageOld(WebDriver driver) {
         this.driver = driver;
     }
 

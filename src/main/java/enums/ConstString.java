@@ -6,9 +6,6 @@ package enums;
 public enum ConstString {
 
     CitilinkAdress ("https://www.citilink.ru/"),
-    /**
-     * Папка для хранения файла с входными данными
-     */
     InputFileDirectory ("./Inputs/Files"),
     ChromeDriverDirectory ("./SelenDrivers/chromedriver.exe"),
     FirefoxDriverDirectory ("./SelenDrivers/geckodriver.exe")
@@ -18,7 +15,7 @@ public enum ConstString {
 //--------------------------------------------------------------------------------------------------------------------//
 
     /**
-     * Получение неизменяемой переменной
+     * Получение постоянной переменной
      */
     public String getValue() {
         return value;

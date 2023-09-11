@@ -13,8 +13,9 @@
             <run>
                 <include name="Init"/>
 
-                <include name="API"/>
+<!--                <include name="API"/>-->
                 <include name="UI"/>
+<!--                <include name="UINEW"/>-->
             </run>
 <!--            <dependencies>-->
 <!--                <group name="UI" depends-on="API" />-->
@@ -27,6 +28,7 @@
             <class name="experiments.Initializator"/>
 
             <class name="tests.citilink.finalTest.API"/>
+<!--            <class name="tests.citilink.finalTest.old.UIold"/>-->
             <class name="tests.citilink.finalTest.UI"/>
         </classes>
 

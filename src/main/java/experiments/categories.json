@@ -22,7 +22,7 @@
   },
 
   {
-    "name": "Некорректные локаторы/отстутствуют элементы",
+    "name": "Некорректные локаторы/отсутствуют элементы",
     "traceRegex": ".*Unable to locate element.*",
     "matchedStatuses": ["broken", "failed"]
   },

@@ -11,8 +11,8 @@ import tests.citilink.finalTest.supportClasses.MyRetryAnalyzerPromChecking;
 //зафейленный тест, а затем, если нужно, уже обрабатывать его с помощью кода из RetryAnalyzer.
 public interface Retryable {
     /**
-     * Возвращает значение проверочной переменной
-     * @return true - запускать RetryAnalyzer, false - не запускать
+     * Возвращает значение проверочной переменной.
+     * @return true - запускать RetryAnalyzer, false - не запускать.
      */
     Boolean getRetryVar(ITestResult iTestResult);
 

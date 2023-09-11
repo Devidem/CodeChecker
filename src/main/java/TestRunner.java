@@ -1,10 +1,9 @@
-import org.openqa.selenium.By;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
-import org.openqa.selenium.chrome.ChromeDriver;
+import exceptions.myExceptions.MyFileIOException;
+import exceptions.myExceptions.MyInputParamException;
+import pages.citilink.Navigator;
+import tests.citilink.javaSelenOnly.Tests;
 
 import java.io.IOException;
-import java.time.Duration;
 
 
 // Press Shift twice to open the Search Everywhere dialog and type `show whitespaces`,
@@ -12,20 +11,100 @@ import java.time.Duration;
 
 
 public class TestRunner {
-    public static void main(String[] args) throws IOException, InterruptedException {
-        WebDriver driver = new ChromeDriver();
-        driver.get("https://www.citilink.ru/product/smartfon-samsung-galaxy-z-flip5-5g-sm-f731b-512gb-8gb-myatnyi-3g-4g-6-1969355/");
-        WebElement element = driver.findElement(By.xpath("//a[@href=\"/catalog/\" and@class=\" css-g6bsk4 enj50b10\"]"));
-        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
-        driver.navigate().refresh();
-        element.click();
+    public static void main(String[] args) throws InterruptedException, MyFileIOException, IOException, MyInputParamException {
+
+        Tests tests = new Tests();
+//        testNew.promCheckingSingleThread("file","chrome");
+//        testNew.promCheckingMultiThread("file","chrome", 2);
+        Navigator navigator = new Navigator();
+        navigator
+                .onProdPage()
+                .inMainPanel()
+                .clickCatalog()
 
 
 
+        ;
+
+
+
+
+
+
+
+//        navigator
+//                .openBrowser("chrome")
+//                .onNoPage()
+//                .get(ConstString.CitilinkAdress.getValue());
+//        System.out.println(navigator.onProdPage().getDriver().getCurrentUrl());
+        String ert = null;
+        String brt = "";
+        if (ert.isEmpty()) {
+            System.out.println("ert");
+        }
+        if (brt.isEmpty()) {
+            System.out.println("brt");
+        }
     }
 
 }
 
+//public class TestRunner {
+//    public static void main(String[] args) throws InterruptedException {
+////        DesiredCapabilities dcap = new DesiredCapabilities();
+////        dcap.setCapability("pageLoadStrategy", "eager");
+////        ChromeOptions opt = new ChromeOptions();
+////        opt.merge(dcap);
+////        WebDriver driver = new ChromeDriver(opt);
+////        RunTimer.ignore(1, Locators.ProdPageBasket.getXpath(), driver);
+////        driver.get("https://www.citilink.ru/product/smartfon-samsung-galaxy-z-flip5-5g-sm-f731b-512gb-8gb-myatnyi-3g-4g-6-1969355/");
+////        WebElement element = driver.findElement(By.xpath("//a[@href=\"/catalog/\" and@class=\" css-g6bsk4 enj50b10\"]"));
+//        System.out.println("end\n\"browserName\"");
+//
+////        try {
+////            BufferDriver.getDriver("123123");
+////        } catch (MyInputParamException e) {
+////            System.out.println(e.getMessage());
+////
+////        }
+//        WebDriver driver = new ChromeDriver();
+//        driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(2));
+//        ProdPage124ClickBuildCitiPage click = new ProdPage124ClickBuildCitiPage(driver);
+//
+//        click.
+//                get("https://www.citilink.ru/product/smartfon-samsung-galaxy-z-flip5-5g-sm-f731b-512gb-8gb-myatnyi-3g-4g-6-1969355/").
+//                click(driver.findElement(By.xpath(Locators.Catalog.getXpath())))
+//        ;
+//
+//        driver.close();
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//    }
+//
+//}
+
+//public class TestRunner {
+//    public static void main(String[] args) throws IOException, InterruptedException {
+//        WebDriver driver = new ChromeDriver();
+//        driver.get("https://www.citilink.ru/product/smartfon-samsung-galaxy-z-flip5-5g-sm-f731b-512gb-8gb-myatnyi-3g-4g-6-1969355/");
+//        WebElement element = driver.findElement(By.xpath("//a[@href=\"/catalog/\" and@class=\" css-g6bsk4 enj50b10\"]"));
+//        driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(2));
+//        driver.navigate().refresh();
+//        element.click();
+//
+//
+//
+//    }
+//
+//}
 
 //public class TestRunner {
 //    public static void main(String[] args) throws IOException, InterruptedException {

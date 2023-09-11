@@ -38,14 +38,14 @@ public class PromCheckingApi {
     private String [] result;
 
     @BeforeSuite(groups = "apiSingle")
-    @Step ("Подготовка чеклиста")
+    @Step ("Подготовка чек-листа")
     @Parameters("inputType")
     public void testPrepare(String inputType) throws MyFileIOException, IOException, MyInputParamException {
 
         // Копирование categories.json в allure-results
         FileManager.copyCategories();
 
-        //Получение чеклиста для дальнейшей проверки
+        //Получение чек-листа для дальнейшей проверки
         fullCheckList = InputType.toFinalArray(inputType);
     }
 
@@ -66,7 +66,7 @@ public class PromCheckingApi {
         //Клон singleCheckList для записи результатов проверок
         String [][] resultSingleList = ExArray.clone2d(singleCheckList);
 
-        //Путь к объекту с списком акций
+        //Путь к объекту со списком акций
         String linkPathJson = "data.product.labels";
 
         //Получаем коллекцию Pojo классов с именами скидок

@@ -35,7 +35,5 @@ public class DemoRuns {
         System.out.print("////Введите что-либо для закрытия браузера////");
         String num = in.nextLine();
         driver.close();
-
     }
-
 }

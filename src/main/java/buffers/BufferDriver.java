@@ -19,7 +19,7 @@ public class BufferDriver {
     private static final Queue <WebDriver> firefoxDriver = new LinkedList<>();
 
     /**
-     * Возвращает драйвер в соответствии с переданным имененем браузера
+     * Возвращает драйвер в соответствии с переданным названием браузера
      * @param name - имя браузера
      */
     public synchronized static WebDriver getDriver(String name) throws MyInputParamException {

@@ -4,9 +4,9 @@ import converters.ExArray;
 import enums.Locators;
 import exceptions.myExceptions.MyInputParamException;
 import experiments.FileManager;
-import fabrics.SetDriver;
-import interfaces.oldVersions.RetryableOld;
-import interfaces.oldVersions.ScreenshootableOld;
+import fabrics.old.SetDriverOld;
+import interfaces.old.RetryableOld;
+import interfaces.old.ScreenshootableOld;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
 import io.qameta.allure.Step;
@@ -16,8 +16,8 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 import org.testng.annotations.*;
-import pages.NoPage;
-import pages.citilink.ProdPage;
+import pages.citilink.old.NoPageOld;
+import pages.citilink.old.ProdPageOld;
 import selectors.Browsers;
 import tests.citilink.testngAllure.supprotClasses.promChecking.MyListenerPromCheckingOld;
 import tests.citilink.testngAllure.supprotClasses.promChecking.RetryAnalyzerPromCheckingOld;
@@ -70,14 +70,14 @@ public class PromCheckingMultiFactory implements ScreenshootableOld, RetryableOl
 
         //Выбор браузера и его запуск + настройка
         driver = Browsers.getDriver(browserName);
-        SetDriver.standard(driver);
+        SetDriverOld.standard(driver);
 
         //Переход на сайт
-        NoPage noPage= new NoPage(driver);
+        NoPageOld noPage= new NoPageOld(driver);
         noPage.get(siteName);
 
         //Переход на страницу товара
-        ProdPage prodPage = new ProdPage(driver);
+        ProdPageOld prodPage = new ProdPageOld(driver);
         prodCode = singleCheckList[1][0];
         prodPage.enterSearch(prodCode);
         prodPage.clickSearchResult(prodCode);
@@ -160,10 +160,10 @@ public class PromCheckingMultiFactory implements ScreenshootableOld, RetryableOl
                             try {
                                 //Обновляем страницу с увеличенным pageLoadTimeout
                                 driver.manage().timeouts().pageLoadTimeout(Duration.ofSeconds(startTimeout + checkLoadTime));
-                                ProdPage prodPage = new ProdPage(driver);
+                                ProdPageOld prodPage = new ProdPageOld(driver);
                                 prodPage.refresh();
 
-                                //Провеяем наличие проверочного объекта после рефреша
+                                //Проверяем наличие проверочного объекта после рефреша
                                 checkLoadWait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath(checkObjectXpath)));
                                 System.out.println("Slow Loading");
 
@@ -193,7 +193,7 @@ public class PromCheckingMultiFactory implements ScreenshootableOld, RetryableOl
     //Закрытие браузера
     @AfterMethod(groups = "multi")
     public void closeDriver() {
-        new ProdPage(driver).close();
+        new ProdPageOld(driver).close();
     }
 
 

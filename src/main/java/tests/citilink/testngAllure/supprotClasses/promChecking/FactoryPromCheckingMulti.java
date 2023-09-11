@@ -22,7 +22,7 @@ public class FactoryPromCheckingMulti {
     @Step ("Set Start Values")
     public void setValues (String inpType) throws MyFileIOException, IOException, MyInputParamException {
 
-        //Получение чеклиста для дальнейшей проверки
+        //Получение чек-листа для дальнейшей проверки
         checkList = InputType.toFinalArray(inpType);
 
         //Получение полной ссылки сайта

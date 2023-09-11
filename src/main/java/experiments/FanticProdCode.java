@@ -2,14 +2,13 @@ package experiments;
 
 /**
  * Обертка для корректного отображения кода товара в отчете Allure,
- * при передаче через @DataProvider сформированных чеклистов
+ * при передаче через @DataProvider сформированных чек-листов
  */
 public class FanticProdCode {
     private final String [][] singleCheckList;
-
     /**
      * Обертка для корректного отображения кода товара в отчете Allure,
-     * при передаче через @DataProvider сформированных чеклистов
+     * при передаче через @DataProvider сформированных чек-листов
      */
     public FanticProdCode(String[][] prodCode) {
         this.singleCheckList = prodCode;

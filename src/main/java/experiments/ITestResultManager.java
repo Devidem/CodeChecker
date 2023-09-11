@@ -2,7 +2,7 @@ package experiments;
 
 import buffers.BufferDriver;
 import interfaces.Screenshootable;
-import interfaces.oldVersions.ScreenshootableOld;
+import interfaces.old.ScreenshootableOld;
 import io.qameta.allure.Allure;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
@@ -48,6 +48,7 @@ public class ITestResultManager {
 
     }
 
+
     /**
      * Делает обрезанный по элементу скриншот
      */
@@ -70,5 +71,17 @@ public class ITestResultManager {
         //Добавляем скриншот
         Allure.getLifecycle().addAttachment("FailureScreen_"+((ScreenshootableOld) instance).getScreenVariable(), "image/png", "png", screen.toByteArray());
 
+    }
+
+    /**
+     * Возвращает вебдрайвер в буфер {@link BufferDriver}
+     */
+    public static synchronized void returnBrowser (ITestResult iTestResult) {
+
+        //Приводим iTestResult к Screenshootable
+        Screenshootable screenshootable = (Screenshootable) iTestResult.getInstance();
+
+        //Возвращаем драйвер
+        BufferDriver.returnDriver(screenshootable.getDriver(iTestResult));
     }
 }

@@ -23,10 +23,7 @@ import tests.citilink.finalTest.supportClasses.ApiSpec;
 import tests.citilink.finalTest.supportClasses.pojos.PojoPromoName;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 import static io.restassured.RestAssured.given;
 
@@ -138,21 +135,15 @@ public class API {
         //Создаем список для помещения "обернутых" проверочных массивов
         Object [][] dataObject = new Object[fullCheckList.length-startRow][1] ;
 
-        //Создаем чек-лист для одного товара
-        for (int i = startRow; i < fullCheckList.length; i++) {
+        //Разбиваем чек-лист на одиночные (для каждого кода товара свой)
+        Queue <String [][]> resultSep = new LinkedList<>();
+        ExArray.separateTableQueue(fullCheckList, resultSep);
 
-            //Создаем чек лист для товара
-            String [][] singleCheckList = new String[2][fullCheckList[0].length];
-            System.arraycopy(fullCheckList[0], 0, singleCheckList[0], 0, singleCheckList[0].length);
-            System.arraycopy(fullCheckList[i], 0, singleCheckList[1], 0, singleCheckList[0].length);
-
-            //Оборачиваем в Фантик для красивого отображения кода товара в отчете Allure
-            FanticProdCode fanticProdCode = new FanticProdCode(singleCheckList);
-
-            //Добавляем фантик в массив
-            dataObject [i-startRow][0] = fanticProdCode;
-
+        //Добавляем "обернутые" чек-листы в массив DataProvider
+        for (int i = 0; resultSep.size()!=0; i++) {
+            dataObject [i][0] = new FanticProdCode(resultSep.remove());
         }
+
         return dataObject;
     }
 }

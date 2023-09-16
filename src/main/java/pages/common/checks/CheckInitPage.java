@@ -6,12 +6,12 @@ import java.util.Map;
 
 /**
  * Набор проверок для любой страницы
- * @param <T> Класс наследующийся от {@link CheckInit}
+ * @param <T> Класс наследующийся от {@link CheckInitPage}
  */
-public class CheckInit <T> {
+public class CheckInitPage<T> {
 
     protected WebDriver driver;
-    public CheckInit(WebDriver driver) {
+    public CheckInitPage(WebDriver driver) {
         this.driver = driver;
     }
 

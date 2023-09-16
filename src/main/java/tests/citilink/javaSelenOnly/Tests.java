@@ -48,7 +48,7 @@ public class Tests {
             //Переходим на сайт
             navigator
                     .openBrowser(browserName)
-                    .configBrowser().standard()
+                    .configBrowser().standardManual(2, 3)
                     .then()
                     .onNoPage()
                     .get(ConstString.CitilinkAdress.getValue());
@@ -102,6 +102,7 @@ public class Tests {
         //Создаем коллекцию для хранения результатов проверок одиночных чек-листов
         Queue<String[][]> resultCollection = new LinkedList<>();
 
+        //Создаем барьер countDownLatch и executorService для регулирования запуска потоков
         CountDownLatch countDownLatch = new CountDownLatch(singleCheckLists.size());
         ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
 
@@ -166,7 +167,7 @@ public class Tests {
             //Создаем класс для проведения проверки
             Navigator navigator = new Navigator();
 
-            //Блок try-finally для гарантии закрытия браузера
+            //Блок try-finally для гарантии возврата браузера
             try {
                 Map<String, Boolean> booleanResults = new HashMap<>();
 
@@ -178,7 +179,7 @@ public class Tests {
                         .onNoPage()
                         .check().currentUrl(checkLink, booleanResults);
 
-                //Если не на сайте ситилинка, то переходим на него
+                //Если не на сайте Cитилинка, то переходим на него
                 if (!booleanResults.get(checkLink)) {
                     navigator
                             .onNoPage()
@@ -192,22 +193,19 @@ public class Tests {
                         .enterSearch(prodCode)
                         .clickSearchResult(prodCode)
                         .then().onProdPage()
-                        .check().promoActions(singleCheckList, resultCollection)
-                        .and()
-                        .then()
-                        .returnBrowser();
+                        .check().promoActions(singleCheckList, resultCollection);
 
                 countDownLatch.countDown();
 
-            //Набор обязательных действий на случай падения теста
-            //В данном случае сделано не через finally намеренно для демонстрации использования Navigator в тесте (больше шагов подряд!)
-            } catch (Exception e){
-                //Добавляем зафейленный результат
+            } catch (Exception e) {
+                //Помечаем результат как Failed
                 singleCheckList[1][1] = "Failed";
-                resultCollection.add(singleCheckList);
+                throw new RuntimeException(e);
+            } finally {
                 //Возвращаем браузер в буфер
                 navigator.returnBrowser();
-                throw new RuntimeException(e);
+                //Добавляем результат проверки в коллекцию
+                resultCollection.add(singleCheckList);
             }
         }
     }

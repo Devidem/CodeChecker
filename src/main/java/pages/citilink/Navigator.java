@@ -51,10 +51,27 @@ public class Navigator {
     }
 
     /**
+     * Запускает нужный вебдрайвер и запоминает его в {@link #driver}
+     */
+    public Navigator openBrowserOrDefault (String browserName, String defaultBrowserName) {
+        try {
+            driver = BufferDriver.getDriver(browserName);
+        } catch (MyInputParamException e) {
+            try {
+                driver = BufferDriver.getDriver(defaultBrowserName);
+            } catch (MyInputParamException ex) {
+                throw new RuntimeException(ex);
+            }
+        }
+        return this;
+    }
+
+    /**
      * Помещает текущий вебдрайвер в {@link BufferDriver}
      */
     public Navigator returnBrowser () {
         BufferDriver.returnDriver(driver);
+        driver = null;
         return this;
     }
 

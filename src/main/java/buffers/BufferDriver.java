@@ -64,7 +64,7 @@ public class BufferDriver {
      * Возвращает ChromeDriver из буфера.
      * Если буфер пуст, то создает новый ChromeDriver
      */
-    public static WebDriver getChrome() {
+    private static WebDriver getChrome() {
         try {
             return chromeDriver.remove();
         } catch (NoSuchElementException e) {
@@ -75,14 +75,14 @@ public class BufferDriver {
     /**
      * Помещает переданный ChromeDriver в буфер
      */
-    public static synchronized void returnChrome (WebDriver chrome) {
+    private static synchronized void returnChrome (WebDriver chrome) {
         chromeDriver.add(chrome);
     }
 
     /**
      * Закрывает все ChromeDriver в буфере и очищает его
      */
-    public static void closeAllChrome () {
+    private static void closeAllChrome () {
         while (chromeDriver.size() != 0) {
             chromeDriver.remove().close();
         }
@@ -92,7 +92,7 @@ public class BufferDriver {
      * Возвращает ChromeDriver из буфера.
      * Если буфер пуст, то создает новый FirefoxDriver
      */
-    public static WebDriver getFirefox() {
+    private static WebDriver getFirefox() {
         try {
             return firefoxDriver.remove();
         } catch (NoSuchElementException e) {
@@ -103,18 +103,16 @@ public class BufferDriver {
     /**
      * Помещает переданный FirefoxDriver в буфер
      */
-    public static synchronized void returnFirefox (WebDriver firefox) {
+    private static synchronized void returnFirefox (WebDriver firefox) {
         firefoxDriver.add(firefox);
     }
 
     /**
      * Закрывает все FirefoxDriver в буфере и очищает его
      */
-    public static void closeAllFirefox () {
+    private static void closeAllFirefox () {
         while (firefoxDriver.size() != 0) {
             firefoxDriver.remove().close();
         }
     }
-
-
 }

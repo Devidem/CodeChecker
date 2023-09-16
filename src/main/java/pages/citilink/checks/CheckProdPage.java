@@ -6,7 +6,7 @@ import fabrics.SetDriver;
 import interfaces.Backable;
 import org.openqa.selenium.*;
 import pages.citilink.naviClasses.ProdPage;
-import pages.common.checks.CheckInit;
+import pages.common.checks.CheckInitPage;
 
 import java.time.Duration;
 import java.util.Arrays;
@@ -16,7 +16,7 @@ import java.util.Queue;
 /**
  * Класс с методами проверки для страницы {@link CheckProdPage}
  */
-public class CheckProdPage extends CheckInit<CheckProdPage> implements Backable<ProdPage> {
+public class CheckProdPage extends CheckInitPage<CheckProdPage> implements Backable<ProdPage> {
     public CheckProdPage(WebDriver driver, ProdPage prodPage) {
         super(driver);
         this.prodPage = prodPage;

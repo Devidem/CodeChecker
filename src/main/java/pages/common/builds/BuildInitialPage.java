@@ -21,7 +21,6 @@ public abstract class BuildInitialPage<T> implements Backable <Navigator> {
         this.navigator = navigator;
     }
 
-
     /**
      * Клик с игнором TimeoutException.
      * @param xPath веб-элемента
@@ -45,8 +44,6 @@ public abstract class BuildInitialPage<T> implements Backable <Navigator> {
         }
         return (T) this;
     }
-
-
 
     /**
      * Закрывает браузер

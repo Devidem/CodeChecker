@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="Final Promo Checking" group-by-instances="true" parallel="tests" data-provider-thread-count="2">
+
+<!--    Входные параметры запуска кейса -->
+    <parameter name="inputType" value="file"/> <!-- file/sql -->
+    <parameter name="browserName" value="chrome"/> <!-- chrome/firefox -->
+
+
+    <test verbose="2" preserve-order="true" name="ProductPromoChecking">
+
+        <groups>
+            <run>
+                <include name="Init"/>
+
+                <include name="API"/>
+                <include name="UI"/>
+            </run>
+<!--            <dependencies>-->
+<!--                <group name="UI" depends-on="API" />-->
+<!--            </dependencies>-->
+        </groups>
+
+
+
+        <classes>
+            <class name="experiments.Initializator"/>
+
+            <class name="tests.citilink.finalTest.API"/>
+            <class name="tests.citilink.finalTest.UI"/>
+        </classes>
+
+    </test>
+</suite>

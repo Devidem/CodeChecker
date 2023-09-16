@@ -1,54 +1,47 @@
 package selectors;
 
-import converters.ArrayEx;
 import converters.Xls;
 import exceptions.myExceptions.MyFileIOException;
-import interfaces.ToPromsArray;
 
 import java.io.File;
 import java.io.IOException;
 
 /**
- * Работа с файлами в папке {@link #input}
+ * Работа с файлами.
  */
-public class Files extends Selectors implements ToPromsArray {
-
-    public Files(String input) {
-        super(input);
-    }
+public class Files {
 
     /**
-     * Преобразует .xls файл с полным путем {@link #result} в итоговый массив проверки акций
+     * Преобразует .xls файл из папки {@param inputDir} в итоговый массив проверки акций.
      */
-    public String [][] toFinalArray() throws MyFileIOException {
+    public static String [][] toFinalArray(String inputDir) throws MyFileIOException, IOException {
 
-        selector();
+        String result = select(inputDir);
 
-        if (result.endsWith(".xls")){
+        if (result.endsWith(".xls")) {
             Xls xls = new Xls();
-            try {
-                return xls.toFinalArray(result);
-            } catch (IOException e) {
-                throw new MyFileIOException("Неправильно отработал селектор или код из if", e);
-            }
+            return xls.toFinalArray(result);
 
         } else {
-            throw new MyFileIOException("Ошибка селектора Files.selector()!");
+            throw new MyFileIOException("Неверный формат файла!\nДоступные форматы - .xls");
         }
-
     }
 
     /**
-     * Выбирает файл из директории {@link #input} и передает полный путь в {@link #result}.
+     * Выбирает файл из директории {@param inputDir}.
+     * @param inputDir - Адрес папки с файлами без "/" в конце.
      */
-    public void selector() throws MyFileIOException {
-        File dir = new File(input);
+    public static String select (String inputDir) throws MyFileIOException {
+        File dir = new File(inputDir);
         String[] arrFiles = dir.list();
+
         if (arrFiles == null) {
             throw new MyFileIOException("Папка пуста");
+
+        } else if (arrFiles.length > 1) {
+            throw new MyFileIOException("В папке " + inputDir + " более одного файла!");
+
         }
-        result = input + "/" + ArrayEx.selector1D(arrFiles);
-
+        return inputDir + "/" + arrFiles[0];
     }
-
 }

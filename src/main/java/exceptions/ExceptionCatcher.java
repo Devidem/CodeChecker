@@ -14,6 +14,7 @@ public class ExceptionCatcher {
     /**
      * Запрашивает ручной ввод полного имени файла и проверяет его наличие.
      * Запрос повторяется, пока файл не будет найден.
+     * @param fileExtension расширение файла - например, .xls
      * @return Корректное полное имя файла
      */
     public static String filePath (String fileExtension){
@@ -23,12 +24,12 @@ public class ExceptionCatcher {
 
         while (!newFilePath.endsWith(fileExtension) || direct == null){
 
-
             System.out.println("Введите полное имя " + fileExtension + " файла: ");
 
             Scanner in = new Scanner(System.in);
             newFilePath = in.nextLine();
 
+            //Проверка на исключения для повторного вызова цикла
             try {
                 direct = new FileInputStream(newFilePath);
                 proms = new HSSFWorkbook(direct);
@@ -41,9 +42,6 @@ public class ExceptionCatcher {
             direct.close();
         } catch (IOException ignored) {
         }
-
         return newFilePath;
-
     }
-
 }

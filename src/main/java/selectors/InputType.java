@@ -1,57 +1,54 @@
 package selectors;
 
-import converters.ArrayEx;
+import converters.ExSql;
+import enums.ConstString;
 import exceptions.myExceptions.MyFileIOException;
-import interfaces.ToPromsArray;
+import exceptions.myExceptions.MyInputParamException;
+
+import java.io.IOException;
 
 /**
- * Работа с типами данных.
+ * Работа с типами входных данных.
  */
-public class InputType extends Selectors implements ToPromsArray {
-
-    public InputType(String input) {
-        super(input);
-    }
+public class InputType {
 
     /**
-     * Создает итоговый массив проверки акций в зависимости от типа входных данных из {@link #result}.
+     * Возвращает итоговый массив проверки акций в зависимости от переданного типа входных данных из {@param input}.
      */
-    public String [][] toFinalArray() throws MyFileIOException {
-        selector();
+    public static String [][] toFinalArray(String input) throws MyFileIOException, IOException, MyInputParamException {
+
+        //Выбираем корректное строковое значение типа данных
+        String result = select(input);
 
         if (result.contains("file")) {
-            String input = "./Inputs/Files"; //Определено конкретное значение, поскольку в проекте предусмотрена папка для входных файлов.
-            Files files = new Files(input);
-            return files.toFinalArray();
+            String inputDir = ConstString.InputFileDirectory.getValue();
+            return Files.toFinalArray(inputDir);
 
-        } else {
-            throw new MyFileIOException("Некорректная работа селектора InputType.selector()");
-
+        } else if (result.contains("sql")) {
+            return ExSql.toFinalArray();
         }
 
+        else {
+            throw new MyFileIOException("Некорректная работа селектора InputType.select()");
+        }
     }
 
     /**
-     * Выбирает тип входных данных в зависимости от значения {@link #input} и передает результат в {@link #result}.
-     * Предлагает сделать ручной выбор при неправильном вводе.
+     * Выбирает тип входных данных в зависимости от значения {@param input}.
+     * @param input - Тип входных данных.
      */
-    public void selector () {
+    public static String select(String input) throws MyInputParamException {
 
         String Type = input.toLowerCase();
-        String [] inputList = {"file"};
 
         if (Type.contains("file")) {
-            result = "file";
+            return  "file";
 
         } else if (Type.contains("sql")) {
-            System.out.println("Пока не реализован!");
-            result = ArrayEx.selector1D(inputList);
+            return  "sql";
 
         } else {
-            System.out.println("Unknown Type");
-            result = ArrayEx.selector1D(inputList);
+            throw new MyInputParamException("Неверный входной параметр \"inputType\" \nДоступные варианты - File/Sql");
         }
-
     }
-
 }

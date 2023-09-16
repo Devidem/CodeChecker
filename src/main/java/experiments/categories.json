@@ -1,0 +1,48 @@
+[
+  {
+    "name": "Успешные тесты",
+    "matchedStatuses": ["passed"]
+  },
+
+  {
+    "name": "Все непройденные проверки",
+    "traceRegex": ".*AssertionError.*",
+    "matchedStatuses": ["failed"]
+  },
+
+  {
+    "name": "Пропущенные тесты",
+    "matchedStatuses": ["skipped"]
+  },
+
+  {
+    "name": "Упавшие тесты",
+    "traceRegex": ".*RuntimeException.*",
+    "matchedStatuses": ["broken", "failed"]
+  },
+
+  {
+    "name": "Некорректные локаторы/отсутствуют элементы",
+    "traceRegex": ".*Unable to locate element.*",
+    "matchedStatuses": ["broken", "failed"]
+  },
+
+  {
+    "name": "Не найден файл",
+    "traceRegex": ".*FileNotFound.*",
+    "matchedStatuses": ["broken"]
+  },
+
+  {
+    "name": "Ошибки TestNG",
+    "traceRegex": ".*org.testng.TestNGException.*",
+    "matchedStatuses": ["broken"]
+  },
+
+  {
+    "name": "Неверный код ответа API",
+    "traceRegex": ".*ted status code.*",
+    "matchedStatuses": ["failed"]
+  }
+
+]

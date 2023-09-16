@@ -1,54 +1,49 @@
 package selectors;
 
-import converters.ArrayEx;
+import exceptions.myExceptions.MyInputParamException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
 /**
  * Управление браузером.
  */
-public class Browsers extends Selectors {
-
-    public Browsers(String input) {
-        super(input);
-    }
+public class Browsers {
 
     /**
-     * Запускает нужный браузер в зависимости от значения {@link #result}.
+     * Возвращает нужный вебдрайвер в зависимости от значения {@param browserName}.
      */
-    public WebDriver start() {
+    public static WebDriver getDriver(String browserName) throws MyInputParamException {
 
-        selector();
+        String result = select(browserName);
 
         if(result.contains("chrome")) {
             System.setProperty("webdriver.chrome.driver", "./SelenDrivers/chromedriver.exe");
             return new ChromeDriver();
+        } else if (result.contains("firefox")) {
+            System.setProperty("webdriver.gecko.driver", "./SelenDrivers/geckodriver.exe");
+            return new FirefoxDriver();
         }
 
-        System.out.println("Wrong Browser!"); //Скорее всего забыли про selector()!
-        return null;
+        //Здесь мы не должны оказываться
+        throw new RuntimeException();
     }
 
     /**
-     * Выбирает браузер из массива {@link #input} и передает значение в {@link #result}.
+     * Приводит текстовое значение {@param input} к одному из доступных вариантов
      */
-    public void selector() {
+    public static String select(String input) throws MyInputParamException {
         input = input.toLowerCase();
 
-        String[] broList = {"chrome", "firefox(для примера)"};
-
         if (input.contains("chrome")) {
-            result = "chrome";
+            return "chrome";
 
         } else if (input.contains("firefox")) {
-            result = "firefox";
+            return "firefox";
 
         } else {
-            System.out.println("Unknown Browser");
-            result = ArrayEx.selector1D(broList);
+            throw new MyInputParamException("Неверный входной параметр \"browserName\" \nДоступные варианты - Сhrome/Firefox");
 
         }
-
     }
-
 }

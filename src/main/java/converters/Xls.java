@@ -95,7 +95,7 @@ public class Xls {
         for (int i = 0; i < rows; i++) {
             for (int o = 0; o < cells; o++) {
                 try {
-                    finArr [i][o] = ExObjects.toString(proms.getSheetAt(sheet).getRow(i).getCell(o));
+                    finArr [i][o] = ExObjects.toString(proms.getSheetAt(sheet).getRow(i).getCell(o)).replace(".0", "");
                 }
                 //Если будет пустой или несуществующий лист
                 catch (Exception NullPointerException) {

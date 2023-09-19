@@ -65,12 +65,12 @@ public class API {
         //Путь к объекту со списком акций
         String linkPathJson = "data.product.labels";
 
-        //Применяем спецификацию
-        ApiSpec.json200();
-
         //Добавляем блок try-finally для гарантии передачи массива проверок в буфер для будущих UI тестов, даже если
         //API тест сломается
         try {
+
+            //Применяем спецификацию
+            ApiSpec.json200();
 
             //Получаем лист Pojo классов с именами скидок
             List<PojoPromoName> promsList =
@@ -111,6 +111,10 @@ public class API {
             //Передаем отредактированный чек-лист в коллекцию для дальнейшей проверки в UI тестах
             afterApiCheckList.add(singleCheckList);
         }
+
+        //Выводим входные данные и результат проверки в консоль
+        System.out.println(Arrays.deepToString(inputList));
+        System.out.println(Arrays.deepToString(resultSingleList));
 
         //Прикладываем итоги проверки к тесту и делаем Assert для TestNG
         Allure.addAttachment("Input", (Arrays.deepToString(inputList[0])+ "\n" + Arrays.deepToString(inputList[1])));

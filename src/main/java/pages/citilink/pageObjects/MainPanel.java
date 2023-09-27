@@ -30,9 +30,9 @@ public class MainPanel<T> implements Backable<T> {
      * Клик по лупе.
      */
     public MainPanel<T> clickSearchButton () {
+        String xpath = Locators.SearchButton.getXpath();
         try {
-            String xpath = Locators.SearchButton.getXpath();
-            driver.findElement(By.xpath(xpath)).click();
+            click (xpath);
         } catch (TimeoutException ignored) {
         }
         return this;
@@ -46,7 +46,10 @@ public class MainPanel<T> implements Backable<T> {
     @Step("Клик по товару из результатов быстрого поиска")
     public MainPanel<T> clickSearchResult (String prodCode) {
         String xpath = Locators.VarSearchResult.getXpathVariable(prodCode);
-        driver.findElement(By.xpath(xpath)).click();
+        try {
+            click (xpath);
+        } catch (TimeoutException ignored) {
+        }
         return this;
     }
 
@@ -55,7 +58,11 @@ public class MainPanel<T> implements Backable<T> {
      */
     public MainPanel<T> clickCatalog () {
         String xpath = Locators.Catalog.getXpath();
-        driver.findElement(By.xpath(xpath)).click();
+        try {
+            click (xpath);
+        } catch (TimeoutException ignored) {
+        }
+
         return this;
     }
 
@@ -82,6 +89,20 @@ public class MainPanel<T> implements Backable<T> {
         } catch (Exception ignored) {
         }
         return this;
+    }
+
+
+
+    /**
+            * Клик с игнором TimeoutException.
+            *
+            * @param xPath веб-элемента
+     */
+    private void click(String xPath) {
+        try {
+            driver.findElement(By.xpath(xPath)).click();
+        } catch (TimeoutException ignored) {
+        }
     }
 
 

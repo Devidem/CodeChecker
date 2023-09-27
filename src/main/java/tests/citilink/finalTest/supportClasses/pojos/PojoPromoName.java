@@ -13,6 +13,6 @@ public class PojoPromoName {
         this.title = title;
     }
 
-    public String title;
+    private final String title;
 
 }

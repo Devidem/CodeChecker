@@ -11,7 +11,7 @@ import pages.citilink.Navigator;
 /**
  * Абстрактный класс с методами общими для абсолютно всех страниц
  */
-public abstract class BuildInitialPage<T> implements Backable <Navigator> {
+public abstract class BuildInitialPage<T> implements Backable<Navigator> {
 
     protected WebDriver driver;
     protected Navigator navigator;
@@ -23,6 +23,7 @@ public abstract class BuildInitialPage<T> implements Backable <Navigator> {
 
     /**
      * Клик с игнором TimeoutException.
+     *
      * @param xPath веб-элемента
      */
     public T click(String xPath) {
@@ -35,6 +36,7 @@ public abstract class BuildInitialPage<T> implements Backable <Navigator> {
 
     /**
      * Переход на страницу с игнором TimeoutException.
+     *
      * @param link Адрес сайта.
      */
     public T get(String link) {
@@ -46,10 +48,27 @@ public abstract class BuildInitialPage<T> implements Backable <Navigator> {
     }
 
     /**
+     * Переход на страницу с игнором TimeoutException. Переход выпоняется только, если текущий Url не содержит
+     * переданный.
+     *
+     * @param link Адрес сайта.
+     */
+    public T getIfNoContains(String link) {
+        try {
+            if (!driver.getCurrentUrl().contains(link)) {
+                driver.get(link);
+            }
+        } catch (TimeoutException ignored) {
+        }
+
+        return (T) this;
+    }
+
+    /**
      * Закрывает браузер
      */
-    @Step ("Закрытие браузера")
-    public T close () {
+    @Step("Закрытие браузера")
+    public T close() {
         driver.close();
         return (T) this;
     }
@@ -57,7 +76,7 @@ public abstract class BuildInitialPage<T> implements Backable <Navigator> {
     /**
      * Обновляет страницу (F5)
      */
-    public T refresh () {
+    public T refresh() {
         try {
             driver.navigate().refresh();
         } catch (TimeoutException ignored) {
@@ -69,6 +88,7 @@ public abstract class BuildInitialPage<T> implements Backable <Navigator> {
 
     /**
      * Возвращает к {@link Navigator}
+     *
      * @return {@link Navigator}
      */
     @Override
@@ -78,6 +98,7 @@ public abstract class BuildInitialPage<T> implements Backable <Navigator> {
 
     /**
      * Возвращает к {@link Navigator}
+     *
      * @return {@link Navigator}
      */
     @Override
@@ -87,6 +108,7 @@ public abstract class BuildInitialPage<T> implements Backable <Navigator> {
 
     /**
      * Возвращает к {@link Navigator}
+     *
      * @return {@link Navigator}
      */
     @Override

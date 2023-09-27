@@ -5,10 +5,10 @@ import buffers.BufferSuiteVar;
 import buffers.PromCheckApiUiBuffer;
 import converters.ExArray;
 import enums.ConstInt;
+import enums.ConstString;
 import enums.Locators;
 import exceptions.myExceptions.MyFileIOException;
 import exceptions.myExceptions.MyInputParamException;
-import experiments.ApiRequests;
 import experiments.FanticProdCode;
 import interfaces.Retryable;
 import interfaces.Screenshootable;
@@ -66,8 +66,8 @@ public class UI implements Screenshootable, Retryable {
         //Класс навигации
         Navigator navigate = new Navigator();
 
-        //Используем Api для получения ссылки страницы товара
-        String productLink = ApiRequests.getProdLink(prodCode);
+//        //Используем Api для получения ссылки страницы товара
+//        String productLink = ApiRequests.getProdLink(prodCode);
 
         try {
             navigate
@@ -75,9 +75,13 @@ public class UI implements Screenshootable, Retryable {
                     .configBrowser().standard()
                     .then()
                     .onNoPage()
-                    .get(productLink)
+                    .getIfNoContains(ConstString.CitilinkAdress.getValue())
                     .then()
                     .onProdPage()
+                    .inMainPanel()
+                    .enterSearch(prodCode)
+                    .clickSearchResult(prodCode)
+                    .then()
                     .check().promoActions(singleCheckList, testResult);
         } finally {
             codeDriver.put(prodCode, navigate.onNoPage().getDriver());

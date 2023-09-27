@@ -112,10 +112,6 @@ public class API {
             afterApiCheckList.add(singleCheckList);
         }
 
-        //Выводим входные данные и результат проверки в консоль
-        System.out.println(Arrays.deepToString(inputList));
-        System.out.println(Arrays.deepToString(resultSingleList));
-
         //Прикладываем итоги проверки к тесту и делаем Assert для TestNG
         Allure.addAttachment("Input", (Arrays.deepToString(inputList[0])+ "\n" + Arrays.deepToString(inputList[1])));
         Allure.addAttachment("Result", (Arrays.deepToString(resultSingleList[0])+ "\n" + Arrays.deepToString(resultSingleList[1])));

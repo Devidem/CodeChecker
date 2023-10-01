@@ -8,7 +8,7 @@ import enums.ConstInt;
 import enums.JsonRequest;
 import exceptions.myExceptions.MyFileIOException;
 import exceptions.myExceptions.MyInputParamException;
-import experiments.FanticProdCode;
+import experiments.FanticAllure;
 import io.qameta.allure.Allure;
 import io.qameta.allure.Description;
 import io.qameta.allure.Owner;
@@ -45,10 +45,10 @@ public class API {
     @Description("Проверка наличия у товаров промо-акций через Api запросы")
     @Owner("Dmitriy Kazantsev")
     @Test(groups = "API", dataProvider = "ApiVider", threadPoolSize = 1, priority = 1)
-    public void apiPromsChecking(FanticProdCode productCode) {
+    public void apiPromsChecking(FanticAllure<String[][]> fantic) {
 
         //Разворачиваем из фантика чек-лист для одного кода товара
-        String[][] singleCheckList = productCode.getSingleCheckList();
+        String[][] singleCheckList = fantic.getObject();
 
         //Создаем переменную для того, чтобы сделать Assert после проверки всех акций
         String result = null;
@@ -141,7 +141,7 @@ public class API {
 
         //Добавляем "обернутые" чек-листы в массив DataProvider
         for (int i = 0; resultSep.size()!=0; i++) {
-            dataObject [i][0] = new FanticProdCode(resultSep.remove());
+            dataObject [i][0] = new FanticAllure<>(resultSep.remove(), x -> x[1][0]);
         }
 
         return dataObject;

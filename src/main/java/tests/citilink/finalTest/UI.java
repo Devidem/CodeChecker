@@ -9,7 +9,7 @@ import enums.ConstString;
 import enums.Locators;
 import exceptions.myExceptions.MyFileIOException;
 import exceptions.myExceptions.MyInputParamException;
-import experiments.FanticProdCode;
+import experiments.FanticAllure;
 import interfaces.Retryable;
 import interfaces.Screenshootable;
 import io.qameta.allure.Allure;
@@ -50,10 +50,10 @@ public class UI implements Screenshootable, Retryable {
     @Owner("Dmitriy Kazantsev")
     @Test(groups = "UI", dataProvider = "UI_Vider", retryAnalyzer = MyRetryAnalyzerPromChecking.class,
             alwaysRun = true, priority = 2)
-    public void promCheckUI(FanticProdCode product) {
+    public void promCheckUI(FanticAllure<String[][]> fantic) {
 
         //Разворачивается фантик и записываем код товара
-        String[][] singleCheckList = product.getSingleCheckList();
+        String[][] singleCheckList = fantic.getObject();
         String prodCode = singleCheckList[1][0];
 
         //Устанавливаем начальные значения для финального ассерта и запуска RetryAnalyzer
@@ -124,7 +124,7 @@ public class UI implements Screenshootable, Retryable {
             //Передаем в массив провайдера чек-листы обернутые в Фантик для корректного отображения параметра(код товара)
             //в отчете Allure
             for (int i = 0; i < afterApiCheckList.size(); i++) {
-                dataObject [i][0] = new FanticProdCode(afterApiCheckList.get(i));
+                dataObject [i][0] = new FanticAllure<>(afterApiCheckList.get(i), x -> x[1][0]);
             }
             return dataObject;
 
@@ -148,7 +148,7 @@ public class UI implements Screenshootable, Retryable {
 
             //Добавляем "обернутые" чек-листы в массив DataProvider
             for (int i = 0; resultSep.size()!=0; i++) {
-                dataObject [i][0] = new FanticProdCode(resultSep.remove());
+                dataObject [i][0] = new FanticAllure<>(resultSep.remove(), x -> x[1][0]);
             }
 
             return dataObject;
